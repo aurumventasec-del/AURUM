@@ -1,0 +1,633 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>AURUM | Tienda Online</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700;800&family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,400;1,600&display=swap" rel="stylesheet">
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        gold: { DEFAULT: '#D4AF37', light: '#E5C378', champagne: '#F3E5AB', dark: '#9B7A38', rich: '#C5A059' },
+                        ink: { DEFAULT: '#0A0A0A', pure: '#050505', card: '#121212', light: '#181818', border: 'rgba(212, 175, 55, 0.18)' }
+                    },
+                    fontFamily: { sans: ['Inter', 'sans-serif'], serif: ['Playfair Display', 'serif'], cinzel: ['Cinzel', 'serif'] },
+                    animation: {
+                        'pulse-glow': 'pulseGlow 3s ease-in-out infinite',
+                        'star-twinkle': 'twinkle 4s ease-in-out infinite alternate',
+                        'float-soft': 'floatSoft 5s ease-in-out infinite alternate'
+                    },
+                    keyframes: {
+                        pulseGlow: {
+                            '0%, 100%': { filter: 'drop-shadow(0 0 12px rgba(212, 175, 55, 0.35))' },
+                            '50%': { filter: 'drop-shadow(0 0 24px rgba(229, 195, 120, 0.65))' }
+                        },
+                        twinkle: { '0%': { opacity: '0.3', transform: 'scale(0.8)' }, '100%': { opacity: '1', transform: 'scale(1.2)' } },
+                        floatSoft: { '0%': { transform: 'translateY(0px)' }, '100%': { transform: 'translateY(-6px)' } }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body { background-color: #070707; color: #FAFAFA; scroll-behavior: smooth; -webkit-tap-highlight-color: transparent; }
+        .hide-scroll::-webkit-scrollbar { display: none; }
+        .hide-scroll { -ms-overflow-style: none; scrollbar-width: none; }
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: #0A0A0A; }
+        ::-webkit-scrollbar-thumb { background: #333; border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: #D4AF37; }
+        .glass-nav { background: rgba(8, 8, 8, 0.88); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); border-bottom: 1px solid rgba(212, 175, 55, 0.2); }
+        .gold-border-glow { border: 1px solid rgba(212, 175, 55, 0.25); transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1); }
+        .gold-border-glow:hover { border-color: rgba(229, 195, 120, 0.8); box-shadow: 0 8px 30px rgba(212, 175, 55, 0.18); transform: translateY(-4px); }
+        .stars-canvas {
+            background-image: radial-gradient(1.5px 1.5px at 30px 40px, #E5C378, rgba(0,0,0,0)), radial-gradient(1.2px 1.2px at 90px 140px, #ffffff, rgba(0,0,0,0)), radial-gradient(2px 2px at 160px 80px, #D4AF37, rgba(0,0,0,0)), radial-gradient(1.5px 1.5px at 240px 220px, #F3E5AB, rgba(0,0,0,0)), radial-gradient(1.2px 1.2px at 320px 110px, #ffffff, rgba(0,0,0,0)), radial-gradient(2.2px 2.2px at 400px 300px, #E5C378, rgba(0,0,0,0));
+            background-repeat: repeat; background-size: 450px 450px; animation: starsDrift 85s linear infinite;
+        }
+        @keyframes starsDrift { 0% { background-position: 0 0; } 100% { background-position: -450px -450px; } }
+        .constellation-dot { width: 4px; height: 4px; background-color: #E5C378; border-radius: 50%; box-shadow: 0 0 10px #F3E5AB, 0 0 18px rgba(212, 175, 55, 0.8); position: absolute; }
+        .modal-backdrop { transition: opacity 0.3s ease; }
+        .modal-content-panel { transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.35s ease; }
+        #toastContainer { position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%); z-index: 9999; pointer-events: none; display: flex; flex-direction: column; gap: 8px; }
+        .toast-msg { background: linear-gradient(135deg, #181818, #0D0D0D); border: 1px solid #D4AF37; color: #FAFAFA; padding: 12px 24px; border-radius: 50px; font-size: 13px; font-weight: 600; box-shadow: 0 10px 30px rgba(0,0,0,0.8), 0 0 20px rgba(212,175,55,0.25); animation: toastIn 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+        @keyframes toastIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+    </style>
+</head>
+<body class="flex flex-col min-h-screen">
+
+    <header class="glass-nav sticky top-0 z-40 transition-all duration-300">
+        <div class="max-w-7xl mx-auto px-4 md:px-8 h-20 flex justify-between items-center gap-4">
+            <div class="flex items-center gap-3 cursor-pointer select-none" onclick="window.scrollTo({top:0, behavior:'smooth'})">
+                <div class="relative w-10 h-10 rounded-full border border-gold-light/60 flex items-center justify-center text-gold-light font-cinzel text-xl bg-black shadow-[0_0_15px_rgba(212,175,55,0.25)]">
+                    <span>A</span><i class="fas fa-sparkle absolute -top-1 -right-1 text-[8px] text-gold-champagne animate-pulse"></i>
+                </div>
+                <div>
+                    <h1 class="font-cinzel text-gold-light tracking-[0.25em] text-lg font-bold leading-none">AURUM</h1>
+                    <p class="text-[8px] tracking-[0.35em] text-gray-400 uppercase mt-1">Tienda Online</p>
+                </div>
+            </div>
+            <div class="flex-1 max-w-md mx-2 relative group hidden sm:block">
+                <input type="text" id="searchInput" placeholder="Buscar por nombre, foco, reloj, audífono..." oninput="handleSearch(this.value)" class="w-full bg-ink-light/80 border border-gray-800 rounded-full py-2.5 pl-11 pr-10 text-white text-xs focus:outline-none focus:border-gold-light focus:ring-1 focus:ring-gold-light transition-all shadow-inner">
+                <i class="fas fa-search absolute left-4 top-1/2 -translate-y-1/2 text-gray-500 group-focus-within:text-gold-light transition-colors text-xs"></i>
+                <button onclick="clearSearchInput()" id="clearSearchBtn" class="absolute right-3.5 top-1/2 -translate-y-1/2 text-gray-500 hover:text-white hidden text-xs"><i class="fas fa-times-circle"></i></button>
+            </div>
+            <div class="flex items-center gap-3">
+                <button onclick="openCartDrawer()" class="relative bg-white/5 hover:bg-white/10 border border-gold-light/30 text-gold-light p-2.5 rounded-full transition-all hover:scale-105 shadow-[0_0_12px_rgba(212,175,55,0.15)] flex items-center justify-center">
+                    <i class="fas fa-shopping-bag text-lg"></i>
+                    <span id="cartCountBadge" class="absolute -top-1 -right-1 bg-gradient-to-r from-gold-dark to-gold text-black text-[10px] font-extrabold w-5 h-5 flex items-center justify-center rounded-full scale-0 transition-transform shadow-md">0</span>
+                </button>
+            </div>
+        </div>
+        <div class="sm:hidden px-4 pb-3">
+            <div class="relative group">
+                <input type="text" id="mobileSearchInput" placeholder="Buscar productos..." oninput="handleSearch(this.value)" class="w-full bg-ink-light border border-gray-800 rounded-full py-2 pl-10 pr-8 text-white text-xs focus:outline-none focus:border-gold-light">
+                <i class="fas fa-search absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-500 text-xs"></i>
+            </div>
+        </div>
+    </header>
+
+    <section class="relative min-h-[92vh] flex flex-col items-center justify-center bg-gradient-to-b from-[#060606] via-[#090806] to-[#0A0A0A] overflow-hidden pt-10 pb-20 px-4 border-b border-gold/15">
+        <div class="absolute inset-0 stars-canvas opacity-80 pointer-events-none"></div>
+        <div class="absolute inset-0 max-w-4xl mx-auto pointer-events-none opacity-40">
+            <div class="constellation-dot top-20 left-10"></div><div class="constellation-dot top-28 left-24 animate-pulse"></div>
+            <div class="constellation-dot top-44 left-16"></div><div class="constellation-dot top-16 right-20 animate-pulse"></div>
+            <div class="constellation-dot top-32 right-12"></div><div class="constellation-dot top-48 right-32"></div>
+            <div class="constellation-dot bottom-36 left-1/4 animate-pulse"></div><div class="constellation-dot bottom-24 right-1/4"></div>
+        </div>
+        <div class="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-80 h-80 bg-gold-dark/15 rounded-full blur-[110px] pointer-events-none"></div>
+
+        <div class="relative z-10 flex flex-col items-center text-center max-w-xl mx-auto w-full">
+            <div class="relative mb-6 select-none animate-float-soft">
+                <div class="w-32 h-32 md:w-36 md:h-36 rounded-full border border-gold-light/90 flex items-center justify-center relative shadow-[0_0_35px_rgba(212,175,55,0.22)] bg-gradient-to-b from-black/50 to-transparent backdrop-blur-[2px]">
+                    <span class="font-serif text-5xl md:text-6xl text-gold-light font-normal tracking-wide drop-shadow-[0_2px_10px_rgba(212,175,55,0.4)]">A</span>
+                    <div class="absolute -top-1 -right-1 text-gold-champagne animate-pulse-glow">
+                        <svg class="w-7 h-7" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0L14.4 9.6L24 12L14.4 14.4L12 24L9.6 14.4L0 12L9.6 9.6L12 0Z"/></svg>
+                    </div>
+                </div>
+            </div>
+            <h2 class="font-serif text-5xl md:text-7xl text-gold-light tracking-wide font-normal mb-1 drop-shadow-[0_4px_25px_rgba(212,175,55,0.35)]">Aurum</h2>
+            <div class="flex items-center justify-center gap-3 w-full mb-6">
+                <div class="h-[1px] w-12 md:w-20 bg-gradient-to-r from-transparent to-gold-light/60"></div>
+                <span class="text-[9px] md:text-[10px] tracking-[0.45em] text-gold-light uppercase font-light">TIENDA ONLINE</span>
+                <div class="h-[1px] w-12 md:w-20 bg-gradient-to-l from-transparent to-gold-light/60"></div>
+            </div>
+            <h3 class="text-xl md:text-2xl font-serif text-white mb-2 leading-relaxed font-light">
+                Descubre productos que hacen la <span class="italic text-gold-light font-normal">diferencia ✨</span>
+            </h3>
+            <p class="text-gray-400 text-xs md:text-sm font-light max-w-sm mx-auto mb-9 leading-relaxed">Tu tienda online de confianza. Compra desde cualquier lugar de Ecuador.</p>
+            <a href="#catalogo" class="w-full sm:w-auto min-w-[280px] flex items-center justify-center gap-3 bg-gradient-to-r from-[#C5A059] via-[#E5C378] to-[#C5A059] text-black font-semibold px-9 py-3.5 rounded-full hover:scale-105 hover:shadow-[0_0_35px_rgba(229,195,120,0.5)] transition-all duration-300 uppercase tracking-[0.18em] text-xs shadow-lg mb-12">
+                <i class="fas fa-shopping-bag text-sm"></i> VER CATÁLOGO
+            </a>
+
+            <div class="flex flex-col gap-3.5 w-full max-w-sm mx-auto">
+                <a href="https://www.instagram.com/aurumventas_ec?obrf=MTh6Yjh4MWZ2NzAyMg==" target="_blank" class="flex items-center w-full bg-[#0D0D0D]/90 border border-gold-light/35 rounded-full p-2 hover:border-gold-light hover:bg-white/5 transition-all duration-300 group shadow-md hover:shadow-[0_0_20px_rgba(212,175,55,0.2)]">
+                    <div class="w-11 h-11 rounded-full bg-gradient-to-tr from-[#f9ce34] via-[#ee2a7b] to-[#6228d7] flex items-center justify-center text-white text-lg shrink-0 shadow group-hover:scale-105 transition-transform"><i class="fab fa-instagram"></i></div>
+                    <span class="flex-1 text-center pr-11 text-gray-200 group-hover:text-gold-light text-xs md:text-sm font-medium transition-colors">Síguenos en Instagram</span>
+                </a>
+                <a href="https://www.tiktok.com/@aurum_ventas.ec?_r=1&_t=ZS-9BIQET4l1y0" target="_blank" class="flex items-center w-full bg-[#0D0D0D]/90 border border-gold-light/35 rounded-full p-2 hover:border-gold-light hover:bg-white/5 transition-all duration-300 group shadow-md hover:shadow-[0_0_20px_rgba(212,175,55,0.2)]">
+                    <div class="w-11 h-11 rounded-full bg-black border border-white/20 flex items-center justify-center text-white text-lg shrink-0 shadow group-hover:scale-105 transition-transform"><i class="fab fa-tiktok"></i></div>
+                    <span class="flex-1 text-center pr-11 text-gray-200 group-hover:text-gold-light text-xs md:text-sm font-medium transition-colors">Encuéntranos en TikTok</span>
+                </a>
+                <a href="https://www.facebook.com/share/1ADR2KKCpb/" target="_blank" class="flex items-center w-full bg-[#0D0D0D]/90 border border-gold-light/35 rounded-full p-2 hover:border-gold-light hover:bg-white/5 transition-all duration-300 group shadow-md hover:shadow-[0_0_20px_rgba(212,175,55,0.2)]">
+                    <div class="w-11 h-11 rounded-full bg-[#1877F2] flex items-center justify-center text-white text-lg shrink-0 shadow group-hover:scale-105 transition-transform"><i class="fab fa-facebook-f"></i></div>
+                    <span class="flex-1 text-center pr-11 text-gray-200 group-hover:text-gold-light text-xs md:text-sm font-medium transition-colors">Síguenos en Facebook</span>
+                </a>
+                <a href="https://wa.me/593989423504?text=¡Hola!%20👋%20Vengo%20de%20la%20tienda%20AURUM%20y%20deseo%20hacer%20una%20consulta." target="_blank" class="flex items-center w-full bg-[#0D0D0D]/90 border border-gold-light/35 rounded-full p-2 hover:border-gold-light hover:bg-white/5 transition-all duration-300 group shadow-md hover:shadow-[0_0_20px_rgba(212,175,55,0.2)]">
+                    <div class="w-11 h-11 rounded-full bg-[#25D366] flex items-center justify-center text-white text-lg shrink-0 shadow group-hover:scale-105 transition-transform"><i class="fab fa-whatsapp"></i></div>
+                    <span class="flex-1 text-center pr-11 text-gray-200 group-hover:text-gold-light text-xs md:text-sm font-medium transition-colors">Contáctanos por WhatsApp</span>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <section id="combos-section" class="py-14 bg-gradient-to-b from-[#0A0A0A] to-[#101010] border-b border-gold/15">
+        <div class="max-w-7xl mx-auto px-4 md:px-8">
+            <div class="text-center mb-10">
+                <span class="text-gold-light text-xs tracking-[0.3em] uppercase font-semibold">Ofertas Especiales</span>
+                <h3 class="text-2xl md:text-3xl font-serif text-white mt-1">🔥 COMBOS AURUM</h3>
+                <div class="w-12 h-0.5 bg-gold-light mx-auto mt-3"></div>
+            </div>
+            <div id="combosContainer" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+        </div>
+    </section>
+
+    <main id="catalogo" class="max-w-7xl mx-auto px-4 md:px-8 py-16 w-full flex-grow">
+        <div class="text-center mb-10">
+            <span class="text-gold-light text-xs tracking-[0.3em] uppercase font-semibold">Nuestra Colección</span>
+            <h3 class="text-3xl md:text-4xl font-serif text-white mt-1">Catálogo de Productos</h3>
+            <div class="w-16 h-0.5 bg-gold-light mx-auto mt-3"></div>
+        </div>
+        <div class="flex gap-2.5 overflow-x-auto hide-scroll items-center justify-start sm:justify-center pb-4 mb-10" id="categoryFilterContainer"></div>
+        <div id="productsGrid" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-7"></div>
+        
+        <div id="noResultsState" class="hidden text-center py-20 bg-ink-light/50 border border-white/5 rounded-2xl mt-6">
+            <i class="fas fa-search text-3xl text-gold-light/40 mb-3"></i>
+            <h4 class="text-lg font-serif text-white mb-1">No encontramos productos</h4>
+            <p class="text-xs text-gray-400 mb-5">Prueba con otro término de búsqueda o selecciona otra categoría.</p>
+            <button onclick="resetFilters()" class="text-xs uppercase tracking-widest font-bold text-gold-light border border-gold-light/40 px-5 py-2 rounded-full hover:bg-gold-light hover:text-black transition-colors">Ver todos los productos</button>
+        </div>
+    </main>
+
+    <footer class="bg-[#050505] border-t border-gold/20 pt-16 pb-10 text-white mt-auto">
+        <div class="max-w-7xl mx-auto px-4 md:px-8 grid grid-cols-1 md:grid-cols-3 gap-10 mb-12 text-center md:text-left">
+            <div>
+                <div class="flex items-center justify-center md:justify-start gap-3 mb-4">
+                    <div class="w-9 h-9 rounded-full border border-gold-light flex items-center justify-center text-gold-light font-cinzel text-lg">A</div>
+                    <span class="font-cinzel tracking-[0.25em] text-xl font-bold">AURUM</span>
+                </div>
+                <p class="text-xs text-gray-400 leading-relaxed max-w-sm mx-auto md:mx-0 font-light">Calidad que vale oro. Selección exclusiva de tecnología, cuidado personal y hogar con envíos garantizados y pago contra entrega en todo Ecuador.</p>
+            </div>
+            <div>
+                <h4 class="font-cinzel text-sm text-gold-light uppercase tracking-[0.2em] mb-4 font-bold">Atención y Confianza</h4>
+                <ul class="text-xs text-gray-400 space-y-3 font-light">
+                    <li><button onclick="openInfoModal('garantias')" class="hover:text-gold-light transition-colors flex items-center justify-center md:justify-start gap-2 mx-auto md:mx-0"><i class="fas fa-shield-alt text-gold"></i> Garantías y Devoluciones (10 Días)</button></li>
+                    <li><button onclick="openInfoModal('envios')" class="hover:text-gold-light transition-colors flex items-center justify-center md:justify-start gap-2 mx-auto md:mx-0"><i class="fas fa-truck text-gold"></i> Cobertura y Pago Contra Entrega</button></li>
+                    <li><button onclick="openInfoModal('faq')" class="hover:text-gold-light transition-colors flex items-center justify-center md:justify-start gap-2 mx-auto md:mx-0"><i class="fas fa-question-circle text-gold"></i> Preguntas Frecuentes</button></li>
+                </ul>
+            </div>
+            <div>
+                <h4 class="font-cinzel text-sm text-gold-light uppercase tracking-[0.2em] mb-4 font-bold">Contacto Oficial</h4>
+                <a href="https://wa.me/593989423504" target="_blank" class="inline-flex items-center gap-3 bg-white/5 border border-white/10 px-4 py-3 rounded-xl hover:border-gold-light transition-colors w-full justify-center md:justify-start">
+                    <div class="w-9 h-9 rounded-full bg-[#25D366] flex items-center justify-center text-white text-lg"><i class="fab fa-whatsapp"></i></div>
+                    <div class="text-left">
+                        <span class="block text-[10px] text-gray-400 uppercase font-bold">Atención por WhatsApp</span>
+                        <span class="text-xs font-semibold text-white">+593 98 942 3504</span>
+                    </div>
+                </a>
+            </div>
+        </div>
+        <div class="max-w-7xl mx-auto px-4 md:px-8 border-t border-white/10 pt-6 flex flex-col md:flex-row justify-between items-center gap-3 text-xs text-gray-500 font-light">
+            <p>&copy; <span id="yearCopyright"></span> AURUM Tienda Online. Todos los derechos reservados.</p>
+            <button onclick="openAdminModal()" class="text-gray-600 hover:text-gold-light transition-colors flex items-center gap-1.5 text-xs py-1 px-2.5 rounded hover:bg-white/5" title="Panel de Gestión"><i class="fas fa-lock text-[11px]"></i> Acceso Admin</button>
+        </div>
+    </footer>
+
+    <a href="https://wa.me/593989423504?text=¡Hola!%20👋%20Deseo%20hacer%20un%20pedido%20en%20AURUM." target="_blank" class="fixed bottom-6 right-6 z-30 bg-[#25D366] text-white w-14 h-14 rounded-full flex items-center justify-center text-3xl shadow-xl hover:scale-110 transition-transform shadow-green-950/60"><i class="fab fa-whatsapp"></i></a>
+
+    <div id="toastContainer"></div>
+
+    <!-- Modales (Productos, Carrito, Info, Admin) -->
+    <div id="productDetailModal" class="fixed inset-0 bg-black/90 backdrop-blur-md z-[70] hidden items-end md:items-center justify-center p-0 md:p-4 modal-backdrop">
+        <div id="productDetailContent" class="bg-[#121212] border border-gold/30 w-full md:w-[850px] max-h-[92vh] md:max-h-[88vh] rounded-t-3xl md:rounded-2xl flex flex-col md:flex-row overflow-hidden relative shadow-2xl modal-content-panel">
+            <button onclick="closeProductDetailModal()" class="absolute top-4 right-4 z-20 w-9 h-9 bg-black/60 backdrop-blur-sm text-gray-300 hover:text-white rounded-full flex items-center justify-center border border-white/20 transition-colors"><i class="fas fa-times text-sm"></i></button>
+            <div class="w-full md:w-1/2 h-56 md:h-auto shrink-0 bg-[#0A0A0A] relative flex items-center justify-center overflow-hidden">
+                <img id="modalProductImg" src="" alt="Producto" class="w-full h-full object-cover">
+                <div class="absolute inset-0 bg-gradient-to-t from-[#121212] via-transparent to-transparent md:hidden"></div>
+                <span id="modalProductCatBadge" class="absolute top-4 left-4 bg-black/80 backdrop-blur border border-gold-light/40 text-gold-light text-[9px] font-bold uppercase tracking-widest px-2.5 py-1 rounded-full"></span>
+            </div>
+            <div class="w-full md:w-1/2 flex flex-col h-[60vh] md:h-auto bg-[#121212] overflow-hidden">
+                <div class="p-5 md:p-7 overflow-y-auto hide-scroll flex-1 space-y-4">
+                    <div><h3 id="modalProductTitle" class="font-serif text-xl md:text-2xl text-white font-bold leading-snug"></h3><p id="modalProductPrice" class="text-2xl font-serif text-gold-light font-bold mt-1.5"></p></div>
+                    <div class="h-px bg-white/10"></div>
+                    <div><h4 class="text-[10px] uppercase tracking-[0.2em] font-bold text-gray-400 mb-1.5">Descripción</h4><p id="modalProductDesc" class="text-xs text-gray-300 leading-relaxed font-light"></p></div>
+                    <div><h4 class="text-[10px] uppercase tracking-[0.2em] font-bold text-gold-light mb-1.5">Características Principales</h4><p id="modalProductFeatures" class="text-xs text-gray-300 leading-relaxed whitespace-pre-line font-light"></p></div>
+                    <div><h4 class="text-[10px] uppercase tracking-[0.2em] font-bold text-gold-champagne mb-1.5">Beneficios</h4><p id="modalProductBenefits" class="text-xs text-gray-300 leading-relaxed whitespace-pre-line font-light"></p></div>
+                </div>
+                <div class="p-4 md:p-5 bg-[#0A0A0A] border-t border-white/10 shrink-0 space-y-3">
+                    <div class="flex items-center justify-between">
+                        <span class="text-xs text-gray-400 font-medium">Cantidad:</span>
+                        <div class="flex items-center bg-black border border-white/20 rounded-lg">
+                            <button onclick="adjustModalQty(-1)" class="w-8 h-8 text-gray-300 hover:text-white flex items-center justify-center"><i class="fas fa-minus text-[10px]"></i></button>
+                            <span id="modalProductQty" class="w-7 text-center text-xs font-bold text-white">1</span>
+                            <button onclick="adjustModalQty(1)" class="w-8 h-8 text-gray-300 hover:text-white flex items-center justify-center"><i class="fas fa-plus text-[10px]"></i></button>
+                        </div>
+                    </div>
+                    <div class="flex gap-2.5">
+                        <button onclick="addModalProductToCart()" class="flex-1 bg-white hover:bg-gray-200 text-black font-bold py-3 rounded-xl text-xs uppercase tracking-wider transition-colors flex items-center justify-center gap-2"><i class="fas fa-cart-plus"></i> Al Carrito</button>
+                        <button onclick="buyModalProductDirectWA()" class="flex-1 bg-[#25D366] hover:bg-green-600 text-white font-bold py-3 rounded-xl text-xs uppercase tracking-wider transition-colors flex items-center justify-center gap-2"><i class="fab fa-whatsapp"></i> Pedir por WhatsApp</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="cartDrawerBackdrop" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-[80] hidden modal-backdrop" onclick="if(event.target===this) closeCartDrawer()">
+        <div id="cartDrawerPanel" class="absolute top-0 right-0 w-full sm:w-[420px] h-full bg-[#111111] border-l border-gold/30 flex flex-col shadow-2xl transition-transform duration-300 translate-x-full">
+            <div class="p-5 border-b border-white/10 flex justify-between items-center bg-black">
+                <div class="flex items-center gap-2.5"><i class="fas fa-shopping-bag text-gold-light text-lg"></i><h3 class="font-serif text-lg text-white font-bold">Carrito de Compras</h3></div>
+                <button onclick="closeCartDrawer()" class="text-gray-400 hover:text-white text-lg"><i class="fas fa-times"></i></button>
+            </div>
+            <div id="cartItemsList" class="flex-1 overflow-y-auto p-4 space-y-3.5"></div>
+            <div class="p-5 bg-black border-t border-white/10 space-y-4">
+                <div class="flex justify-between items-center text-sm"><span class="text-gray-400 font-light">Total de la orden:</span><span id="cartDrawerTotal" class="text-xl font-serif text-gold-light font-bold">$0.00</span></div>
+                <button onclick="checkoutViaWhatsApp()" id="btnCheckoutWhatsApp" class="w-full bg-[#25D366] hover:bg-green-600 text-white font-bold py-3.5 rounded-xl uppercase tracking-wider text-xs flex items-center justify-center gap-2 transition-all shadow-lg"><i class="fab fa-whatsapp text-lg"></i> Finalizar Pedido por WhatsApp</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="infoModal" class="fixed inset-0 bg-black/85 backdrop-blur-sm z-[90] hidden items-center justify-center p-4 modal-backdrop" onclick="if(event.target===this) closeInfoModal()">
+        <div class="bg-[#141414] border border-gold/40 w-full max-w-md rounded-2xl p-6 text-center shadow-2xl relative">
+            <button onclick="closeInfoModal()" class="absolute top-4 right-4 text-gray-400 hover:text-white"><i class="fas fa-times"></i></button>
+            <div class="w-14 h-14 rounded-full border border-gold-light/40 flex items-center justify-center text-gold-light text-2xl mx-auto mb-4 bg-gold-dark/10"><i id="infoModalIcon" class="fas fa-shield-alt"></i></div>
+            <h4 id="infoModalTitle" class="font-serif text-xl text-white font-bold mb-2"></h4>
+            <div id="infoModalBody" class="text-xs text-gray-300 leading-relaxed space-y-2 text-left font-light bg-black/40 p-4 rounded-xl border border-white/5 mb-6"></div>
+            <button onclick="closeInfoModal()" class="w-full bg-gold-light text-black font-bold py-2.5 rounded-xl text-xs uppercase tracking-wider hover:bg-white transition-colors">Entendido</button>
+        </div>
+    </div>
+
+    <div id="adminLoginModal" class="fixed inset-0 bg-black/90 backdrop-blur-md z-[100] hidden items-center justify-center p-4 modal-backdrop" onclick="if(event.target===this) closeAdminModal()">
+        <div class="bg-[#141414] border border-gold/40 w-full max-w-sm rounded-2xl p-7 text-center shadow-2xl relative">
+            <button onclick="closeAdminModal()" class="absolute top-4 right-4 text-gray-400 hover:text-white"><i class="fas fa-times"></i></button>
+            <div class="w-14 h-14 rounded-full border border-gold-light flex items-center justify-center text-gold-light text-2xl mx-auto mb-4"><i class="fas fa-user-shield"></i></div>
+            <h4 class="font-serif text-xl text-white font-bold mb-1">Administración AURUM</h4>
+            <p class="text-xs text-gray-400 mb-5 font-light">Ingresa tu clave de acceso autorizada.</p>
+            <input type="password" id="adminPinInput" maxlength="4" placeholder="••••" class="w-full bg-black border-2 border-gray-700 text-center text-3xl font-bold tracking-[0.5em] text-gold-light py-3 rounded-xl focus:border-gold-light outline-none mb-3">
+            <p id="adminPinError" class="text-red-400 text-xs mb-4 hidden">PIN incorrecto.</p>
+            <button onclick="submitAdminPin()" class="w-full bg-gold-light hover:bg-white text-black font-bold py-3 rounded-xl text-xs uppercase tracking-widest transition-colors">Ingresar al Gestor</button>
+        </div>
+    </div>
+
+    <div id="adminDashboardModal" class="fixed inset-0 bg-[#090909] z-[110] hidden flex-col overflow-hidden">
+        <div class="p-4 md:p-6 bg-[#111111] border-b border-gold/25 flex justify-between items-center shrink-0">
+            <div class="flex items-center gap-3">
+                <div class="w-9 h-9 rounded bg-gold-light text-black flex items-center justify-center font-bold"><i class="fas fa-cog"></i></div>
+                <div><h3 class="font-serif text-lg text-white font-bold leading-tight">Gestor de Tienda</h3><p class="text-[10px] text-gold-light uppercase tracking-widest">Catálogo y Precios</p></div>
+            </div>
+            <div class="flex items-center gap-3">
+                <button onclick="openProductEditForm('new')" class="bg-white hover:bg-gold-light text-black font-bold px-4 py-2 rounded-lg text-xs uppercase tracking-wider transition-colors"><i class="fas fa-plus mr-1"></i> Crear Producto</button>
+                <button onclick="closeAdminDashboard()" class="text-gray-400 hover:text-white text-2xl ml-2"><i class="fas fa-times"></i></button>
+            </div>
+        </div>
+        <div class="p-4 md:p-8 overflow-y-auto flex-1">
+            <div class="max-w-6xl mx-auto space-y-4" id="adminProductsList"></div>
+        </div>
+    </div>
+
+    <div id="adminEditModal" class="fixed inset-0 bg-black/90 backdrop-blur-md z-[120] hidden items-center justify-center p-4 overflow-y-auto">
+        <div class="bg-[#141414] border border-gold/30 w-full max-w-2xl rounded-2xl overflow-hidden shadow-2xl relative my-8">
+            <div class="p-4 bg-black border-b border-white/10 flex justify-between items-center">
+                <h4 id="editFormHeaderTitle" class="font-serif text-lg text-white font-bold">Editar Producto</h4>
+                <button onclick="closeProductEditForm()" class="text-gray-400 hover:text-white"><i class="fas fa-times"></i></button>
+            </div>
+            <div class="p-5 md:p-7 space-y-4 max-h-[75vh] overflow-y-auto hide-scroll">
+                <input type="hidden" id="editFormId">
+                <div class="flex flex-col sm:flex-row gap-5 items-start">
+                    <div class="w-full sm:w-36 shrink-0">
+                        <label class="block text-[10px] font-bold text-gold-light uppercase mb-1">Imagen</label>
+                        <div class="w-full aspect-square rounded-xl bg-black border border-white/20 overflow-hidden relative group cursor-pointer" onclick="document.getElementById('editFormImgFile').click()">
+                            <img id="editFormImgPreview" src="" class="w-full h-full object-cover">
+                            <div class="absolute inset-0 bg-black/60 flex flex-col items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                                <i class="fas fa-camera text-white text-xl mb-1"></i><span class="text-[9px] text-white uppercase font-bold">Cambiar</span>
+                            </div>
+                        </div>
+                        <input type="file" id="editFormImgFile" accept="image/*" class="hidden" onchange="handleAdminImgUpload(event)">
+                        <p id="editImgUploadStatus" class="text-[9px] text-gray-500 text-center mt-1"></p>
+                    </div>
+                    <div class="flex-1 w-full space-y-3">
+                        <div><label class="block text-[10px] font-bold text-gray-400 uppercase mb-1">Nombre del Producto</label><input type="text" id="editFormName" class="w-full bg-black border border-white/15 rounded-lg p-2.5 text-xs text-white focus:border-gold-light outline-none"></div>
+                        <div class="grid grid-cols-2 gap-3">
+                            <div><label class="block text-[10px] font-bold text-gray-400 uppercase mb-1">Precio ($ USD)</label><input type="number" step="0.01" id="editFormPrice" class="w-full bg-black border border-white/15 rounded-lg p-2.5 text-xs text-white focus:border-gold-light outline-none"></div>
+                            <div>
+                                <label class="block text-[10px] font-bold text-gray-400 uppercase mb-1">Categoría</label>
+                                <select id="editFormCategory" class="w-full bg-black border border-white/15 rounded-lg p-2.5 text-xs text-white focus:border-gold-light outline-none">
+                                    <option value="Tecnología">Tecnología</option><option value="Hogar">Hogar</option><option value="Cuidado Personal">Cuidado Personal</option><option value="Accesorios">Accesorios</option><option value="Combos">Combos</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="pt-1"><label class="flex items-center gap-2 cursor-pointer"><input type="checkbox" id="editFormIsCombo" class="w-4 h-4 rounded text-gold-light focus:ring-0"><span class="text-xs text-gold-light font-semibold">Marcar como Combo / Oferta Especial</span></label></div>
+                    </div>
+                </div>
+                <div><label class="block text-[10px] font-bold text-gray-400 uppercase mb-1">Descripción</label><textarea id="editFormDesc" rows="2" class="w-full bg-black border border-white/15 rounded-lg p-2.5 text-xs text-white focus:border-gold-light outline-none resize-none"></textarea></div>
+                <div><label class="block text-[10px] font-bold text-gray-400 uppercase mb-1">Características Principales</label><textarea id="editFormFeatures" rows="3" class="w-full bg-black border border-white/15 rounded-lg p-2.5 text-xs text-white focus:border-gold-light outline-none resize-none" placeholder="- Punto 1&#10;- Punto 2"></textarea></div>
+                <div><label class="block text-[10px] font-bold text-gray-400 uppercase mb-1">Beneficios</label><textarea id="editFormBenefits" rows="2" class="w-full bg-black border border-white/15 rounded-lg p-2.5 text-xs text-white focus:border-gold-light outline-none resize-none" placeholder="- Beneficio 1&#10;- Beneficio 2"></textarea></div>
+            </div>
+            <div class="p-4 bg-black border-t border-white/10 flex justify-between items-center">
+                <button onclick="deleteProductFromAdmin()" id="btnAdminDeleteProd" class="text-red-400 hover:text-red-300 text-xs font-bold uppercase tracking-wider hidden"><i class="fas fa-trash-alt mr-1"></i> Eliminar</button>
+                <div class="flex gap-2.5 ml-auto">
+                    <button onclick="closeProductEditForm()" class="px-4 py-2 border border-white/20 text-gray-300 hover:text-white rounded-lg text-xs font-bold uppercase tracking-wider">Cancelar</button>
+                    <button onclick="saveAdminProduct()" class="px-5 py-2 bg-gold-light hover:bg-white text-black rounded-lg text-xs font-bold uppercase tracking-wider">Guardar Cambios</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SCRIPT PRINCIPAL Y FIREBASE -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+        import { getAuth, signInAnonymously } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { getFirestore, collection, doc, setDoc, deleteDoc, getDocs, onSnapshot } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+
+        // 👇 🚨 PASO FUTURO: AQUÍ PEGAREMOS LAS CLAVES DE FIREBASE DESPUÉS 🚨 👇
+        const firebaseConfig = {
+            // apiKey: "TU_API_KEY",
+            // authDomain: "TU_DOMINIO.firebaseapp.com",
+            // projectId: "TU_PROYECTO",
+            // storageBucket: "TU_PROYECTO.appspot.com",
+            // messagingSenderId: "123456789",
+            // appId: "1:123:web:abc"
+        };
+        // 👆 ================================================================= 👆
+
+        let app, auth, db;
+        const appId = 'aurum-tienda';
+        const productsPath = `artifacts/${appId}/public/data/catalog_products`;
+
+        async function initFB() {
+            // Validación temporal: Si no hay claves, funciona en modo local/estático
+            if (!firebaseConfig.apiKey) {
+                console.log("Modo estático activo. Aún no se han configurado las claves de Firebase.");
+                return; 
+            }
+
+            app = initializeApp(firebaseConfig);
+            auth = getAuth(app);
+            db = getFirestore(app);
+
+            await signInAnonymously(auth);
+            if (!auth.currentUser) return;
+
+            // Siembra inicial de productos si la nube está vacía
+            const snap = await getDocs(collection(db, productsPath));
+            if (snap.empty && window.initialProducts) {
+                for (let p of window.initialProducts) {
+                    await setDoc(doc(db, productsPath, `prod_${p.id}`), p);
+                }
+            }
+
+            // Escuchar cambios en la nube
+            onSnapshot(collection(db, productsPath), (snapshot) => {
+                const prods = snapshot.docs.map(d => d.data());
+                prods.sort((a,b) => a.id - b.id);
+                if (window.fbUpdateProducts) window.fbUpdateProducts(prods);
+            });
+        }
+
+        window.requestProductSave = async (product) => {
+            if (!db || !auth.currentUser) return;
+            await setDoc(doc(db, productsPath, `prod_${product.id}`), product);
+        };
+
+        window.requestProductDelete = async (id) => {
+            if (!db || !auth.currentUser) return;
+            await deleteDoc(doc(db, productsPath, `prod_${id}`));
+        };
+
+        initFB();
+    </script>
+
+    <script>
+        document.getElementById('yearCopyright').textContent = new Date().getFullYear();
+        const WHATSAPP_PHONE = '593989423504';
+        const ADMIN_PIN = '2529'; 
+
+        const CATEGORIES = ['Todos', 'Tecnología', 'Hogar', 'Cuidado Personal', 'Accesorios', 'Combos'];
+        let activeCategory = 'Todos';
+        let searchQuery = '';
+        let temporaryEditImg = '';
+
+        // TUS 30 PRODUCTOS DE AURUM EXACTOS
+        const initialProducts = [
+            { id: 1, name: 'Foco Bombilla Solar 100W (FA-8015)', price: 12.00, category: 'Hogar', desc: 'Iluminación solar ecológica de alto poder para patios y exteriores.', features: '- Potencia: 100W reales\n- Panel solar monocristalino integrado\n- Resistencia IP65', benefits: '- Cero consumo en tu factura de luz.', img: '', isCombo: false },
+            { id: 2, name: 'Foco Bombilla Solar 80W (FA-8025)', price: 10.00, category: 'Hogar', desc: 'Luz solar eficiente y compacta para iluminación de áreas comunes.', features: '- Potencia: 80W\n- Recarga automática', benefits: '- Ahorro garantizado de energía.', img: '', isCombo: false },
+            { id: 3, name: 'Lámpara Solar Recargable con Control', price: 8.00, category: 'Hogar', desc: 'Lámpara solar versátil para el hogar, campamentos o emergencias.', features: '- Control remoto inalámbrico\n- Modos de luz: alta, media y parpadeo', benefits: '- Ideal para llevar de viaje o acampar.', img: '', isCombo: false },
+            { id: 4, name: 'Foco Cámara 360° HD Inalámbrico', price: 15.00, category: 'Tecnología', desc: 'Vigilancia total de 360 grados indetectable.', features: '- Resolución panorámica HD 360°\n- Conexión WiFi', benefits: '- Monitorea tu casa desde cualquier lugar.', img: '', isCombo: false },
+            { id: 5, name: 'Power Bank YM-698 10000mAh FUTUREM', price: 20.00, category: 'Tecnología', desc: 'Batería externa portátil.', features: '- Capacidad: 10,000mAh\n- Doble puerto de salida USB', benefits: '- Carga completa de hasta 2 a 3 celulares.', img: '', isCombo: false },
+            { id: 6, name: 'Power Bank Magnético MagSafe 20000mAh', price: 20.00, category: 'Tecnología', desc: 'Carga inalámbrica magnética compatible con iPhone.', features: '- Fijación magnética MagSafe\n- Carga rápida', benefits: '- Comodidad total sin enredos de cables.', img: '', isCombo: false },
+            { id: 7, name: 'Power Bank Portátil blanco', price: 12.00, category: 'Tecnología', desc: 'Batería auxiliar ligera y confiable.', features: '- Acabado blanco pulido\n- Puertos USB universal', benefits: '- Cabe en cualquier bolsillo.', img: '', isCombo: false },
+            { id: 8, name: 'Cargador iPhone 16 Pro Max 35W (USB-C a C)', price: 10.00, category: 'Tecnología', desc: 'Cargador de pared de alta velocidad 35W.', features: '- Potencia: 35W Carga Rápida\n- Incluye cable', benefits: '- Carga rápida en minutos.', img: '', isCombo: false },
+            { id: 9, name: 'Cubo Cargador iPhone 14 Pro Max', price: 10.00, category: 'Tecnología', desc: 'Adaptador de corriente de alta eficiencia.', features: '- Puerto de conexión USB-C', benefits: '- Carga estable y sin calentamiento.', img: '', isCombo: false },
+            { id: 10, name: 'Cubo de carga', price: 20.00, category: 'Tecnología', desc: 'Cubo universal de pared reforzado.', features: '- Múltiples protecciones de seguridad', benefits: '- Compatible con todas las marcas.', img: '', isCombo: false },
+            { id: 11, name: 'Auricular AirPods 3 Pro PANTALLA TACTIL', price: 25.00, category: 'Tecnología', desc: 'Audífonos inteligentes con estuche interactivo.', features: '- Pantalla táctil en el estuche', benefits: '- Controla todo sin sacar el teléfono.', img: '', isCombo: false },
+            { id: 12, name: 'AirPods 5ta Gen IPHONE', price: 30.00, category: 'Tecnología', desc: 'Sonido estéreo inmersivo.', features: '- Conexión Bluetooth de última generación', benefits: '- Comodidad ergonómica.', img: '', isCombo: false },
+            { id: 13, name: 'Auriculares Bluetooth S5 SAMSUNG', price: 15.00, category: 'Tecnología', desc: 'Audífonos inalámbricos compactos.', features: '- Bluetooth 5.1\n- Controles táctiles', benefits: '- Ideales para hacer deportes.', img: '', isCombo: false },
+            { id: 14, name: 'Audífono Bluetooth Transformers TF-T02', price: 22.00, category: 'Tecnología', desc: 'Audífonos gamer con estética futurista.', features: '- Modo Gamer latencia baja', benefits: '- Escucha pasos y disparos al instante.', img: '', isCombo: false },
+            { id: 15, name: 'Auriculares Inalámbricos A20 JBL', price: 22.00, category: 'Tecnología', desc: 'Potencia acústica Pure Bass.', features: '- Batería de hasta 20 horas', benefits: '- Disfruta tu música con bajos fuertes.', img: '', isCombo: false },
+            { id: 16, name: 'Auriculares Bluetooth Supraaurales AP', price: 17.00, category: 'Tecnología', desc: 'Diadema acolchada.', features: '- Almohadillas viscoelásticas', benefits: '- No fatiga las orejas.', img: '', isCombo: false },
+            { id: 17, name: 'Audífonos Sony Bluetooth 5.0 Diadema', price: 35.00, category: 'Tecnología', desc: 'Claridad acústica superior.', features: '- Estructura plegable', benefits: '- Llévalos en tu mochila.', img: '', isCombo: false },
+            { id: 18, name: 'Reloj Inteligente Serie Apple Watch', price: 30.00, category: 'Tecnología', desc: 'Smartwatch elegante con pantalla HD.', features: '- Llamadas Bluetooth', benefits: '- Responde desde tu muñeca.', img: '', isCombo: false },
+            { id: 19, name: 'Reloj Inteligente Smart Watch F', price: 35.00, category: 'Tecnología', desc: 'Diseño deportivo y corporativo.', features: '- Corona rotatoria', benefits: '- Luce elegante siempre.', img: '', isCombo: false },
+            { id: 20, name: 'Corrector de Postura Cervical', price: 7.00, category: 'Cuidado Personal', desc: 'Sensor inteligente que vibra.', features: '- Sensor de ángulo', benefits: '- Corrige tu postura.', img: '', isCombo: false },
+            { id: 21, name: 'Parches para la nariz', price: 7.00, category: 'Cuidado Personal', desc: 'Tiras purificadoras.', features: '- Limpieza profunda', benefits: '- Poros limpios.', img: '', isCombo: false },
+            { id: 22, name: 'Secadora portatil', price: 25.00, category: 'Cuidado Personal', desc: 'Secador de cabello compacto.', features: '- Mango plegable', benefits: '- Secado ultra rápido.', img: '', isCombo: false },
+            { id: 23, name: 'Tensiómetro de brazo', price: 22.00, category: 'Cuidado Personal', desc: 'Monitor digital de presión arterial.', features: '- Pantalla LCD', benefits: '- Cuida tu salud.', img: '', isCombo: false },
+            { id: 24, name: 'Parlante para almohadas', price: 22.00, category: 'Tecnología', desc: 'Altavoz ultra delgado para dormir.', features: '- Diseño plano', benefits: '- Duerme con música.', img: '', isCombo: false },
+            { id: 25, name: 'Robot trapeador', price: 15.00, category: 'Hogar', desc: 'Robot limpiador inteligente.', features: '- Navegación automática', benefits: '- Pisos limpios siempre.', img: '', isCombo: false },
+            { id: 26, name: 'Anti-salitre', price: 15.00, category: 'Hogar', desc: 'Tratamiento químico impermeabilizante.', features: '- Sella paredes', benefits: '- Evita hongos.', img: '', isCombo: false },
+            { id: 27, name: 'Botas de Lluvia 904 (Talla L)', price: 17.00, category: 'Accesorios', desc: 'Cubre calzado impermeable.', features: '- Material PVC', benefits: '- Pies secos.', img: '', isCombo: false },
+            { id: 28, name: 'Casco para gorra', price: 20.00, category: 'Accesorios', desc: 'Seguridad urbana discreta.', features: '- Protección rígida interna', benefits: '- Seguridad ciclista.', img: '', isCombo: false },
+            { id: 29, name: 'Sombreros', price: 16.00, category: 'Accesorios', desc: 'Sombreros de temporada.', features: '- Ala ancha UV', benefits: '- Protégete del sol.', img: '', isCombo: false },
+            { id: 30, name: 'Tarjeta antirrobo', price: 7.00, category: 'Accesorios', desc: 'Tarjeta bloqueadora de ondas RFID.', features: '- Escudo activo', benefits: '- Protege tus tarjetas.', img: '', isCombo: false }
+        ];
+
+        let products = [];
+        let cart = [];
+
+        window.initialProducts = initialProducts;
+        
+        window.fbUpdateProducts = (data) => {
+            products = data;
+            renderCategoryFilters(); renderCombosSection(); renderProductsGrid();
+            if (!document.getElementById('adminDashboardModal').classList.contains('hidden')) renderAdminProductsList();
+        };
+
+        function initStore() {
+            products = [...initialProducts];
+            renderCategoryFilters(); renderCombosSection(); renderProductsGrid(); updateCartCounter();
+        }
+
+        function getPlaceholderImage(title) { return `https://ui-avatars.com/api/?name=${encodeURIComponent(title)}&background=0E0E0E&color=D4AF37&size=600&font-size=0.33&bold=true`; }
+
+        function triggerToast(text) {
+            const container = document.getElementById('toastContainer');
+            const toast = document.createElement('div'); toast.className = 'toast-msg flex items-center gap-2';
+            toast.innerHTML = `<i class="fas fa-check-circle text-gold-light"></i> <span>${text}</span>`;
+            container.appendChild(toast);
+            setTimeout(() => { toast.style.opacity = '0'; toast.style.transition = 'opacity 0.3s'; setTimeout(() => toast.remove(), 300); }, 2500);
+        }
+
+        function renderCategoryFilters() {
+            document.getElementById('categoryFilterContainer').innerHTML = CATEGORIES.map(cat => `<button onclick="setCategoryFilter('${cat}')" class="px-4 py-2 rounded-full text-xs font-semibold uppercase tracking-wider whitespace-nowrap transition-all duration-300 border ${activeCategory === cat ? 'bg-gradient-to-r from-gold-dark to-gold text-black border-transparent font-bold shadow-[0_0_15px_rgba(212,175,55,0.35)]' : 'bg-transparent text-gray-400 border-white/10 hover:border-gold/40 hover:text-gold-light'}">${cat}</button>`).join('');
+        }
+
+        function setCategoryFilter(cat) { activeCategory = cat; renderCategoryFilters(); renderProductsGrid(); if (cat === 'Combos') document.getElementById('combos-section').scrollIntoView({ behavior: 'smooth' }); }
+        function handleSearch(val) { searchQuery = val.trim().toLowerCase(); document.getElementById('searchInput').value = val; document.getElementById('mobileSearchInput').value = val; document.getElementById('clearSearchBtn').classList.toggle('hidden', searchQuery.length === 0); renderProductsGrid(); }
+        function clearSearchInput() { handleSearch(''); }
+        function resetFilters() { handleSearch(''); activeCategory = 'Todos'; renderCategoryFilters(); renderProductsGrid(); }
+
+        function renderCombosSection() {
+            const container = document.getElementById('combosContainer');
+            const comboProducts = products.filter(p => p.isCombo);
+            if (comboProducts.length === 0) {
+                const p1 = { id: 991, name: 'Combo Seguridad Total: Foco Cámara 360° + Tarjeta Antirrobo', price: 20.00, category: 'Combos', desc: 'Protección para tu hogar y finanzas.', features: '- Foco 360° y Tarjeta RFID', benefits: '- Ahorras comprando junto.', img: '', isCombo: true };
+                const p2 = { id: 992, name: 'Combo Energía: Power Bank 10000mAh + Audífono Bluetooth', price: 32.00, category: 'Combos', desc: 'Música y batería.', features: '- Power Bank y Audífonos', benefits: '- Nunca te quedes sin batería.', img: '', isCombo: true };
+                products.push(p1, p2);
+                if (window.requestProductSave) { window.requestProductSave(p1); window.requestProductSave(p2); }
+                renderCombosSection(); return;
+            }
+            container.innerHTML = comboProducts.map(combo => `<div class="bg-gradient-to-b from-[#161616] to-[#0E0E0E] rounded-2xl p-5 border border-gold/30 hover:border-gold transition-all duration-300 group flex flex-col justify-between shadow-lg hover:shadow-[0_0_25px_rgba(212,175,55,0.18)]"><div class="flex gap-4 items-start mb-4"><div class="w-24 h-24 rounded-xl bg-black overflow-hidden shrink-0 border border-white/10 relative"><img src="${combo.img || getPlaceholderImage(combo.name)}" class="w-full h-full object-cover group-hover:scale-105"><span class="absolute top-1 left-1 bg-gradient-to-r from-red-600 to-amber-600 text-white text-[8px] font-bold px-1.5 py-0.5 rounded uppercase">PROMO</span></div><div class="flex-1"><span class="text-gold-light text-[9px] uppercase tracking-widest font-bold">COMBO ESPECIAL</span><h4 class="font-serif text-white text-sm font-bold">${combo.name}</h4><p class="text-[11px] text-gray-400 line-clamp-2 mt-1">${combo.desc}</p></div></div><div class="flex items-center justify-between pt-3 border-t border-white/10"><span class="text-xl font-serif text-gold-light font-bold">$${combo.price.toFixed(2)}</span><div class="flex gap-2"><button onclick="openProductDetailModal(${combo.id})" class="px-3 py-1.5 bg-white/10 hover:bg-white text-white hover:text-black rounded-lg text-xs font-bold transition-colors">Ver</button><button onclick="addProductToCart(${combo.id}, 1)" class="px-3.5 py-1.5 bg-gold-light hover:bg-white text-black font-bold rounded-lg text-xs transition-colors flex items-center gap-1.5"><i class="fas fa-cart-plus"></i> Agregar</button></div></div></div>`).join('');
+        }
+
+        function renderProductsGrid() {
+            const grid = document.getElementById('productsGrid'); const noResults = document.getElementById('noResultsState');
+            const filtered = products.filter(p => { if (activeCategory === 'Combos') return p.isCombo; if (p.isCombo && activeCategory !== 'Todos') return false; return (activeCategory === 'Todos' || p.category === activeCategory) && (p.name.toLowerCase().includes(searchQuery) || p.desc.toLowerCase().includes(searchQuery) || p.category.toLowerCase().includes(searchQuery)); });
+            if (filtered.length === 0) { grid.innerHTML = ''; noResults.classList.remove('hidden'); return; }
+            noResults.classList.add('hidden');
+            grid.innerHTML = filtered.map(p => `<div class="bg-gradient-to-b from-[#121212] to-[#0C0C0C] rounded-2xl overflow-hidden gold-border-glow flex flex-col group"><div class="relative w-full aspect-square bg-[#080808] overflow-hidden cursor-pointer" onclick="openProductDetailModal(${p.id})"><img src="${p.img || getPlaceholderImage(p.name)}" class="w-full h-full object-cover group-hover:scale-105 transition-transform"><span class="absolute top-2.5 left-2.5 bg-black/80 backdrop-blur-md border border-gold/30 text-gold-light text-[9px] font-bold uppercase tracking-wider px-2.5 py-0.5 rounded-full">${p.category}</span></div><div class="p-3.5 md:p-5 flex flex-col flex-1"><h4 class="font-serif text-xs md:text-sm text-white font-bold leading-tight line-clamp-2">${p.name}</h4><p class="text-[11px] text-gray-400 line-clamp-2 my-2 font-light flex-1">${p.desc}</p><div class="pt-2 mt-auto"><span class="text-base md:text-lg font-serif text-gold-light font-bold block mb-3">$${p.price.toFixed(2)}</span><div class="flex gap-2"><button onclick="openProductDetailModal(${p.id})" class="flex-1 bg-white/10 hover:bg-white text-white hover:text-black font-bold py-2 md:py-2.5 rounded-xl transition-all text-[10px] md:text-xs uppercase tracking-wider">Ver Detalle</button><button onclick="addProductToCart(${p.id}, 1)" class="w-9 md:w-10 bg-gradient-to-r from-gold-dark to-gold text-black flex items-center justify-center rounded-xl hover:scale-105 shadow-md"><i class="fas fa-cart-plus text-xs md:text-sm"></i></button></div></div></div></div>`).join('');
+        }
+
+        let currentModalProdId = null; let currentModalQty = 1;
+        function openProductDetailModal(id) {
+            const p = products.find(item => item.id === id); if (!p) return;
+            currentModalProdId = id; currentModalQty = 1;
+            document.getElementById('modalProductTitle').innerText = p.name; document.getElementById('modalProductPrice').innerText = `$${p.price.toFixed(2)}`;
+            document.getElementById('modalProductCatBadge').innerText = p.category; document.getElementById('modalProductDesc').innerText = p.desc;
+            document.getElementById('modalProductFeatures').innerText = p.features || '-'; document.getElementById('modalProductBenefits').innerText = p.benefits || '-';
+            document.getElementById('modalProductQty').innerText = '1'; document.getElementById('modalProductImg').src = p.img || getPlaceholderImage(p.name);
+            document.getElementById('productDetailModal').classList.remove('hidden'); document.getElementById('productDetailModal').classList.add('flex'); document.body.style.overflow = 'hidden';
+        }
+        function closeProductDetailModal() { document.getElementById('productDetailModal').classList.add('hidden'); document.getElementById('productDetailModal').classList.remove('flex'); document.body.style.overflow = ''; }
+        function adjustModalQty(delta) { currentModalQty += delta; if (currentModalQty < 1) currentModalQty = 1; if (currentModalQty > 20) currentModalQty = 20; document.getElementById('modalProductQty').innerText = currentModalQty; }
+        function addModalProductToCart() { if (currentModalProdId) addProductToCart(currentModalProdId, currentModalQty); closeProductDetailModal(); }
+        function buyModalProductDirectWA() {
+            const p = products.find(item => item.id === currentModalProdId); if (!p) return;
+            const total = (p.price * currentModalQty).toFixed(2);
+            window.open(`https://wa.me/${WHATSAPP_PHONE}?text=${encodeURIComponent(`¡Hola! 👋 Vengo de la tienda AURUM. Quiero comprar ${p.name} (Cantidad: ${currentModalQty}) por $${total}. ¿Tienen disponibilidad?`)}`, '_blank');
+        }
+
+        function addProductToCart(id, qty = 1) {
+            const p = products.find(item => item.id === id); if (!p) return;
+            const existing = cart.find(item => item.id === id); if (existing) existing.qty += qty; else cart.push({ id, qty });
+            updateCartCounter(); triggerToast(`Agregaste ${p.name} al carrito`);
+        }
+        function updateCartCounter() { const badge = document.getElementById('cartCountBadge'); const totalItems = cart.reduce((acc, curr) => acc + curr.qty, 0); badge.innerText = totalItems; badge.classList.toggle('scale-0', totalItems === 0); }
+        function openCartDrawer() { renderCartItems(); document.getElementById('cartDrawerBackdrop').classList.remove('hidden'); setTimeout(() => document.getElementById('cartDrawerPanel').classList.remove('translate-x-full'), 10); document.body.style.overflow = 'hidden'; }
+        function closeCartDrawer() { document.getElementById('cartDrawerPanel').classList.add('translate-x-full'); setTimeout(() => { document.getElementById('cartDrawerBackdrop').classList.add('hidden'); document.body.style.overflow = ''; }, 300); }
+        
+        function renderCartItems() {
+            const container = document.getElementById('cartItemsList'); const totalEl = document.getElementById('cartDrawerTotal');
+            if (cart.length === 0) { container.innerHTML = `<div class="h-64 flex flex-col items-center justify-center text-center text-gray-500"><i class="fas fa-shopping-bag text-4xl mb-3 text-gold/30"></i><p class="text-sm font-medium">Tu carrito está vacío</p></div>`; totalEl.innerText = '$0.00'; return; }
+            let total = 0;
+            container.innerHTML = cart.map(item => {
+                const p = products.find(x => x.id === item.id); if (!p) return ''; const subtotal = p.price * item.qty; total += subtotal;
+                return `<div class="bg-[#181818] border border-white/5 p-3 rounded-xl flex gap-3 items-center"><img src="${p.img || getPlaceholderImage(p.name)}" class="w-14 h-14 object-cover rounded-lg bg-black shrink-0"><div class="flex-1 min-w-0"><h4 class="text-xs text-white font-bold truncate">${p.name}</h4><span class="text-gold-light text-xs font-semibold">$${p.price.toFixed(2)}</span><div class="flex items-center gap-2 mt-2"><div class="flex items-center bg-black border border-white/20 rounded"><button onclick="modifyCartQty(${p.id}, -1)" class="w-6 h-6 text-gray-400 hover:text-white flex"><i class="fas fa-minus text-[9px] m-auto"></i></button><span class="w-6 text-center text-[11px] text-white font-bold">${item.qty}</span><button onclick="modifyCartQty(${p.id}, 1)" class="w-6 h-6 text-gray-400 hover:text-white flex"><i class="fas fa-plus text-[9px] m-auto"></i></button></div><span class="text-xs text-gray-300 font-bold ml-auto">$${subtotal.toFixed(2)}</span></div></div><button onclick="removeCartItem(${p.id})" class="text-gray-500 hover:text-red-400 p-1.5"><i class="fas fa-trash-alt text-xs"></i></button></div>`;
+            }).join('');
+            totalEl.innerText = `$${total.toFixed(2)}`;
+        }
+        function modifyCartQty(id, delta) { const item = cart.find(x => x.id === id); if (!item) return; item.qty += delta; if (item.qty <= 0) cart = cart.filter(x => x.id !== id); updateCartCounter(); renderCartItems(); }
+        function removeCartItem(id) { cart = cart.filter(x => x.id !== id); updateCartCounter(); renderCartItems(); }
+        function checkoutViaWhatsApp() {
+            if (cart.length === 0) return; let msg = "¡Hola! 👋 Bienvenido a AURUM.\nQuiero realizar el siguiente pedido:\n\n🛍️ MI PEDIDO:\n"; let grandTotal = 0;
+            cart.forEach((item, i) => { const p = products.find(x => x.id === item.id); if (p) { const subtotal = p.price * item.qty; grandTotal += subtotal; msg += `${i + 1}. ${p.name}\n   Cant: ${item.qty} | Subtotal: $${subtotal.toFixed(2)}\n\n`; } });
+            msg += `TOTAL: $${grandTotal.toFixed(2)}\n\n¡Gracias!`; window.open(`https://wa.me/${WHATSAPP_PHONE}?text=${encodeURIComponent(msg)}`, '_blank');
+        }
+
+        function openInfoModal(type) {
+            const modal = document.getElementById('infoModal'); const title = document.getElementById('infoModalTitle'); const body = document.getElementById('infoModalBody'); const icon = document.getElementById('infoModalIcon');
+            if (type === 'garantias') { icon.className = 'fas fa-shield-alt'; title.innerText = 'Garantías y Devoluciones'; body.innerHTML = '<p>✨ <strong>10 días:</strong> Todos nuestros artículos cuentan con 10 días de garantía por defectos.</p><p>📦 <strong>Condiciones:</strong> Conservar empaque original.</p>'; }
+            else if (type === 'envios') { icon.className = 'fas fa-truck'; title.innerText = 'Envíos'; body.innerHTML = '<p>🚚 <strong>Cobertura Nacional:</strong> Todo el Ecuador.</p><p>💵 <strong>Contra Entrega:</strong> Paga al recibir.</p>'; }
+            else { icon.className = 'fas fa-question-circle'; title.innerText = 'FAQ'; body.innerHTML = '<p><strong>¿Tienen local?</strong> Solo envíos directos.</p>'; }
+            modal.classList.remove('hidden'); modal.classList.add('flex');
+        }
+        function closeInfoModal() { document.getElementById('infoModal').classList.add('hidden'); document.getElementById('infoModal').classList.remove('flex'); }
+
+        function openAdminModal() { document.getElementById('adminPinInput').value = ''; document.getElementById('adminPinError').classList.add('hidden'); document.getElementById('adminLoginModal').classList.remove('hidden'); document.getElementById('adminLoginModal').classList.add('flex'); document.getElementById('adminPinInput').focus(); }
+        function closeAdminModal() { document.getElementById('adminLoginModal').classList.add('hidden'); document.getElementById('adminLoginModal').classList.remove('flex'); }
+        function submitAdminPin() { if (document.getElementById('adminPinInput').value === ADMIN_PIN) { closeAdminModal(); openAdminDashboard(); } else { document.getElementById('adminPinError').classList.remove('hidden'); document.getElementById('adminPinInput').value = ''; } }
+        function openAdminDashboard() { document.getElementById('adminDashboardModal').classList.remove('hidden'); document.getElementById('adminDashboardModal').classList.add('flex'); renderAdminProductsList(); }
+        function closeAdminDashboard() { document.getElementById('adminDashboardModal').classList.add('hidden'); document.getElementById('adminDashboardModal').classList.remove('flex'); renderCombosSection(); renderProductsGrid(); }
+
+        function renderAdminProductsList() {
+            document.getElementById('adminProductsList').innerHTML = products.map(p => `<div class="bg-[#141414] border border-white/10 p-3.5 rounded-xl flex items-center justify-between gap-4"><div class="flex items-center gap-3 overflow-hidden"><img src="${p.img || getPlaceholderImage(p.name)}" class="w-12 h-12 rounded-lg object-cover bg-black shrink-0"><div class="truncate"><h5 class="text-xs font-bold text-white truncate">${p.name}</h5><span class="text-[10px] text-gold-light">${p.category}</span><span class="text-[10px] text-gray-400 ml-2 font-bold">$${p.price.toFixed(2)}</span></div></div><button onclick="openProductEditForm(${p.id})" class="px-3 py-1.5 bg-white/10 hover:bg-gold-light hover:text-black text-white text-xs font-bold rounded-lg transition-colors shrink-0">Editar</button></div>`).join('');
+        }
+
+        function openProductEditForm(id) {
+            temporaryEditImg = ''; const isNew = id === 'new';
+            document.getElementById('editFormHeaderTitle').innerText = isNew ? 'Crear Nuevo' : 'Editar Producto'; document.getElementById('editFormId').value = isNew ? 'new' : id; document.getElementById('btnAdminDeleteProd').classList.toggle('hidden', isNew); document.getElementById('editImgUploadStatus').innerText = '';
+            if (isNew) {
+                document.getElementById('editFormName').value = ''; document.getElementById('editFormPrice').value = ''; document.getElementById('editFormCategory').value = 'Tecnología'; document.getElementById('editFormIsCombo').checked = false; document.getElementById('editFormDesc').value = ''; document.getElementById('editFormFeatures').value = ''; document.getElementById('editFormBenefits').value = ''; document.getElementById('editFormImgPreview').src = getPlaceholderImage('N');
+            } else {
+                const p = products.find(x => x.id === id);
+                document.getElementById('editFormName').value = p.name; document.getElementById('editFormPrice').value = p.price; document.getElementById('editFormCategory').value = p.category; document.getElementById('editFormIsCombo').checked = p.isCombo || false; document.getElementById('editFormDesc').value = p.desc; document.getElementById('editFormFeatures').value = p.features || ''; document.getElementById('editFormBenefits').value = p.benefits || ''; document.getElementById('editFormImgPreview').src = p.img || getPlaceholderImage(p.name); temporaryEditImg = p.img || '';
+            }
+            document.getElementById('adminEditModal').classList.remove('hidden'); document.getElementById('adminEditModal').classList.add('flex');
+        }
+        function closeProductEditForm() { document.getElementById('adminEditModal').classList.add('hidden'); document.getElementById('adminEditModal').classList.remove('flex'); }
+
+        function handleAdminImgUpload(e) {
+            const file = e.target.files[0]; if (!file) return;
+            const status = document.getElementById('editImgUploadStatus'); status.innerText = 'Optimizando...';
+            const reader = new FileReader();
+            reader.onload = (event) => {
+                const img = new Image();
+                img.onload = () => {
+                    const canvas = document.createElement('canvas'); const MAX = 600; let w = img.width; let h = img.height;
+                    if (w > MAX || h > MAX) { if (w > h) { h = Math.round((h * MAX) / w); w = MAX; } else { w = Math.round((w * MAX) / h); h = MAX; } }
+                    canvas.width = w; canvas.height = h; const ctx = canvas.getContext('2d'); ctx.drawImage(img, 0, 0, w, h);
+                    temporaryEditImg = canvas.toDataURL('image/jpeg', 0.8); document.getElementById('editFormImgPreview').src = temporaryEditImg; status.innerText = '✓ Imagen lista';
+                }; img.src = event.target.result;
+            }; reader.readAsDataURL(file);
+        }
+
+        function saveAdminProduct() {
+            const idVal = document.getElementById('editFormId').value; const name = document.getElementById('editFormName').value.trim(); const price = parseFloat(document.getElementById('editFormPrice').value) || 0; const category = document.getElementById('editFormCategory').value; const isCombo = document.getElementById('editFormIsCombo').checked; const desc = document.getElementById('editFormDesc').value.trim(); const features = document.getElementById('editFormFeatures').value.trim(); const benefits = document.getElementById('editFormBenefits').value.trim();
+            if (!name) return alert('El nombre no puede estar vacío.');
+            let savedProd = null;
+            if (idVal === 'new') { const newId = products.length ? Math.max(...products.map(p => p.id)) + 1 : 1; savedProd = { id: newId, name, price, category, isCombo, desc, features, benefits, img: temporaryEditImg }; products.unshift(savedProd); } 
+            else { const id = parseInt(idVal); const idx = products.findIndex(p => p.id === id); if (idx !== -1) { products[idx] = { ...products[idx], name, price, category, isCombo, desc, features, benefits, img: temporaryEditImg || products[idx].img }; savedProd = products[idx]; } }
+            
+            // Si está Firebase activo, lo guarda allá. Si no, solo se queda temporal.
+            if (savedProd && window.requestProductSave && firebaseConfig.apiKey) window.requestProductSave(savedProd);
+            
+            renderAdminProductsList(); closeProductEditForm(); triggerToast('Guardado temporalmente (Sin nube)');
+        }
+
+        function deleteProductFromAdmin() {
+            const idVal = document.getElementById('editFormId').value; if (idVal === 'new') return;
+            if (!confirm('¿Eliminar producto?')) return;
+            const id = parseInt(idVal); products = products.filter(p => p.id !== id); cart = cart.filter(c => c.id !== id);
+            if (window.requestProductDelete && firebaseConfig.apiKey) window.requestProductDelete(id);
+            updateCartCounter(); renderAdminProductsList(); closeProductEditForm(); triggerToast('Producto eliminado');
+        }
+
+        window.addEventListener('DOMContentLoaded', initStore);
+    </script>
+</body>
+</html>
