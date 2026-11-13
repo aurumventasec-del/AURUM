@@ -355,7 +355,7 @@
         import { getAuth, signInAnonymously } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
         import { getFirestore, collection, doc, setDoc, deleteDoc, getDocs, onSnapshot } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
-        // 👇 🚨 PASO FUTURO: AQUÍ PEGAREMOS LAS CLAVES DE FIREBASE DESPUÉS 🚨 👇
+        // CONFIGURACIÓN DE FIREBASE
         const firebaseConfig = {
             apiKey: "AIzaSyCEtkEXkD-ekQiz3gyS6MCdwFHu5KV5ao8",
             authDomain: "aurum-tienda.firebaseapp.com",
@@ -365,21 +365,12 @@
             appId: "1:693566161806:web:ce6d8570cf57a1bf629adf",
             measurementId: "G-REH7MD0NH3"
         };
-            // apiKey: "TU_API_KEY",
-            // authDomain: "TU_DOMINIO.firebaseapp.com",
-            // projectId: "TU_PROYECTO",
-            // storageBucket: "TU_PROYECTO.appspot.com",
-            // messagingSenderId: "123456789",
-            // appId: "1:123:web:abc"
-        };
-        // 👆 ================================================================= 👆
 
         let app, auth, db;
         const appId = 'aurum-tienda';
         const productsPath = `artifacts/${appId}/public/data/catalog_products`;
 
         async function initFB() {
-            // Validación temporal: Si no hay claves, funciona en modo local/estático
             if (!firebaseConfig.apiKey) {
                 console.log("Modo estático activo. Aún no se han configurado las claves de Firebase.");
                 return; 
@@ -392,19 +383,23 @@
             await signInAnonymously(auth);
             if (!auth.currentUser) return;
 
-            // Siembra inicial de productos si la nube está vacía
+            // 1. Siembra inicial FORZADA si la nube está vacía
             const snap = await getDocs(collection(db, productsPath));
             if (snap.empty && window.initialProducts) {
+                console.log("Subiendo catálogo a la nube...");
                 for (let p of window.initialProducts) {
                     await setDoc(doc(db, productsPath, `prod_${p.id}`), p);
                 }
+                triggerToast('Catálogo subido a la nube');
             }
 
-            // Escuchar cambios en la nube
+            // 2. Escuchar cambios en la nube (Y SOBREESCRIBIR LOS LOCALES)
             onSnapshot(collection(db, productsPath), (snapshot) => {
-                const prods = snapshot.docs.map(d => d.data());
-                prods.sort((a,b) => a.id - b.id);
-                if (window.fbUpdateProducts) window.fbUpdateProducts(prods);
+                if(!snapshot.empty){
+                    const prods = snapshot.docs.map(d => d.data());
+                    prods.sort((a,b) => a.id - b.id);
+                    if (window.fbUpdateProducts) window.fbUpdateProducts(prods);
+                }
             });
         }
 
@@ -621,10 +616,14 @@
             if (idVal === 'new') { const newId = products.length ? Math.max(...products.map(p => p.id)) + 1 : 1; savedProd = { id: newId, name, price, category, isCombo, desc, features, benefits, img: temporaryEditImg }; products.unshift(savedProd); } 
             else { const id = parseInt(idVal); const idx = products.findIndex(p => p.id === id); if (idx !== -1) { products[idx] = { ...products[idx], name, price, category, isCombo, desc, features, benefits, img: temporaryEditImg || products[idx].img }; savedProd = products[idx]; } }
             
-            // Si está Firebase activo, lo guarda allá. Si no, solo se queda temporal.
-            if (savedProd && window.requestProductSave && firebaseConfig.apiKey) window.requestProductSave(savedProd);
+            if (savedProd && window.requestProductSave && firebaseConfig.apiKey) {
+                window.requestProductSave(savedProd);
+                triggerToast('Producto guardado en la nube');
+            } else {
+                triggerToast('Guardado localmente (Revisa conexión)');
+            }
             
-            renderAdminProductsList(); closeProductEditForm(); triggerToast('Guardado temporalmente (Sin nube)');
+            renderAdminProductsList(); closeProductEditForm();
         }
 
         function deleteProductFromAdmin() {
