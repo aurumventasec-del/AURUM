@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>AURUM | Tienda Online</title>
+    <title>AURUM | Tienda Online Exclusiva</title>
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Google Fonts -->
@@ -17,282 +17,292 @@
                 extend: {
                     colors: {
                         gold: { DEFAULT: '#D4AF37', light: '#E5C378', champagne: '#F3E5AB', dark: '#9B7A38', rich: '#C5A059' },
-                        ink: { DEFAULT: '#0A0A0A', pure: '#050505', card: '#121212', light: '#181818', border: 'rgba(212, 175, 55, 0.18)' }
+                        ink: { DEFAULT: '#0A0A0A', pure: '#050505', card: '#121212', light: '#181818', border: 'rgba(212, 175, 55, 0.22)' }
                     },
                     fontFamily: { sans: ['Inter', 'sans-serif'], serif: ['Playfair Display', 'serif'], cinzel: ['Cinzel', 'serif'] },
                     animation: {
                         'pulse-glow': 'pulseGlow 3s ease-in-out infinite',
                         'star-twinkle': 'twinkle 4s ease-in-out infinite alternate',
-                        'float-soft': 'floatSoft 5s ease-in-out infinite alternate'
+                        'float-soft': 'floatSoft 5s ease-in-out infinite alternate',
+                        'shimmer': 'shimmer 2.5s linear infinite'
                     },
                     keyframes: {
                         pulseGlow: {
-                            '0%, 100%': { filter: 'drop-shadow(0 0 12px rgba(212, 175, 55, 0.35))' },
-                            '50%': { filter: 'drop-shadow(0 0 24px rgba(229, 195, 120, 0.65))' }
+                            '0%, 100%': { filter: 'drop-shadow(0 0 15px rgba(212, 175, 55, 0.4))' },
+                            '50%': { filter: 'drop-shadow(0 0 30px rgba(229, 195, 120, 0.8))' }
                         },
                         twinkle: { '0%': { opacity: '0.3', transform: 'scale(0.8)' }, '100%': { opacity: '1', transform: 'scale(1.2)' } },
-                        floatSoft: { '0%': { transform: 'translateY(0px)' }, '100%': { transform: 'translateY(-6px)' } }
+                        floatSoft: { '0%': { transform: 'translateY(0px)' }, '100%': { transform: 'translateY(-8px)' } },
+                        shimmer: { '0%': { backgroundPosition: '-200% 0' }, '100%': { backgroundPosition: '200% 0' } }
                     }
                 }
             }
         }
     </script>
     <style>
-        body { background-color: #070707; color: #FAFAFA; scroll-behavior: smooth; -webkit-tap-highlight-color: transparent; }
+        body { background-color: #050505; color: #FAFAFA; scroll-behavior: smooth; -webkit-tap-highlight-color: transparent; }
         .hide-scroll::-webkit-scrollbar { display: none; }
         .hide-scroll { -ms-overflow-style: none; scrollbar-width: none; }
         ::-webkit-scrollbar { width: 6px; }
-        ::-webkit-scrollbar-track { background: #0A0A0A; }
-        ::-webkit-scrollbar-thumb { background: #333; border-radius: 10px; }
+        ::-webkit-scrollbar-track { background: #070707; }
+        ::-webkit-scrollbar-thumb { background: #222; border-radius: 10px; border: 1px solid rgba(212,175,55,0.2); }
         ::-webkit-scrollbar-thumb:hover { background: #D4AF37; }
-        .glass-nav { background: rgba(8, 8, 8, 0.88); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); border-bottom: 1px solid rgba(212, 175, 55, 0.2); }
-        .gold-border-glow { border: 1px solid rgba(212, 175, 55, 0.25); transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1); }
-        .gold-border-glow:hover { border-color: rgba(229, 195, 120, 0.8); box-shadow: 0 8px 30px rgba(212, 175, 55, 0.18); transform: translateY(-4px); }
+        
+        .glass-nav { background: rgba(7, 7, 7, 0.92); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); border-bottom: 1px solid rgba(212, 175, 55, 0.25); box-shadow: 0 10px 30px rgba(0,0,0,0.8); }
+        
+        .gold-border-glow { border: 1px solid rgba(212, 175, 55, 0.25); transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1); background: linear-gradient(145deg, #121212, #0A0A0A); }
+        .gold-border-glow:hover { border-color: rgba(229, 195, 120, 0.9); box-shadow: 0 12px 35px rgba(212, 175, 55, 0.25); transform: translateY(-5px); }
+        
+        .gold-btn-gradient { background: linear-gradient(135deg, #C5A059, #E5C378, #D4AF37); transition: all 0.3s ease; }
+        .gold-btn-gradient:hover { filter: brightness(1.1); box-shadow: 0 0 25px rgba(229, 195, 120, 0.6); }
+
         .stars-canvas {
-            background-image: radial-gradient(1.5px 1.5px at 30px 40px, #E5C378, rgba(0,0,0,0)), radial-gradient(1.2px 1.2px at 90px 140px, #ffffff, rgba(0,0,0,0)), radial-gradient(2px 2px at 160px 80px, #D4AF37, rgba(0,0,0,0)), radial-gradient(1.5px 1.5px at 240px 220px, #F3E5AB, rgba(0,0,0,0)), radial-gradient(1.2px 1.2px at 320px 110px, #ffffff, rgba(0,0,0,0)), radial-gradient(2.2px 2.2px at 400px 300px, #E5C378, rgba(0,0,0,0));
-            background-repeat: repeat; background-size: 450px 450px; animation: starsDrift 85s linear infinite;
+            background-image: radial-gradient(1.5px 1.5px at 30px 40px, #E5C378, rgba(0,0,0,0)), radial-gradient(1.2px 1.2px at 90px 140px, #ffffff, rgba(0,0,0,0)), radial-gradient(2px 2px at 160px 80px, #D4AF37, rgba(0,0,0,0)), radial-gradient(1.5px 1.5px at 240px 220px, #F3E5AB, rgba(0,0,0,0));
+            background-repeat: repeat; background-size: 450px 450px; animation: starsDrift 90s linear infinite;
         }
         @keyframes starsDrift { 0% { background-position: 0 0; } 100% { background-position: -450px -450px; } }
-        .constellation-dot { width: 4px; height: 4px; background-color: #E5C378; border-radius: 50%; box-shadow: 0 0 10px #F3E5AB, 0 0 18px rgba(212, 175, 55, 0.8); position: absolute; }
-        .modal-backdrop { transition: opacity 0.3s ease; }
-        .modal-content-panel { transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.35s ease; }
-        #toastContainer { position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%); z-index: 9999; pointer-events: none; display: flex; flex-direction: column; gap: 8px; }
-        .toast-msg { background: linear-gradient(135deg, #181818, #0D0D0D); border: 1px solid #D4AF37; color: #FAFAFA; padding: 12px 24px; border-radius: 50px; font-size: 13px; font-weight: 600; box-shadow: 0 10px 30px rgba(0,0,0,0.8), 0 0 20px rgba(212,175,55,0.25); animation: toastIn 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
-        @keyframes toastIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        .constellation-dot { width: 4px; height: 4px; background-color: #E5C378; border-radius: 50%; box-shadow: 0 0 12px #F3E5AB, 0 0 22px rgba(212, 175, 55, 0.9); position: absolute; }
+        
+        .modal-backdrop { transition: opacity 0.35s cubic-bezier(0.16, 1, 0.3, 1); }
+        .modal-content-panel { transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.4s ease; }
+        
+        #toastContainer { position: fixed; bottom: 28px; left: 50%; transform: translateX(-50%); z-index: 9999; pointer-events: none; display: flex; flex-direction: column; gap: 10px; }
+        .toast-msg { background: linear-gradient(135deg, #161616, #0B0B0B); border: 1px solid rgba(212,175,55,0.6); color: #FAFAFA; padding: 14px 26px; border-radius: 50px; font-size: 13px; font-weight: 600; box-shadow: 0 15px 35px rgba(0,0,0,0.9), 0 0 25px rgba(212,175,55,0.3); animation: toastIn 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+        @keyframes toastIn { from { opacity: 0; transform: translateY(25px) scale(0.95); } to { opacity: 1; transform: translateY(0) scale(1); } }
     </style>
 </head>
 <body class="flex flex-col min-h-screen">
 
     <header class="glass-nav sticky top-0 z-40 transition-all duration-300">
         <div class="max-w-7xl mx-auto px-4 md:px-8 h-20 flex justify-between items-center gap-4">
-            <div class="flex items-center gap-3 cursor-pointer select-none" onclick="window.scrollTo({top:0, behavior:'smooth'})">
-                <div class="relative w-10 h-10 rounded-full border border-gold-light/60 flex items-center justify-center text-gold-light font-cinzel text-xl bg-black shadow-[0_0_15px_rgba(212,175,55,0.25)]">
-                    <span>A</span><i class="fas fa-sparkle absolute -top-1 -right-1 text-[8px] text-gold-champagne animate-pulse"></i>
+            <div class="flex items-center gap-3.5 cursor-pointer select-none group" onclick="window.scrollTo({top:0, behavior:'smooth'})">
+                <div class="relative w-11 h-11 rounded-full border border-gold-light/70 flex items-center justify-center text-gold-light font-cinzel text-xl bg-black shadow-[0_0_20px_rgba(212,175,55,0.3)] group-hover:scale-105 transition-transform">
+                    <span>A</span><i class="fas fa-sparkle absolute -top-1 -right-1 text-[9px] text-gold-champagne animate-pulse"></i>
                 </div>
                 <div>
-                    <h1 class="font-cinzel text-gold-light tracking-[0.25em] text-lg font-bold leading-none">AURUM</h1>
-                    <p class="text-[8px] tracking-[0.35em] text-gray-400 uppercase mt-1">Tienda Online</p>
+                    <h1 class="font-cinzel text-gold-light tracking-[0.28em] text-lg font-extrabold leading-none">AURUM</h1>
+                    <p class="text-[8px] tracking-[0.4em] text-gray-400 uppercase mt-1 font-medium">Tienda Online</p>
                 </div>
             </div>
             <div class="flex-1 max-w-md mx-2 relative group hidden sm:block">
-                <input type="text" id="searchInput" placeholder="Buscar por nombre, foco, reloj, audífono..." oninput="handleSearch(this.value)" class="w-full bg-ink-light/80 border border-gray-800 rounded-full py-2.5 pl-11 pr-10 text-white text-xs focus:outline-none focus:border-gold-light focus:ring-1 focus:ring-gold-light transition-all shadow-inner">
+                <input type="text" id="searchInput" placeholder="Buscar productos exclusivos..." oninput="handleSearch(this.value)" class="w-full bg-ink-light/90 border border-gray-800 rounded-full py-2.5 pl-11 pr-10 text-white text-xs focus:outline-none focus:border-gold-light focus:ring-2 focus:ring-gold-light/30 transition-all shadow-inner">
                 <i class="fas fa-search absolute left-4 top-1/2 -translate-y-1/2 text-gray-500 group-focus-within:text-gold-light transition-colors text-xs"></i>
                 <button onclick="clearSearchInput()" id="clearSearchBtn" class="absolute right-3.5 top-1/2 -translate-y-1/2 text-gray-500 hover:text-white hidden text-xs"><i class="fas fa-times-circle"></i></button>
             </div>
             <div class="flex items-center gap-3">
-                <button onclick="openCartDrawer()" class="relative bg-white/5 hover:bg-white/10 border border-gold-light/30 text-gold-light p-2.5 rounded-full transition-all hover:scale-105 shadow-[0_0_12px_rgba(212,175,55,0.15)] flex items-center justify-center">
-                    <i class="fas fa-shopping-bag text-lg"></i>
-                    <span id="cartCountBadge" class="absolute -top-1 -right-1 bg-gradient-to-r from-gold-dark to-gold text-black text-[10px] font-extrabold w-5 h-5 flex items-center justify-center rounded-full scale-0 transition-transform shadow-md">0</span>
+                <button onclick="openCartDrawer()" class="relative bg-white/5 hover:bg-white/10 border border-gold-light/40 text-gold-light p-3 rounded-full transition-all hover:scale-110 shadow-[0_0_15px_rgba(212,175,55,0.2)] flex items-center justify-center">
+                    <i class="fas fa-shopping-bag text-base"></i>
+                    <span id="cartCountBadge" class="absolute -top-1 -right-1 gold-btn-gradient text-black text-[10px] font-black w-5 h-5 flex items-center justify-center rounded-full scale-0 transition-transform shadow-lg">0</span>
                 </button>
             </div>
         </div>
         <div class="sm:hidden px-4 pb-3">
             <div class="relative group">
-                <input type="text" id="mobileSearchInput" placeholder="Buscar productos..." oninput="handleSearch(this.value)" class="w-full bg-ink-light border border-gray-800 rounded-full py-2 pl-10 pr-8 text-white text-xs focus:outline-none focus:border-gold-light">
+                <input type="text" id="mobileSearchInput" placeholder="Buscar productos..." oninput="handleSearch(this.value)" class="w-full bg-ink-light border border-gray-800 rounded-full py-2.5 pl-10 pr-8 text-white text-xs focus:outline-none focus:border-gold-light">
                 <i class="fas fa-search absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-500 text-xs"></i>
             </div>
         </div>
     </header>
 
-    <section class="relative min-h-[92vh] flex flex-col items-center justify-center bg-gradient-to-b from-[#060606] via-[#090806] to-[#0A0A0A] overflow-hidden pt-10 pb-20 px-4 border-b border-gold/15">
-        <div class="absolute inset-0 stars-canvas opacity-80 pointer-events-none"></div>
-        <div class="absolute inset-0 max-w-4xl mx-auto pointer-events-none opacity-40">
+    <section class="relative min-h-[92vh] flex flex-col items-center justify-center bg-gradient-to-b from-[#050505] via-[#090807] to-[#0A0A0A] overflow-hidden pt-10 pb-20 px-4 border-b border-gold/20">
+        <div class="absolute inset-0 stars-canvas opacity-85 pointer-events-none"></div>
+        <div class="absolute inset-0 max-w-4xl mx-auto pointer-events-none opacity-50">
             <div class="constellation-dot top-20 left-10"></div><div class="constellation-dot top-28 left-24 animate-pulse"></div>
             <div class="constellation-dot top-44 left-16"></div><div class="constellation-dot top-16 right-20 animate-pulse"></div>
             <div class="constellation-dot top-32 right-12"></div><div class="constellation-dot top-48 right-32"></div>
             <div class="constellation-dot bottom-36 left-1/4 animate-pulse"></div><div class="constellation-dot bottom-24 right-1/4"></div>
         </div>
-        <div class="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-80 h-80 bg-gold-dark/15 rounded-full blur-[110px] pointer-events-none"></div>
+        <div class="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-gold-dark/20 rounded-full blur-[130px] pointer-events-none"></div>
 
         <div class="relative z-10 flex flex-col items-center text-center max-w-xl mx-auto w-full">
             <div class="relative mb-6 select-none animate-float-soft">
-                <div class="w-32 h-32 md:w-36 md:h-36 rounded-full border border-gold-light/90 flex items-center justify-center relative shadow-[0_0_35px_rgba(212,175,55,0.22)] bg-gradient-to-b from-black/50 to-transparent backdrop-blur-[2px]">
-                    <span class="font-serif text-5xl md:text-6xl text-gold-light font-normal tracking-wide drop-shadow-[0_2px_10px_rgba(212,175,55,0.4)]">A</span>
+                <div class="w-36 h-36 md:w-40 md:h-40 rounded-full border border-gold-light/90 flex items-center justify-center relative shadow-[0_0_40px_rgba(212,175,55,0.3)] bg-gradient-to-b from-black/70 via-black/40 to-transparent backdrop-blur-md">
+                    <span class="font-serif text-6xl md:text-7xl text-gold-light font-normal tracking-wide drop-shadow-[0_2px_15px_rgba(212,175,55,0.5)]">A</span>
                     <div class="absolute -top-1 -right-1 text-gold-champagne animate-pulse-glow">
-                        <svg class="w-7 h-7" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0L14.4 9.6L24 12L14.4 14.4L12 24L9.6 14.4L0 12L9.6 9.6L12 0Z"/></svg>
+                        <svg class="w-8 h-8" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0L14.4 9.6L24 12L14.4 14.4L12 24L9.6 14.4L0 12L9.6 9.6L12 0Z"/></svg>
                     </div>
                 </div>
             </div>
-            <h2 class="font-serif text-5xl md:text-7xl text-gold-light tracking-wide font-normal mb-1 drop-shadow-[0_4px_25px_rgba(212,175,55,0.35)]">Aurum</h2>
-            <div class="flex items-center justify-center gap-3 w-full mb-6">
-                <div class="h-[1px] w-12 md:w-20 bg-gradient-to-r from-transparent to-gold-light/60"></div>
-                <span class="text-[9px] md:text-[10px] tracking-[0.45em] text-gold-light uppercase font-light">TIENDA ONLINE</span>
-                <div class="h-[1px] w-12 md:w-20 bg-gradient-to-l from-transparent to-gold-light/60"></div>
+            <h2 class="font-serif text-5xl md:text-7xl text-gold-light tracking-wide font-normal mb-1 drop-shadow-[0_4px_30px_rgba(212,175,55,0.4)]">Aurum</h2>
+            <div class="flex items-center justify-center gap-3.5 w-full mb-6">
+                <div class="h-[1px] w-14 md:w-24 bg-gradient-to-r from-transparent via-gold-light/80 to-gold-light"></div>
+                <span class="text-[9px] md:text-[10px] tracking-[0.5em] text-gold-light uppercase font-semibold">TIENDA ONLINE EXCLUSIVA</span>
+                <div class="h-[1px] w-14 md:w-24 bg-gradient-to-l from-transparent via-gold-light/80 to-gold-light"></div>
             </div>
-            <h3 class="text-xl md:text-2xl font-serif text-white mb-2 leading-relaxed font-light">
-                Descubre productos que hacen la <span class="italic text-gold-light font-normal">diferencia ✨</span>
+            <h3 class="text-xl md:text-2xl font-serif text-white mb-3 leading-relaxed font-light">
+                Descubre productos que hacen la <span class="italic text-gold-light font-medium">diferencia ✨</span>
             </h3>
-            <p class="text-gray-400 text-xs md:text-sm font-light max-w-sm mx-auto mb-9 leading-relaxed">Tu tienda online de confianza. Compra desde cualquier lugar de Ecuador.</p>
-            <a href="#catalogo" class="w-full sm:w-auto min-w-[280px] flex items-center justify-center gap-3 bg-gradient-to-r from-[#C5A059] via-[#E5C378] to-[#C5A059] text-black font-semibold px-9 py-3.5 rounded-full hover:scale-105 hover:shadow-[0_0_35px_rgba(229,195,120,0.5)] transition-all duration-300 uppercase tracking-[0.18em] text-xs shadow-lg mb-12">
-                <i class="fas fa-shopping-bag text-sm"></i> VER CATÁLOGO
+            <p class="text-gray-300 text-xs md:text-sm font-light max-w-sm mx-auto mb-9 leading-relaxed">Tu tienda online de confianza. Compra segura con pago contra entrega en todo Ecuador.</p>
+            <a href="#catalogo" class="w-full sm:w-auto min-w-[290px] flex items-center justify-center gap-3 gold-btn-gradient text-black font-bold px-9 py-4 rounded-full hover:scale-105 transition-all duration-300 uppercase tracking-[0.2em] text-xs shadow-2xl mb-12">
+                <i class="fas fa-shopping-bag text-sm"></i> VER CATÁLOGO OFICIAL
             </a>
 
             <div class="flex flex-col gap-3.5 w-full max-w-sm mx-auto">
-                <a href="https://www.instagram.com/aurumventas_ec?obrf=MTh6Yjh4MWZ2NzAyMg==" target="_blank" class="flex items-center w-full bg-[#0D0D0D]/90 border border-gold-light/35 rounded-full p-2 hover:border-gold-light hover:bg-white/5 transition-all duration-300 group shadow-md hover:shadow-[0_0_20px_rgba(212,175,55,0.2)]">
-                    <div class="w-11 h-11 rounded-full bg-gradient-to-tr from-[#f9ce34] via-[#ee2a7b] to-[#6228d7] flex items-center justify-center text-white text-lg shrink-0 shadow group-hover:scale-105 transition-transform"><i class="fab fa-instagram"></i></div>
-                    <span class="flex-1 text-center pr-11 text-gray-200 group-hover:text-gold-light text-xs md:text-sm font-medium transition-colors">Síguenos en Instagram</span>
+                <a href="https://www.instagram.com/aurumventas_ec?obrf=MTh6Yjh4MWZ2NzAyMg==" target="_blank" class="flex items-center w-full bg-[#0D0D0D]/95 border border-gold-light/40 rounded-full p-2.5 hover:border-gold-light hover:bg-white/10 transition-all duration-300 group shadow-lg hover:shadow-[0_0_25px_rgba(212,175,55,0.25)]">
+                    <div class="w-11 h-11 rounded-full bg-gradient-to-tr from-[#f9ce34] via-[#ee2a7b] to-[#6228d7] flex items-center justify-center text-white text-lg shrink-0 shadow group-hover:scale-110 transition-transform"><i class="fab fa-instagram"></i></div>
+                    <span class="flex-1 text-center pr-11 text-gray-200 group-hover:text-gold-light text-xs md:text-sm font-semibold transition-colors">Síguenos en Instagram</span>
                 </a>
-                <a href="https://www.tiktok.com/@aurum_ventas.ec?_r=1&_t=ZS-9BIQET4l1y0" target="_blank" class="flex items-center w-full bg-[#0D0D0D]/90 border border-gold-light/35 rounded-full p-2 hover:border-gold-light hover:bg-white/5 transition-all duration-300 group shadow-md hover:shadow-[0_0_20px_rgba(212,175,55,0.2)]">
-                    <div class="w-11 h-11 rounded-full bg-black border border-white/20 flex items-center justify-center text-white text-lg shrink-0 shadow group-hover:scale-105 transition-transform"><i class="fab fa-tiktok"></i></div>
-                    <span class="flex-1 text-center pr-11 text-gray-200 group-hover:text-gold-light text-xs md:text-sm font-medium transition-colors">Encuéntranos en TikTok</span>
+                <a href="https://www.tiktok.com/@aurum_ventas.ec?_r=1&_t=ZS-9BIQET4l1y0" target="_blank" class="flex items-center w-full bg-[#0D0D0D]/95 border border-gold-light/40 rounded-full p-2.5 hover:border-gold-light hover:bg-white/10 transition-all duration-300 group shadow-lg hover:shadow-[0_0_25px_rgba(212,175,55,0.25)]">
+                    <div class="w-11 h-11 rounded-full bg-black border border-white/20 flex items-center justify-center text-white text-lg shrink-0 shadow group-hover:scale-110 transition-transform"><i class="fab fa-tiktok"></i></div>
+                    <span class="flex-1 text-center pr-11 text-gray-200 group-hover:text-gold-light text-xs md:text-sm font-semibold transition-colors">Encuéntranos en TikTok</span>
                 </a>
-                <a href="https://www.facebook.com/share/1ADR2KKCpb/" target="_blank" class="flex items-center w-full bg-[#0D0D0D]/90 border border-gold-light/35 rounded-full p-2 hover:border-gold-light hover:bg-white/5 transition-all duration-300 group shadow-md hover:shadow-[0_0_20px_rgba(212,175,55,0.2)]">
-                    <div class="w-11 h-11 rounded-full bg-[#1877F2] flex items-center justify-center text-white text-lg shrink-0 shadow group-hover:scale-105 transition-transform"><i class="fab fa-facebook-f"></i></div>
-                    <span class="flex-1 text-center pr-11 text-gray-200 group-hover:text-gold-light text-xs md:text-sm font-medium transition-colors">Síguenos en Facebook</span>
+                <a href="https://www.facebook.com/share/1ADR2KKCpb/" target="_blank" class="flex items-center w-full bg-[#0D0D0D]/95 border border-gold-light/40 rounded-full p-2.5 hover:border-gold-light hover:bg-white/10 transition-all duration-300 group shadow-lg hover:shadow-[0_0_25px_rgba(212,175,55,0.25)]">
+                    <div class="w-11 h-11 rounded-full bg-[#1877F2] flex items-center justify-center text-white text-lg shrink-0 shadow group-hover:scale-110 transition-transform"><i class="fab fa-facebook-f"></i></div>
+                    <span class="flex-1 text-center pr-11 text-gray-200 group-hover:text-gold-light text-xs md:text-sm font-semibold transition-colors">Síguenos en Facebook</span>
                 </a>
-                <a href="https://wa.me/593989423504?text=¡Hola!%20👋%20Vengo%20de%20la%20tienda%20AURUM%20y%20deseo%20hacer%20una%20consulta." target="_blank" class="flex items-center w-full bg-[#0D0D0D]/90 border border-gold-light/35 rounded-full p-2 hover:border-gold-light hover:bg-white/5 transition-all duration-300 group shadow-md hover:shadow-[0_0_20px_rgba(212,175,55,0.2)]">
-                    <div class="w-11 h-11 rounded-full bg-[#25D366] flex items-center justify-center text-white text-lg shrink-0 shadow group-hover:scale-105 transition-transform"><i class="fab fa-whatsapp"></i></div>
-                    <span class="flex-1 text-center pr-11 text-gray-200 group-hover:text-gold-light text-xs md:text-sm font-medium transition-colors">Contáctanos por WhatsApp</span>
+                <a href="https://wa.me/593989423504?text=¡Hola!%20👋%20Vengo%20de%20la%20tienda%20AURUM%20y%20deseo%20hacer%20una%20consulta." target="_blank" class="flex items-center w-full bg-[#0D0D0D]/95 border border-gold-light/40 rounded-full p-2.5 hover:border-gold-light hover:bg-white/10 transition-all duration-300 group shadow-lg hover:shadow-[0_0_25px_rgba(212,175,55,0.25)]">
+                    <div class="w-11 h-11 rounded-full bg-[#25D366] flex items-center justify-center text-white text-lg shrink-0 shadow group-hover:scale-110 transition-transform"><i class="fab fa-whatsapp"></i></div>
+                    <span class="flex-1 text-center pr-11 text-gray-200 group-hover:text-gold-light text-xs md:text-sm font-semibold transition-colors">Contáctanos por WhatsApp</span>
                 </a>
             </div>
         </div>
     </section>
 
-    <section id="combos-section" class="py-14 bg-gradient-to-b from-[#0A0A0A] to-[#101010] border-b border-gold/15">
+    <section id="combos-section" class="py-16 bg-gradient-to-b from-[#070707] to-[#0D0D0D] border-b border-gold/20">
         <div class="max-w-7xl mx-auto px-4 md:px-8">
-            <div class="text-center mb-10">
-                <span class="text-gold-light text-xs tracking-[0.3em] uppercase font-semibold">Ofertas Especiales</span>
-                <h3 class="text-2xl md:text-3xl font-serif text-white mt-1">🔥 COMBOS AURUM</h3>
-                <div class="w-12 h-0.5 bg-gold-light mx-auto mt-3"></div>
+            <div class="text-center mb-12">
+                <span class="text-gold-light text-xs tracking-[0.35em] uppercase font-bold">Ofertas Especiales</span>
+                <h3 class="text-2xl md:text-4xl font-serif text-white mt-2">🔥 COMBOS AURUM EXCLUSIVOS</h3>
+                <div class="w-16 h-0.5 gold-btn-gradient mx-auto mt-3 rounded-full"></div>
             </div>
             <div id="combosContainer" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
         </div>
     </section>
 
-    <main id="catalogo" class="max-w-7xl mx-auto px-4 md:px-8 py-16 w-full flex-grow">
-        <div class="text-center mb-10">
-            <span class="text-gold-light text-xs tracking-[0.3em] uppercase font-semibold">Nuestra Colección</span>
-            <h3 class="text-3xl md:text-4xl font-serif text-white mt-1">Catálogo de Productos</h3>
-            <div class="w-16 h-0.5 bg-gold-light mx-auto mt-3"></div>
+    <main id="catalogo" class="max-w-7xl mx-auto px-4 md:px-8 py-20 w-full flex-grow">
+        <div class="text-center mb-12">
+            <span class="text-gold-light text-xs tracking-[0.35em] uppercase font-bold">Nuestra Colección</span>
+            <h3 class="text-3xl md:text-5xl font-serif text-white mt-2">Catálogo de Productos</h3>
+            <div class="w-20 h-0.5 gold-btn-gradient mx-auto mt-3 rounded-full"></div>
         </div>
-        <div class="flex gap-2.5 overflow-x-auto hide-scroll items-center justify-start sm:justify-center pb-4 mb-10" id="categoryFilterContainer"></div>
-        <div id="productsGrid" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-7"></div>
+        <div class="flex gap-3 overflow-x-auto hide-scroll items-center justify-start sm:justify-center pb-4 mb-12" id="categoryFilterContainer"></div>
+        <div id="productsGrid" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-8"></div>
         
-        <div id="noResultsState" class="hidden text-center py-20 bg-ink-light/50 border border-white/5 rounded-2xl mt-6">
-            <i class="fas fa-search text-3xl text-gold-light/40 mb-3"></i>
-            <h4 class="text-lg font-serif text-white mb-1">No encontramos productos</h4>
-            <p class="text-xs text-gray-400 mb-5">Prueba con otro término de búsqueda o selecciona otra categoría.</p>
-            <button onclick="resetFilters()" class="text-xs uppercase tracking-widest font-bold text-gold-light border border-gold-light/40 px-5 py-2 rounded-full hover:bg-gold-light hover:text-black transition-colors">Ver todos los productos</button>
+        <div id="noResultsState" class="hidden text-center py-24 bg-ink-light/60 border border-white/10 rounded-3xl mt-6 shadow-2xl">
+            <i class="fas fa-search text-4xl text-gold-light/50 mb-3"></i>
+            <h4 class="text-xl font-serif text-white mb-2">No encontramos productos</h4>
+            <p class="text-xs text-gray-400 mb-6">Prueba con otro término de búsqueda o selecciona otra categoría.</p>
+            <button onclick="resetFilters()" class="text-xs uppercase tracking-widest font-bold text-black gold-btn-gradient px-7 py-3 rounded-full hover:scale-105 transition-transform shadow-lg">Ver todos los productos</button>
         </div>
     </main>
 
-    <footer class="bg-[#050505] border-t border-gold/20 pt-16 pb-10 text-white mt-auto">
-        <div class="max-w-7xl mx-auto px-4 md:px-8 grid grid-cols-1 md:grid-cols-3 gap-10 mb-12 text-center md:text-left">
+    <footer class="bg-[#030303] border-t border-gold/25 pt-20 pb-12 text-white mt-auto">
+        <div class="max-w-7xl mx-auto px-4 md:px-8 grid grid-cols-1 md:grid-cols-3 gap-12 mb-14 text-center md:text-left">
             <div>
-                <div class="flex items-center justify-center md:justify-start gap-3 mb-4">
-                    <div class="w-9 h-9 rounded-full border border-gold-light flex items-center justify-center text-gold-light font-cinzel text-lg">A</div>
+                <div class="flex items-center justify-center md:justify-start gap-3.5 mb-5">
+                    <div class="w-10 h-10 rounded-full border border-gold-light flex items-center justify-center text-gold-light font-cinzel text-lg shadow-[0_0_15px_rgba(212,175,55,0.3)]">A</div>
                     <span class="font-cinzel tracking-[0.25em] text-xl font-bold">AURUM</span>
                 </div>
                 <p class="text-xs text-gray-400 leading-relaxed max-w-sm mx-auto md:mx-0 font-light">Calidad que vale oro. Selección exclusiva de tecnología, cuidado personal y hogar con envíos garantizados y pago contra entrega en todo Ecuador.</p>
             </div>
             <div>
-                <h4 class="font-cinzel text-sm text-gold-light uppercase tracking-[0.2em] mb-4 font-bold">Atención y Confianza</h4>
-                <ul class="text-xs text-gray-400 space-y-3 font-light">
-                    <li><button onclick="openInfoModal('garantias')" class="hover:text-gold-light transition-colors flex items-center justify-center md:justify-start gap-2 mx-auto md:mx-0"><i class="fas fa-shield-alt text-gold"></i> Garantías y Devoluciones (10 Días)</button></li>
-                    <li><button onclick="openInfoModal('envios')" class="hover:text-gold-light transition-colors flex items-center justify-center md:justify-start gap-2 mx-auto md:mx-0"><i class="fas fa-truck text-gold"></i> Cobertura y Pago Contra Entrega</button></li>
-                    <li><button onclick="openInfoModal('faq')" class="hover:text-gold-light transition-colors flex items-center justify-center md:justify-start gap-2 mx-auto md:mx-0"><i class="fas fa-question-circle text-gold"></i> Preguntas Frecuentes</button></li>
+                <h4 class="font-cinzel text-sm text-gold-light uppercase tracking-[0.2em] mb-5 font-bold">Atención y Confianza</h4>
+                <ul class="text-xs text-gray-400 space-y-3.5 font-light">
+                    <li><button onclick="openInfoModal('garantias')" class="hover:text-gold-light transition-colors flex items-center justify-center md:justify-start gap-2.5 mx-auto md:mx-0"><i class="fas fa-shield-alt text-gold"></i> Garantías y Devoluciones (10 Días)</button></li>
+                    <li><button onclick="openInfoModal('envios')" class="hover:text-gold-light transition-colors flex items-center justify-center md:justify-start gap-2.5 mx-auto md:mx-0"><i class="fas fa-truck text-gold"></i> Cobertura y Pago Contra Entrega</button></li>
+                    <li><button onclick="openInfoModal('faq')" class="hover:text-gold-light transition-colors flex items-center justify-center md:justify-start gap-2.5 mx-auto md:mx-0"><i class="fas fa-question-circle text-gold"></i> Preguntas Frecuentes</button></li>
                 </ul>
             </div>
             <div>
-                <h4 class="font-cinzel text-sm text-gold-light uppercase tracking-[0.2em] mb-4 font-bold">Contacto Oficial</h4>
-                <a href="https://wa.me/593989423504" target="_blank" class="inline-flex items-center gap-3 bg-white/5 border border-white/10 px-4 py-3 rounded-xl hover:border-gold-light transition-colors w-full justify-center md:justify-start">
-                    <div class="w-9 h-9 rounded-full bg-[#25D366] flex items-center justify-center text-white text-lg"><i class="fab fa-whatsapp"></i></div>
+                <h4 class="font-cinzel text-sm text-gold-light uppercase tracking-[0.2em] mb-5 font-bold">Contacto Oficial</h4>
+                <a href="https://wa.me/593989423504" target="_blank" class="inline-flex items-center gap-3.5 bg-white/5 border border-white/15 px-5 py-3.5 rounded-2xl hover:border-gold-light transition-all duration-300 w-full justify-center md:justify-start shadow-md group">
+                    <div class="w-9 h-9 rounded-full bg-[#25D366] flex items-center justify-center text-white text-lg shadow group-hover:scale-110 transition-transform"><i class="fab fa-whatsapp"></i></div>
                     <div class="text-left">
-                        <span class="block text-[10px] text-gray-400 uppercase font-bold">Atención por WhatsApp</span>
+                        <span class="block text-[10px] text-gray-400 uppercase font-bold tracking-wider">Atención por WhatsApp</span>
                         <span class="text-xs font-semibold text-white">+593 98 942 3504</span>
                     </div>
                 </a>
             </div>
         </div>
-        <div class="max-w-7xl mx-auto px-4 md:px-8 border-t border-white/10 pt-6 flex flex-col md:flex-row justify-between items-center gap-3 text-xs text-gray-500 font-light">
+        <div class="max-w-7xl mx-auto px-4 md:px-8 border-t border-white/10 pt-8 flex flex-col md:flex-row justify-between items-center gap-4 text-xs text-gray-500 font-light">
             <p>&copy; <span id="yearCopyright"></span> AURUM Tienda Online. Todos los derechos reservados.</p>
-            <button onclick="openAdminModal()" class="text-gray-600 hover:text-gold-light transition-colors flex items-center gap-1.5 text-xs py-1 px-2.5 rounded hover:bg-white/5" title="Panel de Gestión"><i class="fas fa-lock text-[11px]"></i> Acceso Admin</button>
+            <button onclick="openAdminModal()" class="text-gray-400 hover:text-gold-light transition-colors flex items-center gap-2 text-xs py-1.5 px-3.5 rounded-lg border border-white/10 hover:border-gold-light/40 bg-white/5" title="Panel de Gestión"><i class="fas fa-lock text-[11px] text-gold-light"></i> Acceso Admin</button>
         </div>
     </footer>
 
-    <a href="https://wa.me/593989423504?text=¡Hola!%20👋%20Deseo%20hacer%20un%20pedido%20en%20AURUM." target="_blank" class="fixed bottom-6 right-6 z-30 bg-[#25D366] text-white w-14 h-14 rounded-full flex items-center justify-center text-3xl shadow-xl hover:scale-110 transition-transform shadow-green-950/60"><i class="fab fa-whatsapp"></i></a>
+    <a href="https://wa.me/593989423504?text=¡Hola!%20👋%20Deseo%20hacer%20un%20pedido%20en%20AURUM." target="_blank" class="fixed bottom-6 right-6 z-30 bg-[#25D366] text-white w-14 h-14 rounded-full flex items-center justify-center text-3xl shadow-2xl hover:scale-110 transition-transform shadow-green-950/80 border border-white/20"><i class="fab fa-whatsapp"></i></a>
 
     <div id="toastContainer"></div>
 
-    <!-- Modales (Productos, Carrito, Info, Admin) -->
+    <!-- Modales -->
     <div id="productDetailModal" class="fixed inset-0 bg-black/90 backdrop-blur-md z-[70] hidden items-end md:items-center justify-center p-0 md:p-4 modal-backdrop">
-        <div id="productDetailContent" class="bg-[#121212] border border-gold/30 w-full md:w-[850px] max-h-[92vh] md:max-h-[88vh] rounded-t-3xl md:rounded-2xl flex flex-col md:flex-row overflow-hidden relative shadow-2xl modal-content-panel">
-            <button onclick="closeProductDetailModal()" class="absolute top-4 right-4 z-20 w-9 h-9 bg-black/60 backdrop-blur-sm text-gray-300 hover:text-white rounded-full flex items-center justify-center border border-white/20 transition-colors"><i class="fas fa-times text-sm"></i></button>
-            <div class="w-full md:w-1/2 h-56 md:h-auto shrink-0 bg-[#0A0A0A] relative flex items-center justify-center overflow-hidden">
+        <div id="productDetailContent" class="bg-[#141414] border border-gold/40 w-full md:w-[850px] max-h-[92vh] md:max-h-[88vh] rounded-t-3xl md:rounded-3xl flex flex-col md:flex-row overflow-hidden relative shadow-2xl modal-content-panel">
+            <button onclick="closeProductDetailModal()" class="absolute top-4 right-4 z-20 w-10 h-10 bg-black/70 backdrop-blur-md text-gray-300 hover:text-white rounded-full flex items-center justify-center border border-white/20 transition-colors"><i class="fas fa-times text-sm"></i></button>
+            <div class="w-full md:w-1/2 h-60 md:h-auto shrink-0 bg-[#0A0A0A] relative flex items-center justify-center overflow-hidden">
                 <img id="modalProductImg" src="" alt="Producto" class="w-full h-full object-cover">
-                <div class="absolute inset-0 bg-gradient-to-t from-[#121212] via-transparent to-transparent md:hidden"></div>
-                <span id="modalProductCatBadge" class="absolute top-4 left-4 bg-black/80 backdrop-blur border border-gold-light/40 text-gold-light text-[9px] font-bold uppercase tracking-widest px-2.5 py-1 rounded-full"></span>
+                <div class="absolute inset-0 bg-gradient-to-t from-[#141414] via-transparent to-transparent md:hidden"></div>
+                <span id="modalProductCatBadge" class="absolute top-4 left-4 bg-black/85 backdrop-blur-md border border-gold-light/40 text-gold-light text-[9px] font-bold uppercase tracking-widest px-3 py-1 rounded-full shadow-lg"></span>
             </div>
-            <div class="w-full md:w-1/2 flex flex-col h-[60vh] md:h-auto bg-[#121212] overflow-hidden">
-                <div class="p-5 md:p-7 overflow-y-auto hide-scroll flex-1 space-y-4">
-                    <div><h3 id="modalProductTitle" class="font-serif text-xl md:text-2xl text-white font-bold leading-snug"></h3><p id="modalProductPrice" class="text-2xl font-serif text-gold-light font-bold mt-1.5"></p></div>
+            <div class="w-full md:w-1/2 flex flex-col h-[60vh] md:h-auto bg-[#141414] overflow-hidden">
+                <div class="p-6 md:p-8 overflow-y-auto hide-scroll flex-1 space-y-4">
+                    <div><h3 id="modalProductTitle" class="font-serif text-xl md:text-2xl text-white font-bold leading-snug"></h3><p id="modalProductPrice" class="text-2xl font-serif text-gold-light font-bold mt-2"></p></div>
                     <div class="h-px bg-white/10"></div>
                     <div><h4 class="text-[10px] uppercase tracking-[0.2em] font-bold text-gray-400 mb-1.5">Descripción</h4><p id="modalProductDesc" class="text-xs text-gray-300 leading-relaxed font-light"></p></div>
                     <div><h4 class="text-[10px] uppercase tracking-[0.2em] font-bold text-gold-light mb-1.5">Características Principales</h4><p id="modalProductFeatures" class="text-xs text-gray-300 leading-relaxed whitespace-pre-line font-light"></p></div>
                     <div><h4 class="text-[10px] uppercase tracking-[0.2em] font-bold text-gold-champagne mb-1.5">Beneficios</h4><p id="modalProductBenefits" class="text-xs text-gray-300 leading-relaxed whitespace-pre-line font-light"></p></div>
                 </div>
-                <div class="p-4 md:p-5 bg-[#0A0A0A] border-t border-white/10 shrink-0 space-y-3">
+                <div class="p-5 md:p-6 bg-[#0A0A0A] border-t border-white/10 shrink-0 space-y-3.5">
                     <div class="flex items-center justify-between">
                         <span class="text-xs text-gray-400 font-medium">Cantidad:</span>
-                        <div class="flex items-center bg-black border border-white/20 rounded-lg">
-                            <button onclick="adjustModalQty(-1)" class="w-8 h-8 text-gray-300 hover:text-white flex items-center justify-center"><i class="fas fa-minus text-[10px]"></i></button>
-                            <span id="modalProductQty" class="w-7 text-center text-xs font-bold text-white">1</span>
-                            <button onclick="adjustModalQty(1)" class="w-8 h-8 text-gray-300 hover:text-white flex items-center justify-center"><i class="fas fa-plus text-[10px]"></i></button>
+                        <div class="flex items-center bg-black border border-white/20 rounded-xl overflow-hidden shadow-inner">
+                            <button onclick="adjustModalQty(-1)" class="w-9 h-9 text-gray-300 hover:text-white flex items-center justify-center transition-colors"><i class="fas fa-minus text-[10px]"></i></button>
+                            <span id="modalProductQty" class="w-8 text-center text-xs font-bold text-white">1</span>
+                            <button onclick="adjustModalQty(1)" class="w-9 h-9 text-gray-300 hover:text-white flex items-center justify-center transition-colors"><i class="fas fa-plus text-[10px]"></i></button>
                         </div>
                     </div>
-                    <div class="flex gap-2.5">
-                        <button onclick="addModalProductToCart()" class="flex-1 bg-white hover:bg-gray-200 text-black font-bold py-3 rounded-xl text-xs uppercase tracking-wider transition-colors flex items-center justify-center gap-2"><i class="fas fa-cart-plus"></i> Al Carrito</button>
-                        <button onclick="buyModalProductDirectWA()" class="flex-1 bg-[#25D366] hover:bg-green-600 text-white font-bold py-3 rounded-xl text-xs uppercase tracking-wider transition-colors flex items-center justify-center gap-2"><i class="fab fa-whatsapp"></i> Pedir por WhatsApp</button>
+                    <div class="flex gap-3">
+                        <button onclick="addModalProductToCart()" class="flex-1 bg-white hover:bg-gray-200 text-black font-bold py-3.5 rounded-xl text-xs uppercase tracking-wider transition-all flex items-center justify-center gap-2 shadow-md"><i class="fas fa-cart-plus"></i> Al Carrito</button>
+                        <button onclick="buyModalProductDirectWA()" class="flex-1 bg-[#25D366] hover:bg-green-600 text-white font-bold py-3.5 rounded-xl text-xs uppercase tracking-wider transition-all flex items-center justify-center gap-2 shadow-md"><i class="fab fa-whatsapp"></i> Pedir por WhatsApp</button>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 
-    <div id="cartDrawerBackdrop" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-[80] hidden modal-backdrop" onclick="if(event.target===this) closeCartDrawer()">
-        <div id="cartDrawerPanel" class="absolute top-0 right-0 w-full sm:w-[420px] h-full bg-[#111111] border-l border-gold/30 flex flex-col shadow-2xl transition-transform duration-300 translate-x-full">
-            <div class="p-5 border-b border-white/10 flex justify-between items-center bg-black">
-                <div class="flex items-center gap-2.5"><i class="fas fa-shopping-bag text-gold-light text-lg"></i><h3 class="font-serif text-lg text-white font-bold">Carrito de Compras</h3></div>
+    <div id="cartDrawerBackdrop" class="fixed inset-0 bg-black/85 backdrop-blur-sm z-[80] hidden modal-backdrop" onclick="if(event.target===this) closeCartDrawer()">
+        <div id="cartDrawerPanel" class="absolute top-0 right-0 w-full sm:w-[440px] h-full bg-[#121212] border-l border-gold/40 flex flex-col shadow-2xl transition-transform duration-300 translate-x-full">
+            <div class="p-6 border-b border-white/10 flex justify-between items-center bg-black">
+                <div class="flex items-center gap-3"><i class="fas fa-shopping-bag text-gold-light text-lg"></i><h3 class="font-serif text-lg text-white font-bold">Carrito de Compras</h3></div>
                 <button onclick="closeCartDrawer()" class="text-gray-400 hover:text-white text-lg"><i class="fas fa-times"></i></button>
             </div>
-            <div id="cartItemsList" class="flex-1 overflow-y-auto p-4 space-y-3.5"></div>
-            <div class="p-5 bg-black border-t border-white/10 space-y-4">
-                <div class="flex justify-between items-center text-sm"><span class="text-gray-400 font-light">Total de la orden:</span><span id="cartDrawerTotal" class="text-xl font-serif text-gold-light font-bold">$0.00</span></div>
-                <button onclick="checkoutViaWhatsApp()" id="btnCheckoutWhatsApp" class="w-full bg-[#25D366] hover:bg-green-600 text-white font-bold py-3.5 rounded-xl uppercase tracking-wider text-xs flex items-center justify-center gap-2 transition-all shadow-lg"><i class="fab fa-whatsapp text-lg"></i> Finalizar Pedido por WhatsApp</button>
+            <div id="cartItemsList" class="flex-1 overflow-y-auto p-5 space-y-4"></div>
+            <div class="p-6 bg-black border-t border-white/10 space-y-4">
+                <div class="flex justify-between items-center text-sm"><span class="text-gray-400 font-light">Total de la orden:</span><span id="cartDrawerTotal" class="text-2xl font-serif text-gold-light font-bold">$0.00</span></div>
+                <button onclick="checkoutViaWhatsApp()" id="btnCheckoutWhatsApp" class="w-full bg-[#25D366] hover:bg-green-600 text-white font-bold py-4 rounded-xl uppercase tracking-wider text-xs flex items-center justify-center gap-2.5 transition-all shadow-xl"><i class="fab fa-whatsapp text-lg"></i> Finalizar Pedido por WhatsApp</button>
             </div>
         </div>
     </div>
 
     <div id="infoModal" class="fixed inset-0 bg-black/85 backdrop-blur-sm z-[90] hidden items-center justify-center p-4 modal-backdrop" onclick="if(event.target===this) closeInfoModal()">
-        <div class="bg-[#141414] border border-gold/40 w-full max-w-md rounded-2xl p-6 text-center shadow-2xl relative">
+        <div class="bg-[#141414] border border-gold/40 w-full max-w-md rounded-3xl p-7 text-center shadow-2xl relative">
             <button onclick="closeInfoModal()" class="absolute top-4 right-4 text-gray-400 hover:text-white"><i class="fas fa-times"></i></button>
-            <div class="w-14 h-14 rounded-full border border-gold-light/40 flex items-center justify-center text-gold-light text-2xl mx-auto mb-4 bg-gold-dark/10"><i id="infoModalIcon" class="fas fa-shield-alt"></i></div>
+            <div class="w-14 h-14 rounded-full border border-gold-light/40 flex items-center justify-center text-gold-light text-2xl mx-auto mb-4 bg-gold-dark/10 shadow-inner"><i id="infoModalIcon" class="fas fa-shield-alt"></i></div>
             <h4 id="infoModalTitle" class="font-serif text-xl text-white font-bold mb-2"></h4>
-            <div id="infoModalBody" class="text-xs text-gray-300 leading-relaxed space-y-2 text-left font-light bg-black/40 p-4 rounded-xl border border-white/5 mb-6"></div>
-            <button onclick="closeInfoModal()" class="w-full bg-gold-light text-black font-bold py-2.5 rounded-xl text-xs uppercase tracking-wider hover:bg-white transition-colors">Entendido</button>
+            <div id="infoModalBody" class="text-xs text-gray-300 leading-relaxed space-y-2.5 text-left font-light bg-black/50 p-4.5 rounded-2xl border border-white/10 mb-6 shadow-inner"></div>
+            <button onclick="closeInfoModal()" class="w-full gold-btn-gradient text-black font-bold py-3 rounded-xl text-xs uppercase tracking-wider hover:opacity-90 transition-opacity shadow-lg">Entendido</button>
         </div>
     </div>
 
     <div id="adminLoginModal" class="fixed inset-0 bg-black/90 backdrop-blur-md z-[100] hidden items-center justify-center p-4 modal-backdrop" onclick="if(event.target===this) closeAdminModal()">
-        <div class="bg-[#141414] border border-gold/40 w-full max-w-sm rounded-2xl p-7 text-center shadow-2xl relative">
+        <div class="bg-[#141414] border border-gold/40 w-full max-w-sm rounded-3xl p-8 text-center shadow-2xl relative">
             <button onclick="closeAdminModal()" class="absolute top-4 right-4 text-gray-400 hover:text-white"><i class="fas fa-times"></i></button>
-            <div class="w-14 h-14 rounded-full border border-gold-light flex items-center justify-center text-gold-light text-2xl mx-auto mb-4"><i class="fas fa-user-shield"></i></div>
+            <div class="w-14 h-14 rounded-full border border-gold-light flex items-center justify-center text-gold-light text-2xl mx-auto mb-4 shadow-[0_0_15px_rgba(212,175,55,0.2)]"><i class="fas fa-user-shield"></i></div>
             <h4 class="font-serif text-xl text-white font-bold mb-1">Administración AURUM</h4>
-            <p class="text-xs text-gray-400 mb-5 font-light">Ingresa tu clave de acceso autorizada.</p>
-            <input type="password" id="adminPinInput" maxlength="4" placeholder="••••" class="w-full bg-black border-2 border-gray-700 text-center text-3xl font-bold tracking-[0.5em] text-gold-light py-3 rounded-xl focus:border-gold-light outline-none mb-3">
-            <p id="adminPinError" class="text-red-400 text-xs mb-4 hidden">PIN incorrecto.</p>
-            <button onclick="submitAdminPin()" class="w-full bg-gold-light hover:bg-white text-black font-bold py-3 rounded-xl text-xs uppercase tracking-widest transition-colors">Ingresar al Gestor</button>
+            <p class="text-xs text-gray-400 mb-6 font-light">Ingresa tu clave de acceso autorizada.</p>
+            <input type="password" id="adminPinInput" maxlength="4" placeholder="••••" class="w-full bg-black border-2 border-gray-700 text-center text-3xl font-bold tracking-[0.5em] text-gold-light py-3.5 rounded-2xl focus:border-gold-light outline-none mb-3 shadow-inner">
+            <p id="adminPinError" class="text-red-400 text-xs mb-4 hidden font-medium">PIN incorrecto.</p>
+            <button onclick="submitAdminPin()" class="w-full gold-btn-gradient text-black font-bold py-3.5 rounded-xl text-xs uppercase tracking-widest transition-transform hover:scale-105 shadow-lg">Ingresar al Gestor</button>
         </div>
     </div>
 
     <div id="adminDashboardModal" class="fixed inset-0 bg-[#090909] z-[110] hidden flex-col overflow-hidden">
-        <div class="p-4 md:p-6 bg-[#111111] border-b border-gold/25 flex justify-between items-center shrink-0">
-            <div class="flex items-center gap-3">
-                <div class="w-9 h-9 rounded bg-gold-light text-black flex items-center justify-center font-bold"><i class="fas fa-cog"></i></div>
-                <div><h3 class="font-serif text-lg text-white font-bold leading-tight">Gestor de Tienda</h3><p class="text-[10px] text-gold-light uppercase tracking-widest">Catálogo y Precios</p></div>
+        <div class="p-5 md:p-6 bg-[#111111] border-b border-gold/30 flex justify-between items-center shrink-0 shadow-md">
+            <div class="flex items-center gap-3.5">
+                <div class="w-10 h-10 rounded-xl gold-btn-gradient text-black flex items-center justify-center font-bold shadow-md"><i class="fas fa-cog text-sm"></i></div>
+                <div><h3 class="font-serif text-lg text-white font-bold leading-tight">Gestor de Tienda</h3><p class="text-[10px] text-gold-light uppercase tracking-widest font-semibold">Catálogo y Precios en Vivo</p></div>
             </div>
             <div class="flex items-center gap-3">
-                <button onclick="openProductEditForm('new')" class="bg-white hover:bg-gold-light text-black font-bold px-4 py-2 rounded-lg text-xs uppercase tracking-wider transition-colors"><i class="fas fa-plus mr-1"></i> Crear Producto</button>
+                <button onclick="openProductEditForm('new')" class="gold-btn-gradient text-black font-bold px-4.5 py-2.5 rounded-xl text-xs uppercase tracking-wider transition-transform hover:scale-105 shadow-md"><i class="fas fa-plus mr-1.5"></i> Crear Producto</button>
                 <button onclick="closeAdminDashboard()" class="text-gray-400 hover:text-white text-2xl ml-2"><i class="fas fa-times"></i></button>
             </div>
         </div>
@@ -302,48 +312,48 @@
     </div>
 
     <div id="adminEditModal" class="fixed inset-0 bg-black/90 backdrop-blur-md z-[120] hidden items-center justify-center p-4 overflow-y-auto">
-        <div class="bg-[#141414] border border-gold/30 w-full max-w-2xl rounded-2xl overflow-hidden shadow-2xl relative my-8">
-            <div class="p-4 bg-black border-b border-white/10 flex justify-between items-center">
+        <div class="bg-[#141414] border border-gold/40 w-full max-w-2xl rounded-3xl overflow-hidden shadow-2xl relative my-8">
+            <div class="p-5 bg-black border-b border-white/10 flex justify-between items-center">
                 <h4 id="editFormHeaderTitle" class="font-serif text-lg text-white font-bold">Editar Producto</h4>
                 <button onclick="closeProductEditForm()" class="text-gray-400 hover:text-white"><i class="fas fa-times"></i></button>
             </div>
-            <div class="p-5 md:p-7 space-y-4 max-h-[75vh] overflow-y-auto hide-scroll">
+            <div class="p-6 md:p-8 space-y-4 max-h-[75vh] overflow-y-auto hide-scroll">
                 <input type="hidden" id="editFormId">
-                <div class="flex flex-col sm:flex-row gap-5 items-start">
-                    <div class="w-full sm:w-36 shrink-0">
-                        <label class="block text-[10px] font-bold text-gold-light uppercase mb-1">Imagen</label>
-                        <div class="w-full aspect-square rounded-xl bg-black border border-white/20 overflow-hidden relative group cursor-pointer" onclick="document.getElementById('editFormImgFile').click()">
+                <div class="flex flex-col sm:flex-row gap-6 items-start">
+                    <div class="w-full sm:w-40 shrink-0">
+                        <label class="block text-[10px] font-bold text-gold-light uppercase mb-1.5">Imagen del Producto</label>
+                        <div class="w-full aspect-square rounded-2xl bg-black border border-white/20 overflow-hidden relative group cursor-pointer shadow-inner" onclick="document.getElementById('editFormImgFile').click()">
                             <img id="editFormImgPreview" src="" class="w-full h-full object-cover">
-                            <div class="absolute inset-0 bg-black/60 flex flex-col items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
-                                <i class="fas fa-camera text-white text-xl mb-1"></i><span class="text-[9px] text-white uppercase font-bold">Cambiar</span>
+                            <div class="absolute inset-0 bg-black/70 flex flex-col items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                                <i class="fas fa-camera text-gold-light text-2xl mb-1.5"></i><span class="text-[10px] text-white uppercase font-bold tracking-wider">Cambiar</span>
                             </div>
                         </div>
                         <input type="file" id="editFormImgFile" accept="image/*" class="hidden" onchange="handleAdminImgUpload(event)">
-                        <p id="editImgUploadStatus" class="text-[9px] text-gray-500 text-center mt-1"></p>
+                        <p id="editImgUploadStatus" class="text-[10px] text-gray-400 text-center mt-2 font-medium"></p>
                     </div>
-                    <div class="flex-1 w-full space-y-3">
-                        <div><label class="block text-[10px] font-bold text-gray-400 uppercase mb-1">Nombre del Producto</label><input type="text" id="editFormName" class="w-full bg-black border border-white/15 rounded-lg p-2.5 text-xs text-white focus:border-gold-light outline-none"></div>
-                        <div class="grid grid-cols-2 gap-3">
-                            <div><label class="block text-[10px] font-bold text-gray-400 uppercase mb-1">Precio ($ USD)</label><input type="number" step="0.01" id="editFormPrice" class="w-full bg-black border border-white/15 rounded-lg p-2.5 text-xs text-white focus:border-gold-light outline-none"></div>
+                    <div class="flex-1 w-full space-y-3.5">
+                        <div><label class="block text-[10px] font-bold text-gray-400 uppercase mb-1">Nombre del Producto</label><input type="text" id="editFormName" class="w-full bg-black border border-white/15 rounded-xl p-3 text-xs text-white focus:border-gold-light outline-none shadow-inner"></div>
+                        <div class="grid grid-cols-2 gap-3.5">
+                            <div><label class="block text-[10px] font-bold text-gray-400 uppercase mb-1">Precio ($ USD)</label><input type="number" step="0.01" id="editFormPrice" class="w-full bg-black border border-white/15 rounded-xl p-3 text-xs text-white focus:border-gold-light outline-none shadow-inner"></div>
                             <div>
                                 <label class="block text-[10px] font-bold text-gray-400 uppercase mb-1">Categoría</label>
-                                <select id="editFormCategory" class="w-full bg-black border border-white/15 rounded-lg p-2.5 text-xs text-white focus:border-gold-light outline-none">
+                                <select id="editFormCategory" class="w-full bg-black border border-white/15 rounded-xl p-3 text-xs text-white focus:border-gold-light outline-none shadow-inner">
                                     <option value="Tecnología">Tecnología</option><option value="Hogar">Hogar</option><option value="Cuidado Personal">Cuidado Personal</option><option value="Accesorios">Accesorios</option><option value="Combos">Combos</option>
                                 </select>
                             </div>
                         </div>
-                        <div class="pt-1"><label class="flex items-center gap-2 cursor-pointer"><input type="checkbox" id="editFormIsCombo" class="w-4 h-4 rounded text-gold-light focus:ring-0"><span class="text-xs text-gold-light font-semibold">Marcar como Combo / Oferta Especial</span></label></div>
+                        <div class="pt-2"><label class="flex items-center gap-2.5 cursor-pointer bg-white/5 p-3 rounded-xl border border-white/10 hover:border-gold-light/40 transition-colors"><input type="checkbox" id="editFormIsCombo" class="w-4 h-4 rounded text-gold-light focus:ring-0"><span class="text-xs text-gold-light font-bold">Marcar como Combo / Oferta Especial</span></label></div>
                     </div>
                 </div>
-                <div><label class="block text-[10px] font-bold text-gray-400 uppercase mb-1">Descripción</label><textarea id="editFormDesc" rows="2" class="w-full bg-black border border-white/15 rounded-lg p-2.5 text-xs text-white focus:border-gold-light outline-none resize-none"></textarea></div>
-                <div><label class="block text-[10px] font-bold text-gray-400 uppercase mb-1">Características Principales</label><textarea id="editFormFeatures" rows="3" class="w-full bg-black border border-white/15 rounded-lg p-2.5 text-xs text-white focus:border-gold-light outline-none resize-none" placeholder="- Punto 1&#10;- Punto 2"></textarea></div>
-                <div><label class="block text-[10px] font-bold text-gray-400 uppercase mb-1">Beneficios</label><textarea id="editFormBenefits" rows="2" class="w-full bg-black border border-white/15 rounded-lg p-2.5 text-xs text-white focus:border-gold-light outline-none resize-none" placeholder="- Beneficio 1&#10;- Beneficio 2"></textarea></div>
+                <div><label class="block text-[10px] font-bold text-gray-400 uppercase mb-1">Descripción</label><textarea id="editFormDesc" rows="2" class="w-full bg-black border border-white/15 rounded-xl p-3 text-xs text-white focus:border-gold-light outline-none resize-none shadow-inner"></textarea></div>
+                <div><label class="block text-[10px] font-bold text-gray-400 uppercase mb-1">Características Principales</label><textarea id="editFormFeatures" rows="3" class="w-full bg-black border border-white/15 rounded-xl p-3 text-xs text-white focus:border-gold-light outline-none resize-none shadow-inner" placeholder="- Punto 1&#10;- Punto 2"></textarea></div>
+                <div><label class="block text-[10px] font-bold text-gray-400 uppercase mb-1">Beneficios</label><textarea id="editFormBenefits" rows="2" class="w-full bg-black border border-white/15 rounded-xl p-3 text-xs text-white focus:border-gold-light outline-none resize-none shadow-inner" placeholder="- Beneficio 1&#10;- Beneficio 2"></textarea></div>
             </div>
-            <div class="p-4 bg-black border-t border-white/10 flex justify-between items-center">
-                <button onclick="deleteProductFromAdmin()" id="btnAdminDeleteProd" class="text-red-400 hover:text-red-300 text-xs font-bold uppercase tracking-wider hidden"><i class="fas fa-trash-alt mr-1"></i> Eliminar</button>
-                <div class="flex gap-2.5 ml-auto">
-                    <button onclick="closeProductEditForm()" class="px-4 py-2 border border-white/20 text-gray-300 hover:text-white rounded-lg text-xs font-bold uppercase tracking-wider">Cancelar</button>
-                    <button onclick="saveAdminProduct()" class="px-5 py-2 bg-gold-light hover:bg-white text-black rounded-lg text-xs font-bold uppercase tracking-wider">Guardar Cambios</button>
+            <div class="p-5 bg-black border-t border-white/10 flex justify-between items-center">
+                <button onclick="deleteProductFromAdmin()" id="btnAdminDeleteProd" class="text-red-400 hover:text-red-300 text-xs font-bold uppercase tracking-wider hidden flex items-center gap-1.5"><i class="fas fa-trash-alt"></i> Eliminar</button>
+                <div class="flex gap-3 ml-auto">
+                    <button onclick="closeProductEditForm()" class="px-5 py-2.5 border border-white/20 text-gray-300 hover:text-white rounded-xl text-xs font-bold uppercase tracking-wider transition-colors">Cancelar</button>
+                    <button onclick="saveAdminProduct()" class="px-6 py-2.5 gold-btn-gradient text-black rounded-xl text-xs font-bold uppercase tracking-wider transition-transform hover:scale-105 shadow-lg">Guardar en la Nube</button>
                 </div>
             </div>
         </div>
@@ -355,7 +365,6 @@
         import { getAuth, signInAnonymously } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
         import { getFirestore, collection, doc, setDoc, deleteDoc, getDocs, onSnapshot } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
-        // CONFIGURACIÓN DE FIREBASE
         const firebaseConfig = {
             apiKey: "AIzaSyCEtkEXkD-ekQiz3gyS6MCdwFHu5KV5ao8",
             authDomain: "aurum-tienda.firebaseapp.com",
@@ -371,36 +380,31 @@
         const productsPath = `artifacts/${appId}/public/data/catalog_products`;
 
         async function initFB() {
-            if (!firebaseConfig.apiKey) {
-                console.log("Modo estático activo. Aún no se han configurado las claves de Firebase.");
-                return; 
-            }
+            if (!firebaseConfig.apiKey) return;
+            try {
+                app = initializeApp(firebaseConfig);
+                auth = getAuth(app);
+                db = getFirestore(app);
+                await signInAnonymously(auth);
+                if (!auth.currentUser) return;
 
-            app = initializeApp(firebaseConfig);
-            auth = getAuth(app);
-            db = getFirestore(app);
-
-            await signInAnonymously(auth);
-            if (!auth.currentUser) return;
-
-            // 1. Siembra inicial FORZADA si la nube está vacía
-            const snap = await getDocs(collection(db, productsPath));
-            if (snap.empty && window.initialProducts) {
-                console.log("Subiendo catálogo a la nube...");
-                for (let p of window.initialProducts) {
-                    await setDoc(doc(db, productsPath, `prod_${p.id}`), p);
+                const snap = await getDocs(collection(db, productsPath));
+                if (snap.empty && window.initialProducts) {
+                    for (let p of window.initialProducts) {
+                        await setDoc(doc(db, productsPath, `prod_${p.id}`), p);
+                    }
                 }
-                triggerToast('Catálogo subido a la nube');
-            }
 
-            // 2. Escuchar cambios en la nube (Y SOBREESCRIBIR LOS LOCALES)
-            onSnapshot(collection(db, productsPath), (snapshot) => {
-                if(!snapshot.empty){
-                    const prods = snapshot.docs.map(d => d.data());
-                    prods.sort((a,b) => a.id - b.id);
-                    if (window.fbUpdateProducts) window.fbUpdateProducts(prods);
-                }
-            });
+                onSnapshot(collection(db, productsPath), (snapshot) => {
+                    if (!snapshot.empty) {
+                        const prods = snapshot.docs.map(d => d.data());
+                        prods.sort((a, b) => a.id - b.id);
+                        if (window.fbUpdateProducts) window.fbUpdateProducts(prods);
+                    }
+                });
+            } catch (err) {
+                console.error("Error conectando a Firebase:", err);
+            }
         }
 
         window.requestProductSave = async (product) => {
@@ -426,7 +430,6 @@
         let searchQuery = '';
         let temporaryEditImg = '';
 
-        // TUS 30 PRODUCTOS DE AURUM EXACTOS
         const initialProducts = [
             { id: 1, name: 'Foco Bombilla Solar 100W (FA-8015)', price: 12.00, category: 'Hogar', desc: 'Iluminación solar ecológica de alto poder para patios y exteriores.', features: '- Potencia: 100W reales\n- Panel solar monocristalino integrado\n- Resistencia IP65', benefits: '- Cero consumo en tu factura de luz.', img: '', isCombo: false },
             { id: 2, name: 'Foco Bombilla Solar 80W (FA-8025)', price: 10.00, category: 'Hogar', desc: 'Luz solar eficiente y compacta para iluminación de áreas comunes.', features: '- Potencia: 80W\n- Recarga automática', benefits: '- Ahorro garantizado de energía.', img: '', isCombo: false },
@@ -480,14 +483,14 @@
 
         function triggerToast(text) {
             const container = document.getElementById('toastContainer');
-            const toast = document.createElement('div'); toast.className = 'toast-msg flex items-center gap-2';
-            toast.innerHTML = `<i class="fas fa-check-circle text-gold-light"></i> <span>${text}</span>`;
+            const toast = document.createElement('div'); toast.className = 'toast-msg flex items-center gap-3';
+            toast.innerHTML = `<i class="fas fa-check-circle text-gold-light text-base"></i> <span>${text}</span>`;
             container.appendChild(toast);
-            setTimeout(() => { toast.style.opacity = '0'; toast.style.transition = 'opacity 0.3s'; setTimeout(() => toast.remove(), 300); }, 2500);
+            setTimeout(() => { toast.style.opacity = '0'; toast.style.transition = 'opacity 0.4s'; setTimeout(() => toast.remove(), 400); }, 3000);
         }
 
         function renderCategoryFilters() {
-            document.getElementById('categoryFilterContainer').innerHTML = CATEGORIES.map(cat => `<button onclick="setCategoryFilter('${cat}')" class="px-4 py-2 rounded-full text-xs font-semibold uppercase tracking-wider whitespace-nowrap transition-all duration-300 border ${activeCategory === cat ? 'bg-gradient-to-r from-gold-dark to-gold text-black border-transparent font-bold shadow-[0_0_15px_rgba(212,175,55,0.35)]' : 'bg-transparent text-gray-400 border-white/10 hover:border-gold/40 hover:text-gold-light'}">${cat}</button>`).join('');
+            document.getElementById('categoryFilterContainer').innerHTML = CATEGORIES.map(cat => `<button onclick="setCategoryFilter('${cat}')" class="px-5 py-2.5 rounded-full text-xs font-semibold uppercase tracking-wider whitespace-nowrap transition-all duration-300 border ${activeCategory === cat ? 'gold-btn-gradient text-black border-transparent font-bold shadow-[0_0_20px_rgba(212,175,55,0.4)]' : 'bg-transparent text-gray-400 border-white/15 hover:border-gold/50 hover:text-gold-light'}">${cat}</button>`).join('');
         }
 
         function setCategoryFilter(cat) { activeCategory = cat; renderCategoryFilters(); renderProductsGrid(); if (cat === 'Combos') document.getElementById('combos-section').scrollIntoView({ behavior: 'smooth' }); }
@@ -505,7 +508,7 @@
                 if (window.requestProductSave) { window.requestProductSave(p1); window.requestProductSave(p2); }
                 renderCombosSection(); return;
             }
-            container.innerHTML = comboProducts.map(combo => `<div class="bg-gradient-to-b from-[#161616] to-[#0E0E0E] rounded-2xl p-5 border border-gold/30 hover:border-gold transition-all duration-300 group flex flex-col justify-between shadow-lg hover:shadow-[0_0_25px_rgba(212,175,55,0.18)]"><div class="flex gap-4 items-start mb-4"><div class="w-24 h-24 rounded-xl bg-black overflow-hidden shrink-0 border border-white/10 relative"><img src="${combo.img || getPlaceholderImage(combo.name)}" class="w-full h-full object-cover group-hover:scale-105"><span class="absolute top-1 left-1 bg-gradient-to-r from-red-600 to-amber-600 text-white text-[8px] font-bold px-1.5 py-0.5 rounded uppercase">PROMO</span></div><div class="flex-1"><span class="text-gold-light text-[9px] uppercase tracking-widest font-bold">COMBO ESPECIAL</span><h4 class="font-serif text-white text-sm font-bold">${combo.name}</h4><p class="text-[11px] text-gray-400 line-clamp-2 mt-1">${combo.desc}</p></div></div><div class="flex items-center justify-between pt-3 border-t border-white/10"><span class="text-xl font-serif text-gold-light font-bold">$${combo.price.toFixed(2)}</span><div class="flex gap-2"><button onclick="openProductDetailModal(${combo.id})" class="px-3 py-1.5 bg-white/10 hover:bg-white text-white hover:text-black rounded-lg text-xs font-bold transition-colors">Ver</button><button onclick="addProductToCart(${combo.id}, 1)" class="px-3.5 py-1.5 bg-gold-light hover:bg-white text-black font-bold rounded-lg text-xs transition-colors flex items-center gap-1.5"><i class="fas fa-cart-plus"></i> Agregar</button></div></div></div>`).join('');
+            container.innerHTML = comboProducts.map(combo => `<div class="bg-gradient-to-b from-[#181818] to-[#0D0D0D] rounded-3xl p-6 border border-gold/30 hover:border-gold transition-all duration-400 group flex flex-col justify-between shadow-xl hover:shadow-[0_0_30px_rgba(212,175,55,0.25)]"><div class="flex gap-4 items-start mb-4"><div class="w-24 h-24 rounded-2xl bg-black overflow-hidden shrink-0 border border-white/10 relative shadow-inner"><img src="${combo.img || getPlaceholderImage(combo.name)}" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"><span class="absolute top-1 left-1 gold-btn-gradient text-black text-[8px] font-black px-2 py-0.5 rounded-md uppercase shadow">PROMO</span></div><div class="flex-1"><span class="text-gold-light text-[9px] uppercase tracking-widest font-bold">COMBO ESPECIAL</span><h4 class="font-serif text-white text-sm font-bold mt-0.5">${combo.name}</h4><p class="text-[11px] text-gray-400 line-clamp-2 mt-1 font-light">${combo.desc}</p></div></div><div class="flex items-center justify-between pt-4 border-t border-white/10"><span class="text-2xl font-serif text-gold-light font-bold">$${combo.price.toFixed(2)}</span><div class="flex gap-2"><button onclick="openProductDetailModal(${combo.id})" class="px-3.5 py-2 bg-white/10 hover:bg-white text-white hover:text-black rounded-xl text-xs font-bold transition-all">Ver</button><button onclick="addProductToCart(${combo.id}, 1)" class="px-4 py-2 gold-btn-gradient text-black font-bold rounded-xl text-xs transition-all flex items-center gap-1.5 shadow-md"><i class="fas fa-cart-plus"></i> Agregar</button></div></div></div>`).join('');
         }
 
         function renderProductsGrid() {
@@ -513,7 +516,7 @@
             const filtered = products.filter(p => { if (activeCategory === 'Combos') return p.isCombo; if (p.isCombo && activeCategory !== 'Todos') return false; return (activeCategory === 'Todos' || p.category === activeCategory) && (p.name.toLowerCase().includes(searchQuery) || p.desc.toLowerCase().includes(searchQuery) || p.category.toLowerCase().includes(searchQuery)); });
             if (filtered.length === 0) { grid.innerHTML = ''; noResults.classList.remove('hidden'); return; }
             noResults.classList.add('hidden');
-            grid.innerHTML = filtered.map(p => `<div class="bg-gradient-to-b from-[#121212] to-[#0C0C0C] rounded-2xl overflow-hidden gold-border-glow flex flex-col group"><div class="relative w-full aspect-square bg-[#080808] overflow-hidden cursor-pointer" onclick="openProductDetailModal(${p.id})"><img src="${p.img || getPlaceholderImage(p.name)}" class="w-full h-full object-cover group-hover:scale-105 transition-transform"><span class="absolute top-2.5 left-2.5 bg-black/80 backdrop-blur-md border border-gold/30 text-gold-light text-[9px] font-bold uppercase tracking-wider px-2.5 py-0.5 rounded-full">${p.category}</span></div><div class="p-3.5 md:p-5 flex flex-col flex-1"><h4 class="font-serif text-xs md:text-sm text-white font-bold leading-tight line-clamp-2">${p.name}</h4><p class="text-[11px] text-gray-400 line-clamp-2 my-2 font-light flex-1">${p.desc}</p><div class="pt-2 mt-auto"><span class="text-base md:text-lg font-serif text-gold-light font-bold block mb-3">$${p.price.toFixed(2)}</span><div class="flex gap-2"><button onclick="openProductDetailModal(${p.id})" class="flex-1 bg-white/10 hover:bg-white text-white hover:text-black font-bold py-2 md:py-2.5 rounded-xl transition-all text-[10px] md:text-xs uppercase tracking-wider">Ver Detalle</button><button onclick="addProductToCart(${p.id}, 1)" class="w-9 md:w-10 bg-gradient-to-r from-gold-dark to-gold text-black flex items-center justify-center rounded-xl hover:scale-105 shadow-md"><i class="fas fa-cart-plus text-xs md:text-sm"></i></button></div></div></div></div>`).join('');
+            grid.innerHTML = filtered.map(p => `<div class="bg-gradient-to-b from-[#141414] to-[#0A0A0A] rounded-3xl overflow-hidden gold-border-glow flex flex-col group"><div class="relative w-full aspect-square bg-[#080808] overflow-hidden cursor-pointer" onclick="openProductDetailModal(${p.id})"><img src="${p.img || getPlaceholderImage(p.name)}" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"><span class="absolute top-3 left-3 bg-black/85 backdrop-blur-md border border-gold/30 text-gold-light text-[9px] font-bold uppercase tracking-wider px-3 py-1 rounded-full shadow-md">${p.category}</span></div><div class="p-4 md:p-6 flex flex-col flex-1"><h4 class="font-serif text-xs md:text-sm text-white font-bold leading-snug line-clamp-2">${p.name}</h4><p class="text-[11px] text-gray-400 line-clamp-2 my-2 font-light flex-1">${p.desc}</p><div class="pt-3 mt-auto"><span class="text-lg md:text-xl font-serif text-gold-light font-bold block mb-3.5">$${p.price.toFixed(2)}</span><div class="flex gap-2.5"><button onclick="openProductDetailModal(${p.id})" class="flex-1 bg-white/10 hover:bg-white text-white hover:text-black font-bold py-2.5 rounded-xl transition-all text-[10px] md:text-xs uppercase tracking-wider shadow-sm">Ver Detalle</button><button onclick="addProductToCart(${p.id}, 1)" class="w-10 gold-btn-gradient text-black flex items-center justify-center rounded-xl hover:scale-105 shadow-md"><i class="fas fa-cart-plus text-xs md:text-sm"></i></button></div></div></div></div>`).join('');
         }
 
         let currentModalProdId = null; let currentModalQty = 1;
@@ -550,7 +553,7 @@
             let total = 0;
             container.innerHTML = cart.map(item => {
                 const p = products.find(x => x.id === item.id); if (!p) return ''; const subtotal = p.price * item.qty; total += subtotal;
-                return `<div class="bg-[#181818] border border-white/5 p-3 rounded-xl flex gap-3 items-center"><img src="${p.img || getPlaceholderImage(p.name)}" class="w-14 h-14 object-cover rounded-lg bg-black shrink-0"><div class="flex-1 min-w-0"><h4 class="text-xs text-white font-bold truncate">${p.name}</h4><span class="text-gold-light text-xs font-semibold">$${p.price.toFixed(2)}</span><div class="flex items-center gap-2 mt-2"><div class="flex items-center bg-black border border-white/20 rounded"><button onclick="modifyCartQty(${p.id}, -1)" class="w-6 h-6 text-gray-400 hover:text-white flex"><i class="fas fa-minus text-[9px] m-auto"></i></button><span class="w-6 text-center text-[11px] text-white font-bold">${item.qty}</span><button onclick="modifyCartQty(${p.id}, 1)" class="w-6 h-6 text-gray-400 hover:text-white flex"><i class="fas fa-plus text-[9px] m-auto"></i></button></div><span class="text-xs text-gray-300 font-bold ml-auto">$${subtotal.toFixed(2)}</span></div></div><button onclick="removeCartItem(${p.id})" class="text-gray-500 hover:text-red-400 p-1.5"><i class="fas fa-trash-alt text-xs"></i></button></div>`;
+                return `<div class="bg-[#181818] border border-white/10 p-3.5 rounded-2xl flex gap-3.5 items-center shadow-md"><img src="${p.img || getPlaceholderImage(p.name)}" class="w-14 h-14 object-cover rounded-xl bg-black shrink-0"><div class="flex-1 min-w-0"><h4 class="text-xs text-white font-bold truncate">${p.name}</h4><span class="text-gold-light text-xs font-semibold">$${p.price.toFixed(2)}</span><div class="flex items-center gap-2 mt-2"><div class="flex items-center bg-black border border-white/20 rounded-lg overflow-hidden"><button onclick="modifyCartQty(${p.id}, -1)" class="w-6 h-6 text-gray-400 hover:text-white flex"><i class="fas fa-minus text-[9px] m-auto"></i></button><span class="w-6 text-center text-[11px] text-white font-bold">${item.qty}</span><button onclick="modifyCartQty(${p.id}, 1)" class="w-6 h-6 text-gray-400 hover:text-white flex"><i class="fas fa-plus text-[9px] m-auto"></i></button></div><span class="text-xs text-gray-200 font-bold ml-auto">$${subtotal.toFixed(2)}</span></div></div><button onclick="removeCartItem(${p.id})" class="text-gray-500 hover:text-red-400 p-2"><i class="fas fa-trash-alt text-xs"></i></button></div>`;
             }).join('');
             totalEl.innerText = `$${total.toFixed(2)}`;
         }
@@ -564,9 +567,9 @@
 
         function openInfoModal(type) {
             const modal = document.getElementById('infoModal'); const title = document.getElementById('infoModalTitle'); const body = document.getElementById('infoModalBody'); const icon = document.getElementById('infoModalIcon');
-            if (type === 'garantias') { icon.className = 'fas fa-shield-alt'; title.innerText = 'Garantías y Devoluciones'; body.innerHTML = '<p>✨ <strong>10 días:</strong> Todos nuestros artículos cuentan con 10 días de garantía por defectos.</p><p>📦 <strong>Condiciones:</strong> Conservar empaque original.</p>'; }
-            else if (type === 'envios') { icon.className = 'fas fa-truck'; title.innerText = 'Envíos'; body.innerHTML = '<p>🚚 <strong>Cobertura Nacional:</strong> Todo el Ecuador.</p><p>💵 <strong>Contra Entrega:</strong> Paga al recibir.</p>'; }
-            else { icon.className = 'fas fa-question-circle'; title.innerText = 'FAQ'; body.innerHTML = '<p><strong>¿Tienen local?</strong> Solo envíos directos.</p>'; }
+            if (type === 'garantias') { icon.className = 'fas fa-shield-alt'; title.innerText = 'Garantías y Devoluciones'; body.innerHTML = '<p>✨ <strong>10 días:</strong> Todos nuestros artículos cuentan con 10 días de garantía por defectos de fábrica.</p><p>📦 <strong>Condiciones:</strong> Conservar empaque original.</p>'; }
+            else if (type === 'envios') { icon.className = 'fas fa-truck'; title.innerText = 'Envíos Nacionales'; body.innerHTML = '<p>🚚 <strong>Cobertura:</strong> Todo el Ecuador.</p><p>💵 <strong>Contra Entrega:</strong> Pagas al recibir tu producto con total seguridad.</p>'; }
+            else { icon.className = 'fas fa-question-circle'; title.innerText = 'Preguntas Frecuentes'; body.innerHTML = '<p><strong>¿Tienen local físico?</strong> Operamos mediante envíos directos seguros a domicilio u oficina.</p>'; }
             modal.classList.remove('hidden'); modal.classList.add('flex');
         }
         function closeInfoModal() { document.getElementById('infoModal').classList.add('hidden'); document.getElementById('infoModal').classList.remove('flex'); }
@@ -578,12 +581,12 @@
         function closeAdminDashboard() { document.getElementById('adminDashboardModal').classList.add('hidden'); document.getElementById('adminDashboardModal').classList.remove('flex'); renderCombosSection(); renderProductsGrid(); }
 
         function renderAdminProductsList() {
-            document.getElementById('adminProductsList').innerHTML = products.map(p => `<div class="bg-[#141414] border border-white/10 p-3.5 rounded-xl flex items-center justify-between gap-4"><div class="flex items-center gap-3 overflow-hidden"><img src="${p.img || getPlaceholderImage(p.name)}" class="w-12 h-12 rounded-lg object-cover bg-black shrink-0"><div class="truncate"><h5 class="text-xs font-bold text-white truncate">${p.name}</h5><span class="text-[10px] text-gold-light">${p.category}</span><span class="text-[10px] text-gray-400 ml-2 font-bold">$${p.price.toFixed(2)}</span></div></div><button onclick="openProductEditForm(${p.id})" class="px-3 py-1.5 bg-white/10 hover:bg-gold-light hover:text-black text-white text-xs font-bold rounded-lg transition-colors shrink-0">Editar</button></div>`).join('');
+            document.getElementById('adminProductsList').innerHTML = products.map(p => `<div class="bg-[#141414] border border-white/10 p-4 rounded-2xl flex items-center justify-between gap-4 shadow-md"><div class="flex items-center gap-3.5 overflow-hidden"><img src="${p.img || getPlaceholderImage(p.name)}" class="w-12 h-12 rounded-xl object-cover bg-black shrink-0 shadow"><div class="truncate"><h5 class="text-xs font-bold text-white truncate">${p.name}</h5><span class="text-[10px] text-gold-light font-semibold">${p.category}</span><span class="text-[10px] text-gray-300 ml-2 font-bold">$${p.price.toFixed(2)}</span></div></div><button onclick="openProductEditForm(${p.id})" class="px-4 py-2 bg-white/10 hover:bg-gold-light hover:text-black text-white text-xs font-bold rounded-xl transition-all shrink-0 shadow-sm">Editar</button></div>`).join('');
         }
 
         function openProductEditForm(id) {
             temporaryEditImg = ''; const isNew = id === 'new';
-            document.getElementById('editFormHeaderTitle').innerText = isNew ? 'Crear Nuevo' : 'Editar Producto'; document.getElementById('editFormId').value = isNew ? 'new' : id; document.getElementById('btnAdminDeleteProd').classList.toggle('hidden', isNew); document.getElementById('editImgUploadStatus').innerText = '';
+            document.getElementById('editFormHeaderTitle').innerText = isNew ? 'Crear Nuevo Producto' : 'Editar Producto'; document.getElementById('editFormId').value = isNew ? 'new' : id; document.getElementById('btnAdminDeleteProd').classList.toggle('hidden', isNew); document.getElementById('editImgUploadStatus').innerText = '';
             if (isNew) {
                 document.getElementById('editFormName').value = ''; document.getElementById('editFormPrice').value = ''; document.getElementById('editFormCategory').value = 'Tecnología'; document.getElementById('editFormIsCombo').checked = false; document.getElementById('editFormDesc').value = ''; document.getElementById('editFormFeatures').value = ''; document.getElementById('editFormBenefits').value = ''; document.getElementById('editFormImgPreview').src = getPlaceholderImage('N');
             } else {
@@ -596,7 +599,7 @@
 
         function handleAdminImgUpload(e) {
             const file = e.target.files[0]; if (!file) return;
-            const status = document.getElementById('editImgUploadStatus'); status.innerText = 'Optimizando...';
+            const status = document.getElementById('editImgUploadStatus'); status.innerText = 'Optimizando imagen...';
             const reader = new FileReader();
             reader.onload = (event) => {
                 const img = new Image();
@@ -609,28 +612,49 @@
             }; reader.readAsDataURL(file);
         }
 
-        function saveAdminProduct() {
-            const idVal = document.getElementById('editFormId').value; const name = document.getElementById('editFormName').value.trim(); const price = parseFloat(document.getElementById('editFormPrice').value) || 0; const category = document.getElementById('editFormCategory').value; const isCombo = document.getElementById('editFormIsCombo').checked; const desc = document.getElementById('editFormDesc').value.trim(); const features = document.getElementById('editFormFeatures').value.trim(); const benefits = document.getElementById('editFormBenefits').value.trim();
+        async function saveAdminProduct() {
+            const idVal = document.getElementById('editFormId').value; 
+            const name = document.getElementById('editFormName').value.trim(); 
+            const price = parseFloat(document.getElementById('editFormPrice').value) || 0; 
+            const category = document.getElementById('editFormCategory').value; 
+            const isCombo = document.getElementById('editFormIsCombo').checked; 
+            const desc = document.getElementById('editFormDesc').value.trim(); 
+            const features = document.getElementById('editFormFeatures').value.trim(); 
+            const benefits = document.getElementById('editFormBenefits').value.trim();
+            
             if (!name) return alert('El nombre no puede estar vacío.');
             let savedProd = null;
-            if (idVal === 'new') { const newId = products.length ? Math.max(...products.map(p => p.id)) + 1 : 1; savedProd = { id: newId, name, price, category, isCombo, desc, features, benefits, img: temporaryEditImg }; products.unshift(savedProd); } 
-            else { const id = parseInt(idVal); const idx = products.findIndex(p => p.id === id); if (idx !== -1) { products[idx] = { ...products[idx], name, price, category, isCombo, desc, features, benefits, img: temporaryEditImg || products[idx].img }; savedProd = products[idx]; } }
-            
-            if (savedProd && window.requestProductSave && firebaseConfig.apiKey) {
-                window.requestProductSave(savedProd);
-                triggerToast('Producto guardado en la nube');
-            } else {
-                triggerToast('Guardado localmente (Revisa conexión)');
+            if (idVal === 'new') { 
+                const newId = products.length ? Math.max(...products.map(p => p.id)) + 1 : 1; 
+                savedProd = { id: newId, name, price, category, isCombo, desc, features, benefits, img: temporaryEditImg }; 
+                products.unshift(savedProd); 
+            } else { 
+                const id = parseInt(idVal); 
+                const idx = products.findIndex(p => p.id === id); 
+                if (idx !== -1) { 
+                    products[idx] = { ...products[idx], name, price, category, isCombo, desc, features, benefits, img: temporaryEditImg || products[idx].img }; 
+                    savedProd = products[idx]; 
+                } 
             }
             
-            renderAdminProductsList(); closeProductEditForm();
+            if (savedProd && window.requestProductSave) {
+                try {
+                    await window.requestProductSave(savedProd);
+                    triggerToast('¡Producto guardado en la nube con éxito! ✨');
+                } catch(e) {
+                    triggerToast('Guardado localmente (Verifica conexión)');
+                }
+            }
+            
+            renderAdminProductsList(); 
+            closeProductEditForm();
         }
 
-        function deleteProductFromAdmin() {
+        async function deleteProductFromAdmin() {
             const idVal = document.getElementById('editFormId').value; if (idVal === 'new') return;
-            if (!confirm('¿Eliminar producto?')) return;
+            if (!confirm('¿Estás seguro de eliminar este producto?')) return;
             const id = parseInt(idVal); products = products.filter(p => p.id !== id); cart = cart.filter(c => c.id !== id);
-            if (window.requestProductDelete && firebaseConfig.apiKey) window.requestProductDelete(id);
+            if (window.requestProductDelete) await window.requestProductDelete(id);
             updateCartCounter(); renderAdminProductsList(); closeProductEditForm(); triggerToast('Producto eliminado');
         }
 
