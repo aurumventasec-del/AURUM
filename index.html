@@ -36,7 +36,7 @@
         body { background-color: #050505; color: #FAFAFA; scroll-behavior: smooth; -webkit-tap-highlight-color: transparent; }
         .hide-scroll::-webkit-scrollbar { display: none; }
         .hide-scroll { -ms-overflow-style: none; scrollbar-width: none; }
-        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar { width: 6px; height: 6px; }
         ::-webkit-scrollbar-track { background: #070707; }
         ::-webkit-scrollbar-thumb { background: #222; border-radius: 10px; border: 1px solid rgba(212,175,55,0.2); }
         ::-webkit-scrollbar-thumb:hover { background: #D4AF37; }
@@ -47,7 +47,6 @@
         .gold-btn-gradient { background: linear-gradient(135deg, #C5A059, #E5C378, #D4AF37); transition: all 0.3s ease; }
         .gold-btn-gradient:hover { filter: brightness(1.1); box-shadow: 0 0 25px rgba(229, 195, 120, 0.6); }
 
-        /* Fondo de Estrellas Fluido */
         .stars-canvas { 
             background-image: radial-gradient(1.5px 1.5px at 30px 40px, #E5C378, rgba(0,0,0,0)), 
                               radial-gradient(1.2px 1.2px at 90px 140px, #ffffff, rgba(0,0,0,0)), 
@@ -58,45 +57,50 @@
         @keyframes starsDrift { 0% { background-position: 0 0; } 100% { background-position: -450px -450px; } }
         .constellation-dot { width: 4px; height: 4px; background-color: #E5C378; border-radius: 50%; box-shadow: 0 0 12px #F3E5AB, 0 0 22px rgba(212, 175, 55, 0.9); position: absolute; }
         
-        .modal-backdrop { transition: opacity 0.35s cubic-bezier(0.16, 1, 0.3, 1); }
-        .modal-content-panel { transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.4s ease; }
+        .modal-backdrop { transition: opacity 0.3s ease; }
+        .modal-content-panel { transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.35s ease; }
         
-        #toastContainer { position: fixed; bottom: 28px; left: 50%; transform: translateX(-50%); z-index: 9999; pointer-events: none; display: flex; flex-direction: column; gap: 10px; }
+        #toastContainer { position: fixed; bottom: 28px; left: 50%; transform: translateX(-50%); z-index: 99999; pointer-events: none; display: flex; flex-direction: column; gap: 10px; }
         .toast-msg { background: linear-gradient(135deg, #161616, #0B0B0B); border: 1px solid rgba(212,175,55,0.6); color: #FAFAFA; padding: 14px 26px; border-radius: 50px; font-size: 13px; font-weight: 600; box-shadow: 0 15px 35px rgba(0,0,0,0.9); animation: toastIn 0.35s forwards; }
         @keyframes toastIn { from { opacity: 0; transform: translateY(25px) scale(0.95); } to { opacity: 1; transform: translateY(0) scale(1); } }
         
-        /* NUEVA ANIMACIÓN DE INICIO SÚPER GENIAL */
+        /* SPLASH SCREEN */
         #splashScreen { 
-            position: fixed; inset: 0; z-index: 99999; background: #030303; 
+            position: fixed; inset: 0; z-index: 99990; background: #030303; 
             display: flex; flex-direction: column; align-items: center; justify-content: center;
-            transition: transform 0.9s cubic-bezier(0.7, 0, 0.1, 1), opacity 0.8s ease;
-            transform-origin: top;
+            transition: transform 0.85s cubic-bezier(0.75, 0, 0.25, 1), opacity 0.7s ease;
         }
-        .splash-logo-anim { animation: logoZoomIn 1.2s cubic-bezier(0.2, 0.8, 0.2, 1) forwards; }
-        .splash-text-anim { opacity: 0; animation: textReveal 1s ease forwards 0.8s; }
-        .splash-slide-up { transform: translateY(-100%); opacity: 0; pointer-events: none; }
+        .splash-logo-anim { animation: logoReveal 1.1s cubic-bezier(0.2, 0.8, 0.2, 1) forwards; }
+        .splash-text-anim { opacity: 0; animation: textFadeUp 0.8s ease forwards 0.5s; }
+        .splash-hidden { transform: translateY(-100%); opacity: 0; pointer-events: none; visibility: hidden; }
         
-        @keyframes logoZoomIn { 
-            0% { transform: scale(2.5); opacity: 0; filter: blur(15px); } 
-            100% { transform: scale(1); opacity: 1; filter: blur(0); } 
+        @keyframes logoReveal { 
+            0% { transform: scale(0.75) translateY(20px); opacity: 0; filter: brightness(1.8); } 
+            100% { transform: scale(1) translateY(0); opacity: 1; filter: brightness(1); } 
         }
-        @keyframes textReveal { 
-            0% { opacity: 0; transform: translateY(20px); letter-spacing: 0.1em; } 
+        @keyframes textFadeUp { 
+            0% { opacity: 0; transform: translateY(12px); letter-spacing: 0.15em; } 
             100% { opacity: 1; transform: translateY(0); letter-spacing: 0.4em; } 
         }
 
+        @media (prefers-reduced-motion: reduce) {
+            #splashScreen { display: none !important; }
+            .stars-canvas, .animate-float-soft, .animate-pulse-glow { animation: none !important; }
+        }
+
         .tab-btn.active { background: linear-gradient(135deg, #C5A059, #E5C378, #D4AF37); color: black; font-weight: bold; border-color: transparent; box-shadow: 0 0 15px rgba(212,175,55,0.4); }
+        input[type="date"]::-webkit-calendar-picker-indicator { filter: invert(1); cursor: pointer; }
     </style>
 </head>
 <body class="flex flex-col min-h-screen">
 
-    <!-- NUEVO SPLASH SCREEN: Calidad que vale oro -->
-    <div id="splashScreen">
-        <div class="splash-logo-anim flex flex-col items-center">
-            <div class="w-32 h-32 md:w-40 md:h-40 rounded-full border-2 border-gold-light flex items-center justify-center bg-gradient-to-tr from-[#050505] to-[#1a1508] shadow-[0_0_80px_rgba(212,175,55,0.5)]">
-                <span class="font-serif text-7xl md:text-8xl text-gold-light drop-shadow-[0_0_20px_rgba(255,215,0,0.7)]">A</span>
+    <!-- SPLASH SCREEN -->
+    <div id="splashScreen" onclick="window.dismissSplash()">
+        <div class="splash-logo-anim flex flex-col items-center px-4 text-center">
+            <div class="w-28 h-28 md:w-36 md:h-36 rounded-full border-2 border-gold-light flex items-center justify-center bg-gradient-to-tr from-[#050505] to-[#1a1508] shadow-[0_0_70px_rgba(212,175,55,0.45)]">
+                <span class="font-serif text-6xl md:text-7xl text-gold-light drop-shadow-[0_0_20px_rgba(255,215,0,0.65)]">A</span>
             </div>
-            <h1 class="font-cinzel text-gold-light tracking-[0.3em] mt-8 text-3xl md:text-4xl font-black">AURUM</h1>
+            <h1 class="font-cinzel text-gold-light tracking-[0.3em] mt-7 text-3xl md:text-4xl font-black drop-shadow-[0_0_15px_rgba(212,175,55,0.4)]">AURUM</h1>
             <p class="splash-text-anim font-sans text-gold-champagne text-[11px] md:text-xs uppercase mt-3 font-medium">Calidad que vale oro</p>
         </div>
     </div>
@@ -159,7 +163,7 @@
             <h3 class="text-xl font-serif text-white mb-3 font-light">
                 Descubre productos que hacen la <span class="italic text-gold-light font-medium">diferencia ✨</span>
             </h3>
-            <p class="text-gray-300 text-xs md:text-sm font-light max-w-sm mx-auto mb-9">La mejor selección en tecnología y cuidado personal. Compra con confianza y paga al recibir en todo Ecuador.</p>
+            <p class="text-gray-300 text-xs md:text-sm font-light max-w-sm mx-auto mb-9">La mejor selección en tecnología, hogar y cuidado personal. Compra con confianza y paga al recibir en todo Ecuador.</p>
             
             <a href="#catalogo" class="w-full sm:w-auto min-w-[290px] flex items-center justify-center gap-3 gold-btn-gradient text-black font-bold px-9 py-4 rounded-full hover:scale-105 transition-all duration-300 uppercase tracking-[0.2em] text-xs shadow-2xl mb-12">
                 <i class="fas fa-shopping-bag"></i> VER CATÁLOGO OFICIAL
@@ -255,7 +259,7 @@
     <a href="https://wa.me/593989423504?text=¡Hola!%20👋%20Deseo%20hacer%20un%20pedido%20en%20AURUM." target="_blank" class="fixed bottom-6 right-6 z-30 bg-[#25D366] text-white w-14 h-14 rounded-full flex items-center justify-center text-3xl shadow-2xl hover:scale-110 transition-transform shadow-green-950/80 border border-white/20"><i class="fab fa-whatsapp"></i></a>
 
     <!-- MODAL: DETALLE DE PRODUCTO PÚBLICO -->
-    <div id="productDetailModal" class="fixed inset-0 bg-black/90 backdrop-blur-md z-[70] hidden items-end md:items-center justify-center p-0 md:p-4 modal-backdrop">
+    <div id="productDetailModal" class="fixed inset-0 bg-black/90 backdrop-blur-md z-[70] hidden items-end md:items-center justify-center p-0 md:p-4 modal-backdrop" onclick="if(event.target===this) window.closeProductDetailModal()">
         <div class="bg-[#141414] border border-gold/40 w-full md:w-[850px] max-h-[92vh] md:max-h-[88vh] rounded-t-3xl md:rounded-3xl flex flex-col md:flex-row overflow-hidden relative shadow-2xl modal-content-panel">
             <button onclick="window.closeProductDetailModal()" class="absolute top-4 right-4 z-20 w-10 h-10 bg-black/70 backdrop-blur-md text-white rounded-full flex items-center justify-center border border-white/20"><i class="fas fa-times text-sm"></i></button>
             
@@ -272,9 +276,9 @@
                         <span class="inline-block mt-2 text-[10px] uppercase font-bold tracking-widest bg-green-900/40 text-green-400 px-3 py-1 rounded-full border border-green-500/30"><i class="fas fa-check-circle mr-1"></i> Disponible para envío inmediato</span>
                     </div>
                     <div class="h-px bg-white/10"></div>
-                    <div><h4 class="text-[10px] uppercase tracking-[0.2em] font-bold text-gray-400 mb-1.5">Descripción</h4><p id="modalProductDesc" class="text-xs text-gray-300 leading-relaxed font-light whitespace-pre-line"></p></div>
-                    <div><h4 class="text-[10px] uppercase tracking-[0.2em] font-bold text-gold-light mb-1.5">Características</h4><p id="modalProductFeatures" class="text-xs text-gray-300 leading-relaxed whitespace-pre-line font-light"></p></div>
-                    <div><h4 class="text-[10px] uppercase tracking-[0.2em] font-bold text-gold-champagne mb-1.5">Beneficios</h4><p id="modalProductBenefits" class="text-xs text-gray-300 leading-relaxed whitespace-pre-line font-light"></p></div>
+                    <div><h4 class="text-[10px] uppercase tracking-[0.2em] font-bold text-gray-400 mb-1.5">Descripción Comercial</h4><p id="modalProductDesc" class="text-xs text-gray-300 leading-relaxed font-light whitespace-pre-line"></p></div>
+                    <div><h4 class="text-[10px] uppercase tracking-[0.2em] font-bold text-gold-light mb-1.5">Características Principales</h4><p id="modalProductFeatures" class="text-xs text-gray-300 leading-relaxed whitespace-pre-line font-light"></p></div>
+                    <div><h4 class="text-[10px] uppercase tracking-[0.2em] font-bold text-gold-champagne mb-1.5">Beneficios Destacados</h4><p id="modalProductBenefits" class="text-xs text-gray-300 leading-relaxed whitespace-pre-line font-light"></p></div>
                 </div>
                 <div class="p-5 md:p-6 bg-[#0A0A0A] border-t border-white/10 shrink-0 space-y-3.5">
                     <div class="flex items-center justify-between">
@@ -309,16 +313,16 @@
         </div>
     </div>
 
-    <!-- MODAL: LOGIN ADMIN CON PIN (Solo 2529) -->
+    <!-- MODAL: LOGIN ADMIN -->
     <div id="adminLoginModal" class="fixed inset-0 bg-black/90 backdrop-blur-md z-[100] hidden items-center justify-center p-4 modal-backdrop" onclick="if(event.target===this) window.closeAdminLoginModal()">
         <div class="bg-[#141414] border border-gold/40 w-full max-w-sm rounded-3xl p-8 text-center shadow-2xl relative">
             <button onclick="window.closeAdminLoginModal()" class="absolute top-4 right-4 text-gray-400 hover:text-white"><i class="fas fa-times"></i></button>
             <div class="w-14 h-14 rounded-full border border-gold-light flex items-center justify-center text-gold-light text-2xl mx-auto mb-4"><i class="fas fa-user-shield"></i></div>
             <h4 class="font-serif text-xl text-white font-bold mb-1">Acceso Privado AURUM</h4>
-            <p class="text-xs text-gray-400 mb-6">Ingresa el PIN de seguridad autorizado.</p>
+            <p class="text-xs text-gray-400 mb-6">Ingresa la clave de seguridad autorizada.</p>
             
-            <input type="password" id="adminPinInput" maxlength="4" placeholder="••••" class="w-full bg-black border-2 border-gray-700 text-center text-3xl font-bold tracking-[0.5em] text-gold-light py-3.5 rounded-2xl focus:border-gold-light outline-none mb-3 shadow-inner">
-            <p id="adminAuthError" class="text-red-400 text-xs mb-4 hidden font-medium">PIN incorrecto. Acceso denegado.</p>
+            <input type="password" id="adminPinInput" maxlength="4" placeholder="••••" onkeyup="if(event.key==='Enter') window.loginAdmin()" class="w-full bg-black border-2 border-gray-700 text-center text-3xl font-bold tracking-[0.5em] text-gold-light py-3.5 rounded-2xl focus:border-gold-light outline-none mb-3 shadow-inner">
+            <p id="adminAuthError" class="text-red-400 text-xs mb-4 hidden font-medium">Clave incorrecta. Acceso denegado.</p>
             
             <button onclick="window.loginAdmin()" class="w-full gold-btn-gradient text-black font-bold py-3.5 rounded-xl text-xs uppercase tracking-widest transition-transform hover:scale-105">Ingresar al Gestor</button>
         </div>
@@ -326,56 +330,88 @@
 
     <!-- DASHBOARD ADMIN PRIVADO -->
     <div id="adminDashboardModal" class="fixed inset-0 bg-[#090909] z-[110] hidden flex-col overflow-hidden">
-        <div class="p-5 bg-[#111111] border-b border-gold/30 flex justify-between items-center shadow-md">
+        <div class="p-4 md:p-5 bg-[#111111] border-b border-gold/30 flex justify-between items-center shadow-md shrink-0">
             <div class="flex items-center gap-3">
                 <div class="w-10 h-10 rounded-xl gold-btn-gradient text-black flex items-center justify-center font-bold"><i class="fas fa-cogs text-sm"></i></div>
-                <div><h3 class="font-serif text-lg text-white font-bold">Gestor AURUM</h3><p class="text-[10px] text-gold-light uppercase tracking-widest">Panel de Control Privado</p></div>
+                <div><h3 class="font-serif text-lg text-white font-bold leading-none">Gestor AURUM</h3><p class="text-[10px] text-gold-light uppercase tracking-widest mt-1">Panel de Control Privado</p></div>
             </div>
-            <button onclick="window.logoutAdmin()" class="text-gray-400 hover:text-white border border-white/20 px-3 py-1.5 rounded text-xs font-bold transition-colors"><i class="fas fa-sign-out-alt"></i> Salir</button>
+            <button onclick="window.logoutAdmin()" class="text-gray-400 hover:text-white border border-white/20 px-3 py-1.5 rounded-lg text-xs font-bold transition-colors"><i class="fas fa-sign-out-alt"></i> Salir</button>
         </div>
         
-        <div class="flex bg-black border-b border-white/10 px-4 gap-2 overflow-x-auto hide-scroll">
+        <div class="flex bg-black border-b border-white/10 px-4 gap-2 overflow-x-auto hide-scroll shrink-0">
             <button onclick="window.switchAdminTab('catalog')" id="tabCatalog" class="tab-btn active px-5 py-3 text-xs uppercase tracking-widest text-gray-400 border-b-2 border-transparent transition-all whitespace-nowrap">Catálogo Público</button>
             <button onclick="window.switchAdminTab('inventory')" id="tabInventory" class="tab-btn px-5 py-3 text-xs uppercase tracking-widest text-gray-400 border-b-2 border-transparent transition-all whitespace-nowrap"><i class="fas fa-boxes mr-1"></i> Inventario Diario</button>
-            <button onclick="window.switchAdminTab('reports')" id="tabReports" class="tab-btn px-5 py-3 text-xs uppercase tracking-widest text-gray-400 border-b-2 border-transparent transition-all whitespace-nowrap"><i class="fas fa-chart-line mr-1"></i> Reportes</button>
+            <button onclick="window.switchAdminTab('reports')" id="tabReports" class="tab-btn px-5 py-3 text-xs uppercase tracking-widest text-gray-400 border-b-2 border-transparent transition-all whitespace-nowrap"><i class="fas fa-chart-line mr-1"></i> Movimientos y Reportes</button>
         </div>
 
         <div class="p-4 md:p-8 overflow-y-auto flex-1 relative">
             <!-- TAB CATÁLOGO -->
             <div id="viewCatalog" class="max-w-6xl mx-auto">
-                <div class="flex justify-between items-center mb-6">
-                    <h4 class="text-white font-serif text-xl">Gestión de Catálogo</h4>
-                    <button onclick="window.openProductEditForm('new')" class="gold-btn-gradient text-black font-bold px-4 py-2 rounded-xl text-xs uppercase shadow-lg hover:scale-105 transition-transform"><i class="fas fa-plus mr-1"></i> Crear Producto</button>
+                <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 mb-6">
+                    <div>
+                        <h4 class="text-white font-serif text-xl">Gestión de Catálogo</h4>
+                        <p class="text-xs text-gray-400">Edita nombres, precios, fotos y descripciones de tus productos.</p>
+                    </div>
+                    <div class="flex items-center gap-2 w-full sm:w-auto">
+                        <input type="text" id="adminCatalogSearch" oninput="window.renderAdminCatalogList()" placeholder="Filtrar producto..." class="flex-1 sm:w-52 bg-black border border-white/15 rounded-xl px-3.5 py-2 text-xs text-white outline-none focus:border-gold-light">
+                        <button onclick="window.openProductEditForm('new')" class="gold-btn-gradient text-black font-bold px-4 py-2.5 rounded-xl text-xs uppercase shadow-lg hover:scale-105 transition-transform shrink-0"><i class="fas fa-plus mr-1"></i> Crear</button>
+                    </div>
                 </div>
-                <div class="space-y-4" id="adminProductsList"></div>
+                <div class="space-y-3" id="adminProductsList"></div>
             </div>
             
             <!-- TAB INVENTARIO -->
             <div id="viewInventory" class="max-w-6xl mx-auto hidden">
-                <h4 class="text-white font-serif text-xl mb-2">Control de Existencias en Ferias / Bodega</h4>
-                <p class="text-xs text-gray-400 mb-6">Lleva el conteo diario exacto. Todo queda guardado de manera 100% confiable y protegido.</p>
+                <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 mb-6">
+                    <div>
+                        <h4 class="text-white font-serif text-xl mb-1">Control de Existencias en Bodega / Ferias</h4>
+                        <p class="text-xs text-gray-400">Registra ingresos (+), salidas/ventas (-) o fija el conteo diario exacto (=) con fecha personalizada.</p>
+                    </div>
+                    <input type="text" id="adminInvSearch" oninput="window.renderAdminInventory()" placeholder="Buscar en inventario..." class="w-full sm:w-56 bg-black border border-white/15 rounded-xl px-3.5 py-2 text-xs text-white outline-none focus:border-gold-light">
+                </div>
                 <div class="bg-[#141414] rounded-2xl border border-white/10 overflow-hidden overflow-x-auto">
                     <table class="w-full text-left text-xs text-gray-300 min-w-[600px]">
                         <thead class="bg-black text-gold-light uppercase font-bold">
-                            <tr><th class="p-4">Producto</th><th class="p-4 text-center">Stock Físico</th><th class="p-4 text-center">Costo Ref.</th><th class="p-4 text-right">Acciones de Stock</th></tr>
+                            <tr><th class="p-4">Producto</th><th class="p-4 text-center">Stock Físico</th><th class="p-4 text-center">Última Act.</th><th class="p-4 text-right">Acciones de Stock</th></tr>
                         </thead>
                         <tbody id="inventoryTableBody" class="divide-y divide-white/5"></tbody>
                     </table>
                 </div>
             </div>
             
-            <!-- TAB REPORTES -->
+            <!-- TAB REPORTES Y MOVIMIENTOS CON FILTRO DE FECHAS -->
             <div id="viewReports" class="max-w-6xl mx-auto hidden">
-                <h4 class="text-white font-serif text-xl mb-6">Métricas Internas</h4>
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-                    <div class="bg-[#141414] p-6 rounded-2xl border border-white/10 text-center"><h5 class="text-gray-400 text-xs uppercase mb-2">Total Productos</h5><p id="repTotalProds" class="text-3xl text-white font-serif">0</p></div>
-                    <div class="bg-[#141414] p-6 rounded-2xl border border-white/10 text-center"><h5 class="text-gray-400 text-xs uppercase mb-2">Valor Estimado Inventario</h5><p id="repTotalValue" class="text-3xl text-gold-light font-serif">$0.00</p></div>
-                    <div class="bg-[#141414] p-6 rounded-2xl border border-white/10 text-center"><h5 class="text-gray-400 text-xs uppercase mb-2">Alertas Stock Bajo (≤2)</h5><p id="repLowStock" class="text-3xl text-red-400 font-serif">0</p></div>
+                <h4 class="text-white font-serif text-xl mb-6">Métricas Internas e Historial</h4>
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 md:gap-6 mb-8">
+                    <div class="bg-[#141414] p-5 rounded-2xl border border-white/10 text-center"><h5 class="text-gray-400 text-[10px] uppercase tracking-wider mb-1">Total Productos</h5><p id="repTotalProds" class="text-3xl text-white font-serif">0</p></div>
+                    <div class="bg-[#141414] p-5 rounded-2xl border border-white/10 text-center"><h5 class="text-gray-400 text-[10px] uppercase tracking-wider mb-1">Unidades Totales en Stock</h5><p id="repTotalUnits" class="text-3xl text-gold-light font-serif">0</p></div>
+                    <div class="bg-[#141414] p-5 rounded-2xl border border-white/10 text-center"><h5 class="text-gray-400 text-[10px] uppercase tracking-wider mb-1">Alertas Stock Bajo (≤2)</h5><p id="repLowStock" class="text-3xl text-red-400 font-serif">0</p></div>
                 </div>
-                <h5 class="text-gold-light font-bold text-xs uppercase mb-4">Últimos Movimientos de Inventario</h5>
-                <div class="bg-[#141414] rounded-2xl border border-white/10 overflow-hidden max-h-64 overflow-y-auto">
+                
+                <div class="flex flex-col lg:flex-row justify-between items-start lg:items-center mb-4 gap-4">
+                    <h5 class="text-gold-light font-bold text-sm uppercase">Historial de Movimientos de Inventario</h5>
+                    
+                    <!-- FILTROS DE FECHAS PARA MOVIMIENTOS -->
+                    <div class="flex flex-wrap items-center gap-2.5 w-full lg:w-auto bg-[#1a1a1a] p-3 rounded-xl border border-white/10">
+                        <div class="flex items-center gap-1.5">
+                            <label class="text-[10px] text-gray-400 font-bold uppercase">Desde:</label>
+                            <input type="date" id="filterDateStart" class="bg-black border border-white/20 text-white text-[11px] p-1.5 rounded-lg outline-none focus:border-gold-light">
+                        </div>
+                        <div class="flex items-center gap-1.5">
+                            <label class="text-[10px] text-gray-400 font-bold uppercase">Hasta:</label>
+                            <input type="date" id="filterDateEnd" class="bg-black border border-white/20 text-white text-[11px] p-1.5 rounded-lg outline-none focus:border-gold-light">
+                        </div>
+                        <div class="flex gap-1.5">
+                            <button onclick="window.filterMovementsToday()" class="bg-white/10 hover:bg-white/20 text-gold-light px-3 py-1.5 rounded-lg text-[10px] font-bold uppercase transition-colors">Hoy</button>
+                            <button onclick="window.applyMovementsFilter()" class="bg-gold-dark hover:bg-gold text-black px-3 py-1.5 rounded-lg text-[10px] font-bold uppercase transition-colors">Filtrar</button>
+                            <button onclick="window.clearMovementsFilter()" class="border border-white/20 hover:bg-white/10 text-white px-3 py-1.5 rounded-lg text-[10px] font-bold uppercase transition-colors">Todos</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="bg-[#141414] rounded-2xl border border-white/10 overflow-hidden max-h-96 overflow-y-auto">
                     <table class="w-full text-left text-xs text-gray-300">
-                        <thead class="bg-black"><tr><th class="p-3">Fecha</th><th class="p-3">Tipo</th><th class="p-3">Producto</th><th class="p-3">Cant</th><th class="p-3">Motivo</th></tr></thead>
+                        <thead class="bg-black sticky top-0"><tr><th class="p-3">Fecha</th><th class="p-3">Tipo</th><th class="p-3">Producto</th><th class="p-3 text-center">Cant.</th><th class="p-3">Motivo / Detalle</th></tr></thead>
                         <tbody id="movementsTableBody" class="divide-y divide-white/5"></tbody>
                     </table>
                 </div>
@@ -383,54 +419,67 @@
         </div>
     </div>
 
-    <!-- MODAL: REGISTRAR MOVIMIENTO INVENTARIO -->
-    <div id="inventoryMoveModal" class="fixed inset-0 bg-black/90 backdrop-blur-md z-[120] hidden items-center justify-center p-4">
-        <div class="bg-[#141414] border border-gold/40 w-full max-w-sm rounded-3xl p-6 shadow-2xl">
-            <h4 id="invMoveTitle" class="font-serif text-lg text-white font-bold mb-4">Registrar Movimiento</h4>
-            <input type="hidden" id="invMoveProdId">
-            <input type="hidden" id="invMoveType">
+    <!-- MODAL: REGISTRAR MOVIMIENTO INVENTARIO (CON FECHA MANUAL) -->
+    <div id="inventoryMoveModal" class="fixed inset-0 bg-black/90 backdrop-blur-md z-[150] hidden items-center justify-center p-4 overflow-y-auto" onclick="if(event.target===this) window.closeInvMoveModal()">
+        <div class="bg-[#141414] border border-gold/40 w-full max-w-sm rounded-3xl flex flex-col shadow-2xl overflow-hidden">
+            <div class="p-5 bg-black border-b border-white/10 flex justify-between items-center">
+                <h4 id="invMoveTitle" class="font-serif text-lg text-white font-bold">Registrar Movimiento</h4>
+                <button onclick="window.closeInvMoveModal()" class="text-gray-400 hover:text-white"><i class="fas fa-times"></i></button>
+            </div>
             
-            <div class="space-y-4">
+            <div class="p-6 space-y-4">
+                <input type="hidden" id="invMoveProdId">
+                <input type="hidden" id="invMoveType">
+                <p id="invMoveProdName" class="text-xs text-gold-light font-semibold bg-white/5 p-2.5 rounded-xl border border-white/10"></p>
+                
                 <div>
-                    <label class="text-[10px] text-gray-400 uppercase font-bold">Cantidad de Unidades</label>
-                    <input type="number" id="invMoveQty" min="0" class="w-full bg-black border border-white/20 p-3 rounded-xl text-white outline-none focus:border-gold-light transition-colors" placeholder="Ej: 5">
+                    <label class="text-[10px] text-gray-400 uppercase font-bold mb-1 block">Cantidad de Unidades</label>
+                    <input type="number" id="invMoveQty" min="0" class="w-full bg-black border border-white/20 p-3 rounded-xl text-white text-sm outline-none focus:border-gold-light transition-colors" placeholder="Ej: 5">
                 </div>
+                
                 <div>
-                    <label class="text-[10px] text-gray-400 uppercase font-bold">Motivo (Obligatorio)</label>
-                    <select id="invMoveReason" class="w-full bg-black border border-white/20 p-3 rounded-xl text-white outline-none focus:border-gold-light transition-colors">
-                        <option value="Compra/Ingreso">Compra / Ingreso Proveedor</option>
-                        <option value="Venta">Venta Confirmada</option>
-                        <option value="Conteo Diario Exacto">Conteo Diario Exacto de Feria</option>
-                        <option value="Devolucion">Devolución</option>
-                        <option value="Ajuste">Ajuste / Pérdida</option>
+                    <label class="text-[10px] text-gray-400 uppercase font-bold mb-1 block">Fecha del Registro</label>
+                    <input type="date" id="invMoveDate" class="w-full bg-black border border-white/20 p-3 rounded-xl text-white text-sm outline-none focus:border-gold-light transition-colors">
+                </div>
+
+                <div>
+                    <label class="text-[10px] text-gray-400 uppercase font-bold mb-1 block">Motivo (Obligatorio)</label>
+                    <select id="invMoveReason" class="w-full bg-black border border-white/20 p-3 rounded-xl text-white text-xs outline-none focus:border-gold-light transition-colors">
+                        <option value="Compra / Ingreso Proveedor">Compra / Ingreso Proveedor</option>
+                        <option value="Venta Confirmada">Venta Confirmada</option>
+                        <option value="Conteo Diario Exacto de Feria">Conteo Diario Exacto de Feria</option>
+                        <option value="Devolucion / Rechazo">Devolución / Rechazo</option>
+                        <option value="Ajuste por Perdida o Dano">Ajuste por Pérdida o Daño</option>
                     </select>
                 </div>
             </div>
-            <div class="flex gap-3 mt-6">
+            
+            <div class="p-5 bg-black border-t border-white/10 flex gap-3">
                 <button onclick="window.closeInvMoveModal()" class="flex-1 border border-white/20 hover:bg-white/5 text-white rounded-xl py-3 text-xs uppercase font-bold transition-colors">Cancelar</button>
-                <button onclick="window.submitInventoryMove()" class="flex-1 bg-gold-light hover:bg-gold text-black rounded-xl py-3 text-xs uppercase font-bold shadow-lg transition-colors">Confirmar</button>
+                <button onclick="window.submitInventoryMove()" class="flex-1 gold-btn-gradient text-black rounded-xl py-3 text-xs uppercase font-bold shadow-lg transition-colors">Confirmar</button>
             </div>
         </div>
     </div>
 
-    <!-- MODAL: EDITAR/CREAR PRODUCTO (CON CÁMARA INCLUIDA) -->
-    <div id="adminEditModal" class="fixed inset-0 bg-black/90 backdrop-blur-md z-[120] hidden items-center justify-center p-4 overflow-y-auto">
-        <div class="bg-[#141414] border border-gold/40 w-full max-w-4xl rounded-3xl overflow-hidden shadow-2xl relative my-8">
-            <div class="p-5 bg-black border-b border-white/10 flex justify-between items-center">
+    <!-- MODAL: EDITAR/CREAR PRODUCTO -->
+    <div id="adminEditModal" class="fixed inset-0 bg-black/90 backdrop-blur-md z-[150] hidden items-center justify-center p-0 sm:p-4" onclick="if(event.target===this) window.closeProductEditForm()">
+        <div class="bg-[#141414] border border-gold/40 w-full max-w-4xl h-[100dvh] sm:h-auto sm:max-h-[92vh] rounded-none sm:rounded-3xl flex flex-col shadow-2xl relative overflow-hidden">
+            
+            <div class="p-4 sm:p-5 bg-black border-b border-white/10 flex justify-between items-center shrink-0">
                 <h4 id="editFormHeaderTitle" class="font-serif text-lg text-white font-bold">Editar Producto</h4>
-                <button onclick="window.closeProductEditForm()" class="text-gray-400 hover:text-white"><i class="fas fa-times text-xl"></i></button>
+                <button onclick="window.closeProductEditForm()" class="w-8 h-8 rounded-full bg-white/10 text-gray-300 hover:text-white flex items-center justify-center"><i class="fas fa-times text-base"></i></button>
             </div>
-            <div class="p-6 md:p-8 space-y-4 max-h-[75vh] overflow-y-auto hide-scroll">
+            
+            <div class="p-4 sm:p-6 md:p-8 space-y-5 overflow-y-auto flex-1 hide-scroll">
                 <input type="hidden" id="editFormId">
                 <div class="flex flex-col sm:flex-row gap-6 items-start">
                     
-                    <!-- ZONA PARA CARGAR FOTO DIRECTO DESDE PC O CELULAR -->
-                    <div class="w-full sm:w-48 shrink-0">
-                        <label class="block text-[10px] font-bold text-gold-light uppercase mb-1.5">Imagen (Opcional)</label>
-                        <div class="w-full aspect-square rounded-2xl bg-black border border-white/20 overflow-hidden relative group cursor-pointer shadow-inner" onclick="document.getElementById('editFormImgFile').click()">
+                    <div class="w-full sm:w-44 shrink-0">
+                        <label class="block text-[10px] font-bold text-gold-light uppercase mb-1.5">Imagen (Sube tu Foto)</label>
+                        <div class="w-36 h-36 sm:w-full sm:aspect-square mx-auto rounded-2xl bg-black border border-white/20 overflow-hidden relative group cursor-pointer shadow-inner" onclick="document.getElementById('editFormImgFile').click()">
                             <img id="editFormImgPreview" src="" class="w-full h-full object-cover">
                             <div class="absolute inset-0 bg-black/70 flex flex-col items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
-                                <i class="fas fa-camera text-gold-light text-3xl mb-2"></i><span class="text-[10px] text-white uppercase font-bold tracking-wider">Subir Foto</span>
+                                <i class="fas fa-camera text-gold-light text-2xl mb-1.5"></i><span class="text-[10px] text-white uppercase font-bold tracking-wider">Cambiar Foto</span>
                             </div>
                         </div>
                         <input type="file" id="editFormImgFile" accept="image/*" class="hidden" onchange="window.handleAdminImgUpload(event)">
@@ -442,24 +491,26 @@
                         <div class="grid grid-cols-2 gap-4">
                             <div><label class="block text-[10px] font-bold text-gray-400 uppercase mb-1">Precio ($ USD)</label><input type="number" step="0.01" id="editFormPrice" class="w-full bg-black border border-white/15 rounded-xl p-3 text-sm text-white outline-none focus:border-gold-light"></div>
                             <div>
-                                <label class="block text-[10px] font-bold text-gray-400 uppercase mb-1">Categoría</label>
+                                <label class="block text-[10px] font-bold text-gray-400 uppercase mb-1">Categoría Oficial</label>
                                 <select id="editFormCategory" class="w-full bg-black border border-white/15 rounded-xl p-3 text-sm text-white outline-none focus:border-gold-light">
                                     <option value="Tecnología">Tecnología</option><option value="Hogar">Hogar</option><option value="Cuidado Personal">Cuidado Personal</option><option value="Accesorios">Accesorios</option><option value="Combos">Combos</option>
                                 </select>
                             </div>
                         </div>
-                        <div class="pt-1"><label class="flex items-center gap-3 cursor-pointer bg-white/5 p-3 rounded-xl border border-white/10 hover:border-gold-light/40 transition-colors"><input type="checkbox" id="editFormIsCombo" class="w-5 h-5 rounded text-gold-light focus:ring-0"><span class="text-sm text-gold-light font-bold">Marcar como Combo / Oferta Especial</span></label></div>
+                        <div class="pt-1"><label class="flex items-center gap-3 cursor-pointer bg-white/5 p-3 rounded-xl border border-white/10 hover:border-gold-light/40 transition-colors"><input type="checkbox" id="editFormIsCombo" class="w-5 h-5 rounded text-gold-light focus:ring-0"><span class="text-xs sm:text-sm text-gold-light font-bold">Marcar como Combo / Oferta Especial</span></label></div>
                     </div>
                 </div>
-                <div><label class="block text-[10px] font-bold text-gray-400 uppercase mb-1">Descripción Comercial</label><textarea id="editFormDesc" rows="4" class="w-full bg-black border border-white/15 rounded-xl p-4 text-sm text-white outline-none resize-y focus:border-gold-light"></textarea></div>
-                <div><label class="block text-[10px] font-bold text-gray-400 uppercase mb-1">Características Principales (Usa guiones - para listas)</label><textarea id="editFormFeatures" rows="5" class="w-full bg-black border border-white/15 rounded-xl p-4 text-sm text-white outline-none resize-y focus:border-gold-light"></textarea></div>
-                <div><label class="block text-[10px] font-bold text-gray-400 uppercase mb-1">Beneficios (Usa guiones - para listas)</label><textarea id="editFormBenefits" rows="5" class="w-full bg-black border border-white/15 rounded-xl p-4 text-sm text-white outline-none resize-y focus:border-gold-light"></textarea></div>
+                
+                <div><label class="block text-[10px] font-bold text-gray-400 uppercase mb-1">Descripción Comercial</label><textarea id="editFormDesc" rows="4" class="w-full bg-black border border-white/15 rounded-xl p-3.5 text-xs sm:text-sm text-gray-200 outline-none resize-y focus:border-gold-light leading-relaxed"></textarea></div>
+                <div><label class="block text-[10px] font-bold text-gray-400 uppercase mb-1">Características Principales</label><textarea id="editFormFeatures" rows="4" class="w-full bg-black border border-white/15 rounded-xl p-3.5 text-xs sm:text-sm text-gray-200 outline-none resize-y focus:border-gold-light leading-relaxed"></textarea></div>
+                <div><label class="block text-[10px] font-bold text-gray-400 uppercase mb-1">Beneficios Destacados</label><textarea id="editFormBenefits" rows="4" class="w-full bg-black border border-white/15 rounded-xl p-3.5 text-xs sm:text-sm text-gray-200 outline-none resize-y focus:border-gold-light leading-relaxed"></textarea></div>
             </div>
-            <div class="p-5 bg-black border-t border-white/10 flex justify-between items-center">
-                <button onclick="window.deleteProductFromAdmin()" id="btnAdminDeleteProd" class="text-red-400 hover:text-red-300 text-xs font-bold uppercase hidden transition-colors"><i class="fas fa-trash-alt mr-1"></i> Eliminar Producto</button>
+            
+            <div class="p-4 sm:p-5 bg-black border-t border-white/10 flex justify-between items-center shrink-0">
+                <button onclick="window.deleteProductFromAdmin()" id="btnAdminDeleteProd" class="text-red-400 hover:text-red-300 text-xs font-bold uppercase hidden transition-colors"><i class="fas fa-trash-alt mr-1"></i> Eliminar</button>
                 <div class="flex gap-3 ml-auto">
-                    <button onclick="window.closeProductEditForm()" class="px-5 py-2.5 border border-white/20 hover:bg-white/5 text-gray-300 rounded-xl text-xs font-bold uppercase transition">Cancelar</button>
-                    <button onclick="window.saveAdminProduct()" class="px-6 py-2.5 gold-btn-gradient text-black rounded-xl text-xs font-bold uppercase hover:scale-105 transition-transform shadow-lg">Guardar Cambios</button>
+                    <button onclick="window.closeProductEditForm()" class="px-4 py-3 border border-white/20 hover:bg-white/5 text-gray-300 rounded-xl text-xs font-bold uppercase transition">Cancelar</button>
+                    <button onclick="window.saveAdminProduct()" class="px-5 py-3 gold-btn-gradient text-black rounded-xl text-xs font-bold uppercase hover:scale-105 transition-transform shadow-lg"><i class="fas fa-save mr-1"></i> Guardar</button>
                 </div>
             </div>
         </div>
@@ -475,11 +526,11 @@
         </div>
     </div>
 
-    <!-- FIREBASE (MÓDULO SEGURO E INTACTO) -->
+    <!-- FIREBASE MODULE -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
         import { getAuth, signInAnonymously } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
-        import { getFirestore, collection, doc, setDoc, deleteDoc, onSnapshot, runTransaction, query, orderBy, limit } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+        import { getFirestore, collection, doc, setDoc, deleteDoc, onSnapshot, query, orderBy, limit } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
         const firebaseConfig = {
             apiKey: "AIzaSyCEtkEXkD-ekQiz3gyS6MCdwFHu5KV5ao8",
@@ -499,13 +550,11 @@
         const inventoryPath = 'artifacts/aurum-tienda/private/inventory';
         const movementsPath = 'artifacts/aurum-tienda/private/movements';
 
-        // Iniciamos sesión anónima en segundo plano
         signInAnonymously(auth).catch(console.error);
 
-        // Escucha del catálogo en tiempo real
         onSnapshot(collection(db, catalogPath), (snapshot) => {
             if (!snapshot.empty) {
-                const prods = snapshot.docs.map(d => d.data()).sort((a, b) => a.id - b.id);
+                const prods = snapshot.docs.map(d => d.data()).sort((a, b) => Number(a.id) - Number(b.id));
                 if (window.updatePublicProducts) window.updatePublicProducts(prods);
             }
         });
@@ -527,7 +576,7 @@
                     if(window.syncInventoryFromFirebase) window.syncInventoryFromFirebase(fbInv);
                 }
             });
-            const q = query(collection(db, movementsPath), orderBy("date", "desc"), limit(50));
+            const q = query(collection(db, movementsPath), orderBy("date", "desc"), limit(200));
             onSnapshot(q, (snap) => {
                 if(!snap.empty) {
                     let fbMoves = snap.docs.map(d => d.data());
@@ -537,84 +586,104 @@
         };
     </script>
 
-    <!-- LÓGICA CORE, CATÁLOGO LOCAL E INVENTARIO -->
+    <!-- LÓGICA PRINCIPAL Y GESTOR -->
     <script>
-        // Efecto Splash 
-        window.addEventListener('load', () => {
-            if (!sessionStorage.getItem('aurumIntro')) {
-                setTimeout(() => {
-                    document.getElementById('splashScreen').classList.add('splash-slide-up');
-                    sessionStorage.setItem('aurumIntro', 'done');
-                }, 2200);
-            } else {
-                document.getElementById('splashScreen').remove();
+        window.dismissSplash = () => {
+            const splash = document.getElementById('splashScreen');
+            if (splash) {
+                splash.classList.add('splash-hidden');
+                sessionStorage.setItem('aurumIntro', 'done');
+                setTimeout(() => { if(splash && splash.parentNode) splash.remove(); }, 900);
             }
+        };
+
+        window.addEventListener('load', () => {
             document.getElementById('yearCopyright').textContent = new Date().getFullYear();
+            if (!sessionStorage.getItem('aurumIntro')) {
+                setTimeout(window.dismissSplash, 1900);
+            } else {
+                const splash = document.getElementById('splashScreen');
+                if (splash) splash.remove();
+            }
         });
 
         const WHATSAPP_PHONE = '593989423504';
         const ADMIN_PIN = '2529'; 
         const CATEGORIES = ['Todos', 'Tecnología', 'Hogar', 'Cuidado Personal', 'Accesorios', 'Combos'];
         let activeCategory = 'Todos'; let searchQuery = ''; let cart = [];
-        let temporaryEditImg = ''; // Variable para almacenar la imagen subida en base64
+        let temporaryEditImg = ''; 
 
-        // Catálogo súper detallado que pediste (TODAS LAS DESCRIPCIONES EXPANDIDAS MASIVAMENTE)
         const initialProducts = [
-            { id: 1, name: 'Foco Bombilla Solar 100W (FA-8015)', price: 12.00, category: 'Hogar', isCombo: false, desc: 'Iluminación ecológica ultra potente para transformar tus noches. Diseñada para cubrir grandes espacios exteriores, brindando seguridad y claridad total sin sumar un solo centavo a tu planilla de luz eléctrica.', features: '- Panel solar monocristalino de alta absorción diurna.\n- Construcción con certificación IP65 (100% resistente al agua y polvo).\n- Potencia lumínica equivalente a 100W reales.\n- Batería interna de litio de larga duración (hasta 12h de luz continua).\n- Encendido 100% automatizado con la caída del sol.', benefits: '- Ahorro brutal del 100% en consumo eléctrico nocturno.\n- Soporta aguaceros severos sin cortocircuitos ni daños.\n- Incrementa drásticamente la seguridad de tu hogar ahuyentando intrusos durante la noche.\n- Instalación sumamente rápida en minutos sin necesidad de contratar electricistas ni pasar molestos cables.', img: '' },
-            { id: 2, name: 'Foco Bombilla Solar 80W (FA-8025)', price: 10.00, category: 'Hogar', isCombo: false, desc: 'La solución inteligente y compacta para patios, pasillos o terrazas. Absorbe la energía del sol durante el día y se enciende automáticamente al caer la noche para iluminar tu camino de forma eficiente y segura.', features: '- 80W de potencia optimizada para áreas medianas (garajes, patios, entradas).\n- Sensor de oscuridad automático (fotocélula inteligente).\n- Carcasa robusta de ABS anti-impactos y filtro UV.\n- Base giratoria para direccionar la luz exactamente donde la necesitas.\n- Sistema de disipación de calor integrado.', benefits: '- Obtienes iluminación confiable y totalmente gratuita todas las noches del año.\n- Te olvidas de apagarla o encenderla, el foco inteligente lo hace por ti.\n- Contribuyes al cuidado del medio ambiente reduciendo tu huella de carbono diaria.\n- Nunca más llegarás a tu casa a oscuras.', img: '' },
-            { id: 3, name: 'Lámpara Solar Recargable con Control', price: 8.00, category: 'Hogar', isCombo: false, desc: 'Tu compañera imprescindible para apagones imprevistos o aventuras al aire libre. Una lámpara portátil, ligera y extremadamente versátil que puedes operar cómodamente desde la distancia sin levantarte.', features: '- Control remoto inalámbrico de amplio rango incluido.\n- Múltiples niveles de intensidad lumínica y modo SOS parpadeante.\n- Gancho metálico superior reforzado para colgar en cualquier superficie.\n- Doble sistema de carga de batería: Panel Solar integrado y mediante cable USB estándar.\n- Tamaño compacto tipo bombilla fácil de transportar.', benefits: '- Perfecta para llevarla a campamentos, fincas o viajes largos por la carretera.\n- Enciéndela y apágala cómodamente desde tu cama o sofá sin esfuerzo.\n- Es tu seguro de vida: nunca te quedarás a oscuras durante cortes de energía nacionales.\n- Sirve como power bank de emergencia para darle un porcentaje extra a tu celular.', img: '' },
-            { id: 4, name: 'Foco Cámara 360° HD Inalámbrico', price: 15.00, category: 'Tecnología', isCombo: false, desc: 'Vigilancia total de manera completamente discreta. Una cámara de seguridad panorámica camuflada inteligentemente en un foco común que te permite visualizar cada rincón de tu casa o negocio en tiempo real, directamente desde la pantalla de tu celular.', features: '- Lente panorámico de visión 360 grados con resolución HD nítida.\n- Intercomunicador de audio bidireccional (escucha el ambiente y habla a través del altavoz de la cámara).\n- Conectividad WiFi ultra estable y alerta de detección de movimiento directo a tu celular.\n- Se instala fácilmente enroscando en cualquier boquilla de foco estándar E27 (como cualquier bombilla).\n- Soporta tarjetas MicroSD para grabar días enteros de video continuo.', benefits: '- Discreción absoluta y táctica: nadie sabrá que los estás grabando en tiempo real.\n- Monitoreo remoto en vivo 24/7 sin importar en qué ciudad o país te encuentres.\n- Ideal para comunicarte con tus mascotas ansiosas o ahuyentar personas sospechosas al instante.\n- Te ahorras cientos de dólares en costosos sistemas de instalación de cámaras tradicionales y cables DVR.', img: '' },
-            { id: 5, name: 'Power Bank YM-698 10000mAh FUTUREM', price: 15.00, category: 'Tecnología', isCombo: false, desc: 'Reserva de energía de alta velocidad en la palma de tu mano. Mantén tu celular, audífonos y reloj inteligente cargados durante toda tu jornada diaria con este banco de batería compacto, elegante y ultra eficiente.', features: '- Capacidad real y verificada de 10,000mAh de polímero de litio.\n- Doble salida USB de carga rápida para dar energía a dos dispositivos simultáneamente.\n- Indicador LED frontal numérico exacto de nivel de batería (1% al 100%).\n- Chip inteligente interno de protección contra sobrecargas térmicas y cortocircuitos.\n- Diseño texturizado antideslizante que no deja huellas dactilares.', benefits: '- Te brinda hasta 2 o 3 cargas completas aseguradas para la gran mayoría de smartphones modernos.\n- Su tamaño de bolsillo lo hace el acompañante ideal y discreto para viajes, universidad y trabajo de campo.\n- Su tecnología de carga segura protege y extiende la vida útil de la batería original de tus dispositivos más caros.', img: '' },
-            { id: 6, name: 'Power Bank Magnético MagSafe 15000mAh', price: 20.00, category: 'Tecnología', isCombo: false, desc: 'El nivel superior absoluto de la carga inalámbrica. Diseñado especialmente para modelos de iPhone y equipos compatibles, este Power Bank se adhiere de forma magnética, fuerte y segura a la parte trasera de tu teléfono para iniciar la carga instantáneamente, sin oprimir botones.', features: '- Tecnología magnética MagSafe de fuerte adherencia circular (no se cae ni sacudiéndolo).\n- Enorme capacidad de 15,000mAh preparada para soportar largas jornadas de uso intensivo.\n- Superficie antideslizante con un acabado premium mate que protege el cristal de tu celular.\n- Soporta carga simultánea de forma alámbrica (cable Tipo C) e inalámbrica al mismo tiempo.\n- Anillo metálico incluido para adaptar celulares que no tengan imán de fábrica.', benefits: '- Despídete para siempre de los molestos cables enredados, rotos o que hacen falso contacto.\n- Permite usar el celular con total libertad y comodidad (para jugar, grabar videos o chatear) mientras se carga pegado a la espalda del equipo.\n- Su potente capacidad te garantiza energía de sobra durante vuelos largos o viajes de fin de semana completos lejos de un enchufe.', img: '' },
-            { id: 7, name: 'Power Bank Portátil con Linterna COB', price: 12.00, category: 'Tecnología', isCombo: false, desc: 'Energía portátil y luz de rescate extrema reunidas en un solo dispositivo táctico. Una batería externa ligera equipada con un potente y amplio panel LED frontal, ideal para llevar en el auto, en la guantera o dentro de mochilas de emergencia personal.', features: '- Linterna de panel COB ultra brillante de gran expansión de luz.\n- Salida universal USB compatible absolutamente con todos los cables del mercado.\n- Carcasa externa con grado militar resistente a caídas y golpes accidentales.\n- Diseño ergonómico de fácil agarre texturizado y correa de mano.\n- Batería interna de litio de alta densidad para retención prolongada de carga.', benefits: '- Es tu herramienta de salvación durante apagones nocturnos imprevistos o reparaciones oscuras del auto en medio de la carretera.\n- Proporciona carga eléctrica estable para que nunca te quedes incomunicado en una emergencia médica o de seguridad.\n- Dos herramientas vitales y de supervivencia ocupando el mínimo espacio de una sola.', img: '' },
-            { id: 8, name: 'Cargador iPhone 16 Pro Max 35W (USB-C a C)', price: 10.00, category: 'Tecnología', isCombo: false, desc: 'Siente la verdadera velocidad y olvida los largos tiempos de espera. Adaptador de corriente de alta potencia diseñado milimétricamente para los modelos más recientes y exigentes, capaz de llevar tu batería del 0 al 50% de carga en minutos récord.', features: '- Potencia de salida certificada de 35W reales con tecnología Fast Charge.\n- Incluye cable grueso y reforzado de extremo a extremo (Conexión USB-C a USB-C).\n- Regulador de voltaje automático interno para evitar picos destructivos de luz.\n- Diseño de la carcasa compacto y sistema disipador de calor para mantenerse frío.\n- Pines de enchufe retráctiles/fijos de alta durabilidad.', benefits: '- Ahorra valiosísimas horas de espera pegado aburrido al enchufe de la pared de tu casa.\n- Su microchip interno se asegura de proteger la vida útil de tu batería para que no se "infle" ni se degrade rápidamente.\n- Su tamaño portátil lo hace perfecto para llevarlo siempre en la maleta a la oficina o a la universidad.', img: '' },
-            { id: 9, name: 'Cubo Cargador iPhone 14 Pro Max', price: 10.00, category: 'Tecnología', isCombo: false, desc: 'Cubo de pared de altísima eficiencia equipado con la moderna tecnología Power Delivery (PD). Maximiza la velocidad de carga de tus equipos Apple manteniendo tu teléfono a una temperatura segura, óptima y sin estrés térmico.', features: '- Puerto de conexión estándar Tipo-C (PD) diseñado para carga ultrarrápida.\n- Chip inteligente integrado de regulación térmica constante y control inteligente de energía.\n- Pines metálicos frontales reforzados para evitar chispazos al conectar.\n- Material externo ignífugo (resistente al fuego) para máxima seguridad del hogar.\n- Diseño minimalista, elegante y resistente a arañazos.', benefits: '- Carga tu querido iPhone de forma brutalmente estable, evitando los temidos recalentamientos peligrosos que dañan el equipo.\n- Transfiere la energía eléctrica de forma 100% limpia, cuidando meticulosamente los circuitos y placas internas de tu teléfono.\n- Es universalmente compatible con cualquier cable Tipo-C a Lightning o Tipo-C a Tipo-C de alta calidad.', img: '' },
-            { id: 10, name: 'Auricular AirPods 3 Pro (Pantalla Táctil)', price: 25.00, category: 'Tecnología', isCombo: false, desc: 'El asombroso futuro del audio portátil ya está en tus manos. Audífonos inteligentes de calidad premium acompañados de un revolucionario e innovador estuche que incluye una pantalla táctil LCD a color integrada, para controlar toda tu experiencia musical sin siquiera mirar tu celular.', features: '- Estuche de carga interactivo con pantalla LCD a color 100% táctil y reactiva.\n- Audio espacial envolvente inmersivo de 360 grados.\n- Sensores ópticos de proximidad y avanzados controles táctiles de precisión en el bastón del audífono.\n- Micrófonos duales incorporados con tecnología de aislamiento y reducción de ruido de voz.\n- Ecualizador personalizable directo desde la pantalla del estuche.', benefits: '- Disfrutarás de una experiencia acústica inigualable de nivel superior, con bajos muy profundos que vibran y agudos cristalinos sin distorsión.\n- Cambia tus canciones, ajusta el nivel de volumen y revisa la batería de los audífonos directamente tocando la caja, como si fuera un smartwatch.\n- Experimenta llamadas sumamente claras y profesionales, incluso si te encuentras en ambientes exteriores con fuerte viento o tráfico vehicular.', img: '' },
-            { id: 11, name: 'AirPods 2da Gen con ANC (Cancelación de Ruido)', price: 20.00, category: 'Tecnología', isCombo: false, desc: 'Aíslate por completo del ruidoso mundo exterior y concéntrate únicamente en lo tuyo. Audífonos inteligentes con tecnología de Cancelación Activa de Ruido (ANC) real por micrófonos, perfectos para estudiar, trabajar enfocado o viajar en absoluta paz mental.', features: '- Chip de Cancelación Activa de Ruido (ANC) real y Modo Transparencia para escuchar el entorno cuando lo desees.\n- Conectividad de última generación Bluetooth 5.3 sin ninguna latencia, cortes ni retrasos de audio.\n- Batería de ultra larga duración (hasta 4 a 5 horas continuas reales por cada carga de los audífonos).\n- Detección automática de piel/oído (pausa inteligentemente la música apenas te los quitas).\n- Carga inalámbrica magnética compatible con el estuche.', benefits: '- Bloquea eficazmente y como por arte de magia el molesto ruido del tráfico de la calle, motores de avión o compañeros de oficina ruidosos.\n- Comodidad ergonómica superior, con gomas de silicón suaves para que puedas usarlos por 8 horas seguidas sin sentir fatiga ni dolor en la oreja.\n- La magia de Apple: emparejamiento instantáneo con tu teléfono al solo abrir la tapa del estuche.', img: '' },
-            { id: 12, name: 'Auriculares Bluetooth S5', price: 15.00, category: 'Tecnología', isCombo: false, desc: 'Audífonos dinámicos, agresivamente deportivos y ultraligeros como una pluma. Estos auriculares inalámbricos compactos son los compañeros ideales para personas muy activas que necesitan motivación con música fuerte y constante durante sus duras rutinas de gimnasio, ciclismo o trote.', features: '- Conexión Bluetooth 5.1 ininterrumpida y estable a más de 10 metros de distancia de tu teléfono.\n- Área de controles 100% táctiles e intuitivos (play/pause/contestar/rechazar/asistente de voz).\n- Diseño anatómico In-Ear tipo "chupon" que sella por completo el canal auditivo y no se resbala.\n- Construcción sólida con alta resistencia al sudor corrosivo y salpicaduras fuertes de agua (Certificación IPX).\n- Estuche tipo cápsula muy pequeño y portátil.', benefits: '- Te garantizamos que se mantendrán fijos e inmóviles en tus oídos sin importar cuánto saltes o te muevas bruscamente.\n- Son simplemente perfectos para el gimnasio; tu sudor diario no los dañará ni oxidará sus componentes internos jamás.\n- Aíslan todo el ruido del exterior de manera pasiva gracias a sus gomas ajustables a la medida de tu oído, entregándote un sonido puro.', img: '' },
-            { id: 13, name: 'Audífono Bluetooth Transformers TF-T02', price: 22.00, category: 'Tecnología', isCombo: false, desc: 'La ventaja definitiva, injusta y absoluta para los Gamers de verdad. Audífonos TWS edición especial mecha futurista, diseñados milimétricamente para jugadores que exigen latencia ultra baja (cero lag), precisión de sonido de pasos 3D y un estilo agresivo que te hace destacar como el mejor jugador de la sala.', features: '- Modo Gamer dedicado con activación táctil, brindando latencia ultra baja casi imperceptible al cerebro.\n- Carcasa metálica temática y pesada, inspirada en la robótica de Transformers con luces LED RGB reactivas.\n- Micrófono de barra de alta sensibilidad para que tu escuadrón te escuche fuerte y claro en el chat de voz.\n- Controladores dinámicos gigantes de 13mm para generar graves que literalmente explotan en tus oídos.\n- Bisagra de apertura de acero reforzado.', benefits: '- Escucharás exactamente la dirección de cada paso, recarga de arma o disparo del enemigo en tiempo real antes de que ellos te vean, dándote ventaja letal.\n- Es un artículo de colección con un diseño exclusivo y sumamente llamativo que destaca con orgullo entre la multitud de aburridos audífonos blancos genéricos.\n- Su modo de baja latencia los hace también excelentes para ver películas de acción en Netflix sin sufrir desfase molesto entre el audio y los labios del actor.', img: '' },
-            { id: 14, name: 'Auriculares Inalámbricos A20', price: 22.00, category: 'Tecnología', isCombo: false, desc: 'La potencia acústica pura, bruta y superior pensada estrictamente para los verdaderos amantes de los bajos retumbantes. Diseñados para entregar un sonido vibrante, cálido y contundente, acompañados de una caja de batería masiva que parece no terminar de descargarse nunca.', features: '- Exclusiva tecnología acústica interna de realce y amplificación de graves profundos (Pure Bass Engine).\n- Batería salvaje extendida de hasta 20 horas totales de reproducción de música sin parar (sumando las cargas del estuche).\n- Emparejamiento Bluetooth ultrarrápido y automático nada más sacarlos del estuche de transporte.\n- Diseño anatómico ergonómico de perfil bajo que no sobresale exageradamente de tus orejas al caminar.\n- Indicador luminoso sutil del nivel de carga.', benefits: '- Siente la música electrónica, el reggaetón, el rap o el rock pesado con una fuerza y presión de aire impresionante en cada beat de la canción.\n- Úsalos tranquilamente durante días y días enteros de trabajo sin tener que sufrir la preocupación de buscar un enchufe o cargar cables.\n- Despierta y controla a tu asistente de voz favorito de tu teléfono (Siri o Google Assistant) con un solo y simple toque en el audífono, sin sacarte el celular del pantalón.', img: '' },
-            { id: 15, name: 'Auriculares Bluetooth Supraaurales AP', price: 17.00, category: 'Tecnología', isCombo: false, desc: 'El confort total, majestuoso y envolvente de los clásicos audífonos de diadema grandes. Sumérgete durante todo el día en tu lista de reproducción favorita con unas gruesas almohadillas que aíslan el sonido maravillosamente y se sienten como nubes acolchadas descansando suavemente en tus orejas.', features: '- Diadema de policarbonato grueso y ajustable con enormes almohadillas viscoelásticas (Memory Foam) súper gruesas recubiertas de biocuero.\n- Botones físicos clásicos, táctiles y duraderos de control de volumen integrados directamente en la enorme copa derecha del auricular.\n- Batería recargable interna de altísima capacidad, capaz de durar semanas si escuchas música moderadamente.\n- Entrada auxiliar de audio de 3.5mm para uso tradicional con cable si es que milagrosamente se llega a acabar la batería Bluetooth.\n- Copas rotativas para descansarlos en el cuello sin que asfixien.', benefits: '- Garantizamos que no generan presión dolorosa alguna en el cartílago de la oreja, haciéndolos ideales y obligatorios para maratónicas sesiones de 8 a 10 horas de trabajo o estudio intenso.\n- Su gigantesco tamaño de copa logra un excelente aislamiento natural y físico del ruido de la calle, bocinas y conversaciones del sonido exterior.\n- El micrófono integrado de alta fidelidad los hace perfectos e indispensables para lucir profesional en larguísimas conferencias corporativas por Zoom o interminables clases universitarias virtuales.', img: '' },
-            { id: 16, name: 'Audífonos Sony Bluetooth 5.0 Diadema', price: 35.00, category: 'Tecnología', isCombo: false, desc: 'Alcanza la claridad acústica definitiva de un estudio de grabación musical profesional. Frecuencias altas y agudos nítidos que no lastiman, frecuencias medias perfectamente balanceadas y bajos sumamente profundos, todos encapsulados magistralmente en un formato moderno plegable, increíblemente elegante y altamente resistente a la vida urbana.', features: '- Conexión hiperestable y sin pérdida de datos Bluetooth 5.0 de largo alcance a través de paredes y obstáculos.\n- Estructura inteligente de rieles metálicos ocultos, siendo totalmente plegables y rotativos en sus ejes para volverse planos.\n- Micrófono omnidireccional optimizado de alta fidelidad para llamadas telefónicas claras en movimiento.\n- Acabado plástico mate premium de grado industrial altamente resistente a rayones de llaves y desgaste del color.\n- Botón dedicado de extra-bass.', benefits: '- Tan compactos y fáciles de plegar hacia adentro que podrás guardarlos de inmediato en cualquier espacio estrecho o bolsillo pequeño de tu mochila diaria.\n- Entregan un paisaje sonoro inmenso, rico, envolvente y muy fiel a la canción original, diseñado para los oídos finos de los verdaderos audiófilos amantes de la calidad suprema.\n- Disfruta de la libertad total de una conexión inalámbrica robusta y sin molestas interrupciones acústicas, incluso si te alejas varios cuartos de distancia de donde dejaste botado el celular.', img: '' },
-            { id: 17, name: 'Reloj Inteligente Serie Apple Watch', price: 30.00, category: 'Tecnología', isCombo: false, desc: 'El avanzado e interactivo centro personal de todas tus notificaciones del trabajo, métricas de salud y entrenamientos de deporte ubicado de forma directa y elegante en tu muñeca. Un smartwatch de diseño vanguardista y pulido que es perfectamente compatible con la totalidad de los smartphones del mercado actual (funcionando impecable en sistemas iOS y Android).', features: '- Hermosa pantalla táctil curva de alta definición (HD) de borde a borde y capaz de mostrar colores vivos y muy brillantes bajo el sol directo.\n- Recepción de todas las notificaciones de redes (WhatsApp, Instagram) y función integrada para realizar y contestar llamadas telefónicas vía Bluetooth como un espía.\n- Escáneres ópticos biométricos precisos de ritmo cardíaco (BPM), nivel de oxígeno en sangre (SpO2) y podómetro de pasos exactos diarios.\n- Ecosistema de mallas y correas intercambiables de silicona suave o metal de 42/44/45/49mm universal.\n- Múltiples carátulas y fondos de pantalla personalizables interactivos.', benefits: '- Aumenta tu seguridad y tu comodidad al revisar mensajes largos o muy importantes sin tener la peligrosa necesidad de sacar tu costoso celular del bolsillo en plena calle de la ciudad.\n- Toma por fin el control total de tu cuerpo al monitorear detalladamente tu actividad física diaria, las calorías totales quemadas en el gimnasio y la importante calidad y fases de tu sueño profundo cada noche.\n- Gracias a su potente altavoz, contesta llamadas urgentes al estilo de James Bond mientras vas manejando tu auto en el tráfico o tienes ambas manos ocupadas cargando fundas de compras pesadas.', img: '' },
-            { id: 18, name: 'Reloj Inteligente Smart Watch Futurem', price: 35.00, category: 'Tecnología', isCombo: false, desc: 'La perfecta, armónica y robusta unión entre un diseño corporativo elegante de oficina y las agresivas funciones deportivas extremas del exterior. Un reloj de presencia fuerte, pesada y masculina pensado exclusivamente para acompañarte sin desentonar desde una reunión de alta gerencia de negocios hasta una sudorosa y pesada sesión intensa de pesas en el gimnasio sin cambiar de reloj.', features: '- Poderoso bisel exterior metálico de aleación anti-golpes, cristal templado resistente a arañazos y una corona lateral rotatoria 100% funcional y táctil para navegar rápido los menús.\n- Más de docenas de múltiples modos deportivos preconfigurados y análisis de rendimiento aeróbico con gráficas diarias en tiempo real.\n- Batería colosal de ultra larga duración (capaz de llegar hasta 7 días enteros de uso continuo de funciones pesadas sin tener que cargarlo).\n- Parlante dinámico de alto volumen y micrófono con reducción de eco integrados de alta fidelidad para el asistente de voz y llamadas claras.\n- Mallas de acero inoxidable o cuero elegantes intercambiables en segundos.', benefits: '- Su imponente diseño metálico hace que luzcas absolutamente impecable, maduro y profesional combinando con cualquier traje formal o atuendo casual sin parecer un juguete plástico barato.\n- Su certificación de sellado completo lo hace maravillosamente resistente al ácido del sudor de tus rutinas intensas y salpicaduras fuertes de lluvia, permitiéndote entrenar en exteriores sin miedo alguno a dañarlo.\n- Mantén guardado y asegurado un registro histórico clínico y detallado de toda tu evolución física en meses gracias a su amigable y completa App dedicada para tu smartphone en español.', img: '' },
-            { id: 19, name: 'Corrector de Postura Cervical', price: 7.00, category: 'Cuidado Personal', isCombo: false, desc: 'El dispositivo tecnológico inteligente, moderno y definitivo que cuida constantemente tu espalda superior y tu vulnerable columna cervical de manera completamente invisible y automática. Te entrena muscular y activamente como un entrenador personal para mantenerte en una postura alta y recta, combatiendo eficientemente la antiestética "joroba" causada por pasar encorvado largas horas usando celulares o computadoras.', features: '- Micro sensor giroscópico inteligente de ángulo y gravedad de altísima sensibilidad incorporado en el centro del dispositivo trasero.\n- Emitirá una alerta de fuerte vibración totalmente silenciosa justo en el preciso segundo en que detecta que te estás encorvando erróneamente más de 25 grados hacia adelante.\n- Fabricado con una suave y fuerte correa elástica ajustable en forma de número "8" que no corta la circulación en las axilas, cómoda y prácticamente invisible de notar si te la pones debajo de la camisa de trabajo.\n- Batería interna de litio miniatura recargable rápidamente por cable USB de muy larga duración (dura semanas de uso diario).', benefits: '- Su corrección inmediata mejora drásticamente tu lenguaje corporal y tu presencia general, obligándote a pararte derecho lo cual de inmediato te hace lucir notablemente más alto, seguro, atractivo y con muchísima más confianza y salud.\n- Previene eficazmente, desde la raíz, y alivia de manera constante los molestos dolores de tensión crónicos de cuello, hombros contraídos y espalda baja torcida causados por años de pésima higiene postural en tu asiento de oficina.\n- Al obligarte a reaccionar a la vibración, poco a poco crearás una fuerte y sólida memoria muscular pasiva en la espalda superior; de esta manera tu propio cuerpo aprenderá por fin a sentarse erguido y derecho automáticamente, sin depender del aparato en tan solo unas cuantas semanas.', img: '' },
-            { id: 20, name: 'Botas de Lluvia 904 (Talla L)', price: 17.00, category: 'Accesorios', isCombo: false, desc: 'Protege tu costoso, gamuzado y delicado calzado favorito de la traicionera lluvia tormentosa, el perjudicial lodo pegajoso y los inevitables charcos sucios en las veredas con estos cobertores impermeables de altísima resistencia industrial. Diseñados elásticamente para adaptarse a la perfección al contorno de tu zapato como una segunda piel resistente, asegurando protección de puntera a talón.', features: '- Fabricación y ensamblaje vulcanizado en material de polímero de PVC muy grueso, flexible, anti-quiebres y comprobado 100% impermeable, sin ni una sola costura expuesta por donde filtre gota de agua.\n- Equipado inteligentemente con una suela muy gruesa, vulcanizada y fuertemente antideslizante, grabada con textura de tacos reforzada para garantizar extrema tracción y agarre al pisar sobre lisas superficies de baldosas mojadas o veredas con musgo sin sufrir peligrosos resbalones.\n- En su área frontal tiene un cierre vertical de dientes robustos que sube hasta la pantorrilla, protegido ingeniosamente con una solapa y capa interna adicional doble totalmente anti-filtraciones cruzadas para detener el agua.\n- El diseño de su material permite que sean completamente plegables como tela para fácil transporte, son muy portátiles, de secado extra rápido al aire libre y tremendamente fáciles de limpiar solo echándoles agua con una manguera o bajo la llave tras llegar del lodo.', benefits: '- Es tu escudo perfecto que logrará mantener en todo momento tus pies completamente secos, cálidos y con temperatura ideal en medio de la peor de las tormentas, previniendo eficazmente molestos y malos olores o la proliferación de dañinos hongos y bacterias en tus pies húmedos tras un largo día de trabajo y transporte público de vuelta a casa bajo el agua.\n- Es el mejor seguro de vida para tus zapatos de suela blancos, mocasines italianos o tenis de marca original: evitará por siempre el envejecimiento acelerado, deformación, pérdida de color y las manchas irreparables de lodo que terminan arruinando tu calzado de alto costo en la primera tormenta pesada que te atrape desprevenido lejos de techo.\n- Es sin duda alguna la solución táctica perfecta, indispensable y más barata para viajar seguro y tranquilo todos los días largos y lluviosos en moto al trabajo, pasear en bicicleta por la montaña los fines de semana o caminar largo trayecto a pie con total seguridad bajo los sorpresivos y fuertes aguaceros típicos ecuatorianos de invierno que amenazan con inundar y empapar todo a tu paso en instantes en la calle de la ciudad.', img: '' },
-            { id: 21, name: 'Casco para gorra', price: 20.00, category: 'Accesorios', isCombo: false, desc: 'Protección craneal sólida, invisible y encubierta de absoluto nivel industrial certificada que se mantiene inteligentemente oculta por debajo de un diseño textil urbano, casual y moderno que pasa por completo desapercibido en la calle como una gorra cualquiera a simple vista. Esta brillante combinación logra mezclar a la perfección la excelente y atractiva estética casual callejera diaria de una bonita gorra deportiva de béisbol de alta calidad, pero escondiendo cuidadosamente en sus entrañas la robusta e indispensable seguridad resistente a fuertes impactos de un casco de seguridad muy ligero y cómodo.', features: '- Posee en su interior oscuro una carcasa protectora esférica completa y profunda inyectada a altísima presión de plástico ABS rígido de nivel y grado industrial que es comprobado resistente contra perforaciones, choques fuertes y golpes contundentes directos a la cabeza sin romperse.\n- La carcasa protectora interna va cubierta y abrazada muy firmemente por su exterior por un forro de tela sintética lavable, cosida de forma premium y resistente a la intemperie (sol o lloviznas), que le da toda la apariencia y el estilo idéntico e irreconocible de una normal y casual gorra deportiva moderna.\n- Equipado con una muy gruesa banda frontal perimetral absorbente de sudor transpirable que evita que la humedad caiga a tus ojos o te ahogue del calor interno de la carcasa, junto con pequeños ojales metálicos perforados de ventilación superior cruzada que mantienen siempre fresco tu cabello y tu cuero cabelludo ventilado a toda hora del día.\n- Sistema integrado resistente con fuerte correa negra ajustable y flexible de nylon para asegurar y abrochar fácilmente por la zona baja de tu barbilla y mentón firmemente, garantizando que este protector tipo casco nunca saldrá volando accidentalmente de tu cabeza debido a los vientos fuertes si andas rápido en bicicleta, en scooter, en patines, al ir en plataformas móviles, o si haces algún repentino y agresivo movimiento brusco agachándote en el trabajo rudo diario.', benefits: '- Desde ahora podrás salir tranquilamente y protegerte de posibles e inminentes golpes de peligro contra tu cabeza contra paredes duras, golpes directos contra duras barras o ramas de árboles muy bajas que te topes, protegerte si te resbalas y chocas en la calle mojada, resguardarte de trozos que caigan de cornisas, o recibir el choque de objetos contundentes caídos peligrosamente desde pisos y balcones de construcción muy altos, y lo harás sin nunca tener que sacrificar o dañar por esto tu excelente y cuidado estilo personal y buena imagen, como si lo harías si estuvieses llevando un estorboso, ridículo, caliente e incómodo casco abultado normal de ciclista de competencia gigante a todas partes que vayas caminando sin bicicleta en todo el caluroso día.\n- Constituye la más ingeniosa, barata, excelente y más discreta alternativa invisible protectora para ciclistas urbanos exigentes del buen vestir a la moda diaria, jóvenes usuarios de patinetas o skates veloces arriesgados, y trabajadores de almacén ligero o de inspección de obras en casas, bodegas bajitas u oficinas estrechas llenas de tubos colgando o vigas que demanden siempre tener protección obligatoria arriba en la cabeza y estar completamente a salvo contra accidentes laborales sorpresa sin comprometer en ningún caso la estética ni la comodidad diaria en el trabajo de oficina o callejero.\n- No solo estarás acorazado contra caídas accidentales peligrosísimas contra el pavimento duro y objetos en tu cabeza, sino que su gran y dura visera textil delantera curva frontal también mantiene de forma pasiva y excelente toda tu cabeza y tu cara siempre fresca bajo sombra de lujo, al mismo tiempo que te mantiene bien ventilado para no sudar el pelo y muy bien protegido contra los molestos destellos de brillos blancos de autos en la calle y a salvo por completo de los peligrosos y dañinos rayos ultravioleta UV cancerígenos por constante exposición al durísimo, seco y abrazador sol directo ecuatoriano veraniego inclemente de la calle que cae sobre el rostro desprotegido a media tarde diaria.', img: '' },
-            { id: 22, name: 'Cubo de carga universal reforzado', price: 20.00, category: 'Tecnología', isCombo: false, desc: 'El cubo y adaptador de pared cargador de centro de poder definitivo, confiable y final que vas a necesitar en tu hogar y oficina de por vida. Un adaptador de corriente robusto de gran pesaje, sumamente estable con la línea eléctrica inestable y ampliamente compatible sin problemas y de forma universal con todos y cada uno de los múltiples y complicados protocolos secretos de alta velocidad de carga súper rápida (Super Fast Charge) demandada de todas las diferentes marcas tecnológicas de élite modernas chinas y americanas mundiales actuales.', features: '- Dotado internamente de avanzados, modernos y listos protocolos electrónicos, microchips y microprocesadores inteligentes patentados de distribución de energía adaptativa instantánea a tiempo real que literalmente reconocen mediante pulsos eléctricos a qué marca o modelo exacto pertenece el costoso y delicado celular de lujo o dispositivo recién conectado al puerto y le otorgan inteligentemente el voltaje, amperaje y vataje matemático exacto que este pequeño aparato necesite con perfección para cargarlo rápido y 100% libre de calentamientos y peligros de batería inflada en muy poco tiempo.\n- Brinda una barrera de gigantes múltiples niveles seguros internos y densos condensadores físicos robustos de altísima y confiable protección certificada (contra severos y repentinos picos peligrosos fuertes por sobretensión en la casa, escudo total contra el rápido daño de cortocircuito mortal para tu placa de celular de cientos de dólares y sensor infrarrojo termoestable seguro contra derretimiento plástico fatal accidental nocturno por sobrecalentamiento interno prolongado del bloque al cargar en sitios cerrados, sin importar cuántas horas de madrugada pase olvidado pegado siempre chupando energía del enchufe ruidoso de la vieja y sucia pared blanca del dormitorio diario).\n- Construcción sólida sin piezas endebles sueltas adentro de su vientre e inyectado a altísima presión térmica brutal con polímeros y densos materiales retardantes de fuego tipo premium pesados y gruesos de policarbonato industrial 100% aislante eléctrico para volverse prácticamente invencible e inmune ante sorpresivas y aparatosas e inevitables caídas accidentales resbalosas durísimas directas boca abajo directo contra el liso, filudo y traicionero piso de baldosas duras brillantes de cemento, losas o de madera que siempre rompen cubos baratos inservibles livianos blancos desechables genéricos.\n- Su arquitectura externa cuadrada perfecta fue objeto de un detallado e impecable y fino diseño espacial minimalista ultra compacto, pesado de alta densidad portátil liso blanco perla con terminaciones redondas suaves y brillantes agradables y frescas al solo tacto de la cálida piel de tus dedos de la mano que, gracias a su ingeniosa ingeniería de tamaño vertical concentrado para meter en regletas saturadas, no invade jamás, no choca de costado ni bloquea ni inutiliza cobardemente el vital, útil y siempre faltante espacio del siempre importante enchufe vecino de lado gemelo de pared disponible en tu antigua o nueva y sobrecargada regla alargadora eléctrica plástica múltiple barata escondida apretada tras la vieja cama negra polvorienta donde siempre te hace falta cargar, al lado del cubo blanco, también tu computadora gris personal escolar, o un muy importante electrodoméstico antiguo blanco y pelado esencial que necesita un conector disponible urgente de luz limpia eléctrica libre de estorbos ajenos gordos que la tapen egoístamente para funcionar bien.', benefits: '- Trabaja y funciona mágica y perfectamente bien, casi como por milagro celestial o un hechizo tecnológico increíble y moderno, de manera totalmente universal, muy dócil, servicial, versátil, flexible y completamente inagotable 24/7 sin calentarse jamás para poder con toda soltura cargar aceleradamente absolutamente de todo aparato enérgico del hogar desde el 0 al máximo, desde levantar con facilidad la batería descargada de tu muy valiosísimo y caro celular de gama altísima recién lanzado sin estropear su sensible batería ni dañar un ápice de su valioso valor ni estado físico perfecto original inmaculado de garantía, pasando también por recargar fácil en un santiamén tus pesadas, tragadoras enormes y hambrientas tablets gigantes de dibujo y pantallas de diseñador grises hasta incluso salvarle la vida y la música diaria veloz y furiosamente con poder a todos tus pequeños y adorados finísimos redondos audífonos tipo in ear diminutos con minúsculas cajitas receptoras recargables blancas y portátiles de carga ininterrumpidas guardadas en tu sucia y olvidada mochila viajera diaria personal negra escolar desgastada sin quemar nunca con brutal fuerza excesiva e inútil la endeble carga lenta diminuta pequeñísima exigida y limitada demandada pasivamente lentamente por estas valiosas pequeñas baterías pequeñas delicadas frágiles.\n- Por fin y gracias al cielo podrás ahora sí dormir 100% a pierna suelta en tu acogedora cama de noche muy hondo, sin sustos cardíacos por alertas, siempre tranquilo por fin de tu alma nerviosa por posibles picos de baja o alta de voltaje nocturnos sin que el alma te penda ansiosa y dudosa temblando siempre desesperada de un hilo invisible sabiendo consciente muy bien adentros de ti feliz y alegre que todos los costosos ahorros de tu vida digital, reflejados materialmente valiosos en todos tus delicados e indefensos dispositivos enchufados a este super cubo protector están a salvo como un bebé bajo una manta de hierro blindada invulnerable al fuego defendidos maravillosamente, de manera robusta y permanente por siempre jamás de absolutamente toda las crueles sorpresivas aleatorias dañinas violentas asesinas incesantes e imparables constantes brutales impredecibles destructivas desestabilizadoras molestas y muy inestables y mortales peligrosas y fluctuaciones eléctricas locales pésimas y de baja o asquerosa de calidad de cableado del muy deficiente defectuoso pobre viejo sobrecargado recalentado dañado sulfatado y muy peligroso sistema obsoleto público mal mantenido que es dueño absoluto único generador estatal ecuatoriano ruidoso defectuoso de servicio ruidoso de siempre mala energía deficiente.\n- Reemplazarás mil aparatos feos sueltos engorrosos redondos baratos blancos llenos de un montón de inútiles alambres baratos finos quemados rotos feos desgastados sucios de baja calidad para por fin dar paz mental con un solo gran robusto bloque liso cargador único todoterreno muy fuerte súper confiable y fiel siempre para meterlo escondido al fondo seguro para viajar metido perdido a gusto bien seguro apretadísimo sin miedo al peso en un minúsculo rincón muy bajo aplastado oscuro chiquitito libre de presión extrema aplastante pesada en lo oscuro aplastado hasta lo más recóndito y profundo olvidado perdido a oscuras el rincón oscuro del abismo sin fondo del fondo de tus todas maletas apretadas grandes gigantes o de tus enormes bolsos repletos asfixiantes aplastantes y muy duros para poder darte luz en todas las futuras muy largas inolvidables extensas divertidísimas lejanas soleadas y hermosísimas locas memorables e incansables caminatas de vacaciones espectaculares soñadas que se vienen pronto, siempre teniendo por fin a mano seguro y confiable energía extra segura en todos y cada uno de los bellísimos parajes inhóspitos desolados perdidos recónditos lugares distantes abandonados de los hermosos viajes de mochilero o excursiones sin luz o largas horas interminables eternas desesperantes muy calientes e insufribles lentas travesías internacionales eternas por las interminables y aburridísimas lentas carreteras feas pavimentadas de la sierra o costa caliente pegajosa aburridísimas interminables largas tediosas largas eternas distancias que recorras a futuro viajando en el inmenso infinito abrumador inagotable gigantesco larguísimo país.\n- Con toda la fe te aseguro firme, por fin no sufrirás más ni llorarás un peso botado tonto o pena enorme nunca jamás dolor o arrepentimientos y rabietas furiosas maldiciendo de frustraciones tontas a medianoche viendo apagarse perdiendo fe perdiendo luz por una fea y terrible horrorosa repentina apestosa e hirviente barata maloliente explosión por un espantoso recalentamiento blanco ardiente horrible hirviente rojo peligroso humeante tóxico y mortal plástico quemado en tu toma negro sucio por intentar burdamente como loco a oscuras cargar desesperado el muerto lento celular en negro y sin carga de urgencia al enchufe usando esos patéticos lentos horribles cargadores ridículos inservibles chinos minúsculos plásticos que siempre se ablandan deforman pelan mueren de viejo fríos quemados asquerosos que en todo momento no duran un soplo de aire y siempre te regalan asustan o venden carísimo, ya que este sí funciona, trabaja en serio, cuida tus cosas y te respalda fuerte eternamente como el muro de roca grande fuerte macizo impenetrable pesado que ciertamente verdaderamente genuinamente y en absoluto esplendor inamovible eterno imponente definitivamente es.', img: '' },
-            { id: 23, name: 'Parches para la nariz purificadores', price: 7.00, category: 'Cuidado Personal', isCombo: false, desc: 'El rescate de belleza exprés y limpieza facial profunda más veloz, súper rápido infalible final salvador y efectivo rápido a la vez para salvar embellecer sanar iluminar refrescar restaurar purificar exfoliar aclarar tu brillante graso cutis opaco manchado de ciudad sucia. Son novedosas revolucionarias maravillosas súper poderosas tiritas estéticas inteligentes mágicas milagrosas muy delgadas blancas de tiras purificadoras estériles súper absorbentes porosas de absoluta absorción total de limpieza minuciosa por arrastre y succión profunda intensa que están muy minuciosamente milimétricamente dibujadas y moldeadas con exactitud milimétrica de cirujano y científicamente y médicamente diseñadas específicamente en base y forma ideal biológica de piel y pensadas con maestría para atacar ablandar arrancar de cuajo absorber succionar vaciar desterrar extraer físicamente a presión desde la misma profunda raíz encarnada los puntos negros sebáceos negros horrorosos sucios llenos de bacterias oxidados duros, las pequeñísimas ocultas grasosas micro e invisibles horribles impurezas tóxicas de polvo de humo acumuladas y escondidas metidas y todo el grueso pegajoso brillante amarillo opaco sucio el desagradable y antiestético y tan feo molesto exceso de sebo natural acumulado secretado sin parar brillante por días acumulado rancio brillante estancado y duro endurecido molesto por mucho tiempo años estancado acumulado pudriéndose en la grasienta resbalosa brillante húmeda roja nariz en tu maltratada sucia descuidada brillante zona T y parte frontal de tus asfixiados bloqueados taponados oscuros y sucios grandes poros dilatados hundidos por la siempre apestosa muy pesada ardiente dura grasosa e infernal sucia agresiva constante polución y tóxico polvo fino asqueroso flotante ambiente gris venenoso negro del siempre sofocante pesado tóxico smog terrible del horrible abrumador estresante humo pesado de la contaminada fea asfixiante tóxica gigante y ruidosa infernal ciudad moderna asfixiante todos los malditos agotadores rápidos aburridos pesados eternos siempre ocupados cansados estresantes largos infinitos días lentos de calor aplastante.', features: '- Altamente súper concentrado e infusionado en baño empapado profundo internamente activo mojado embebido saturado y enriquecido activamente hasta la más pequeñísima invisible y sutil de todas sus microfibras textiles blancas suaves y porosas hipoalergénicas con puros maravillosos, fragantes orgánicos excelentes limpios finos frescos revitalizantes mágicos muy valiosos concentrados e intensos extractos biológicos, veganos y botánicos 100% vegetales súper muy naturales y ricos astringentes frutales muy potentes frescos, botánicos ácidos limpiadores calmantes sanadores antibacterianos súper suaves y muy efectivos pero increíblemente nada agresivos amigables muy fríos calmantes dóciles gentiles delicados dulces inofensivos calmantes refrescantes protectores para sanar sin nunca lastimar quemar herir resecar cuartear raspar pelar estirar, sangrar lastimar destruir arder escocer picar rasgar inflamar la más fina blanca rosada bebé súper pálida tersa extremadamente frágil y muy delicada piel sedosa, delgadita capilar e irritada enferma o de poros finos sensibles que tú tan hermosamente feliz siempre luces cada mañana o al tener piel reactiva súper llorona atópica alérgica débil roja al menor contacto del mínimo polvito sucio aliento solar caliente sol ardiente fuego viento seco o roce áspero violento trapo con la fea cara roja que te pica del frío calor roce rudo.\n- Está dotado cubierto y bañado en todo el lado interno base liso por un revolucionario moderno espeso transparente húmedo adhesivo dermatológico certificado grado hospitalario hipoalergénico suave frío súper pegajoso espeso súper poderoso de altísima brutal tracción fuerte inamovible adherencia firme extrema tracción fuerte y tenacidad de pulpo fuerte muy resistente a todo tirón y firme como garra que, al leve, simple, ingenuo tonto simple contacto mágico con la micro leve humedad invisible pequeña o rocío del sudor agua gota sudor frío transparente puro líquido tibio ligero de tu resbalosa brillante nariz con poros mojados sudorosos aceitosos lavada, se vuelve inmediatamente en un instante y por arte de magia asombroso y reacciona fuertemente de forma mágica transformándose solidificándose engrosándose activándose adhiriéndose penetrando durísimo y aferrándose aferrándose pegándose aferrado con dientes como roca engranada fundida pegada a cada poro hondo de los agujeros hoyos finos canales hundidos poros de la porosa piel suave.\n- Su perfecta y muy curiosa divertida forma ergonómica geométrica física anatómica en mariposa curva fue estudiada pensada recortada calculada y medida con láser que permite con una total precisión de bisturí que este se acomode y se adapte como un guante mágico perfecto curvo liso como segunda piel plana fundida y sin la menor minúscula burbuja de aire ni arruga rebelde arrugada fea doblada arruga floja a todo el siempre curvo redondo complicado hueco chueco liso fino afilado gordito ancho o respingado hermoso único, raro redondo perfil contorno largo corto nariz y cartílago puente curvo forma contorno óseo curvo del ala de toda de la bonita simpática linda suave brillante o chata redonda grande pequeña liza rugosa fina bella nariz humana redonda respingada única bella hermosa cara de cada usuario del mundo sin fallar ni soltarse rápido del doblez de la arruga de piel de por vida nunca por culpa de curvas imposibles en mofletes alas o punta.\n- Viene sellado empaquetado herméticamente empacado limpio higiénico resguardado seguro sellado en un conveniente económico abundante largo duradero generoso voluminoso excelente completo y fantástico abundante y súper gran paquete de tratamiento integral con múltiples y abundantes docenas de varias repuestos limpias gruesas planchas tiras estériles, higiénicas frías curativas finas parches tiras empaquetadas seguras frescas lisas individuales, permitiendo de esta excelente grandiosa espectacular e inigualable abundante ahorrativa brillante forma que te alcance, dure por siempre jamás y rinda de largo por completo en el tiempo holgadamente sin sufrir pánico de que se te acabe muy pronto todo para llevar a cabo de principio a fin hasta el último detalle completar cerrar terminar cumplir por fin sin pena un muy necesario obligatorio sano saludable excelente vital higiénico urgente y muy extenso completo integral diario y prolongado muy detallado constante aburrido doloroso pero necesario tratamiento depurativo facial integral y semanal quincenal o mensual duradero y efectivo para varios meses sin llorar de susto salir apurada y estresada de forma urgente desesperada y asustada con rabia siempre corriendo de nuevo triste molesta al supermercado de noche a pie asoleándote por otro bendito nuevo paquete costoso vacío y usado que botaste.', benefits: '- ¡Magia de revista! Te arranca y deja finalmente tu valiosa sedosa piel del rostro, nariz lisa y cara completa, de forma impresionante como recién nacida, como de modelo inmaculada increíblemente y mágicamente blanca iluminada deslumbrantemente limpia, lisa súper plana libre de rojeces brillos grasa aceites brillante mate aterciopelada reluciente blanquísima, inmaculada suave purificada fresquísima relajada hidratada oxigenada y 100% completamente y para siempre libre sin rastros manchas rastro de feas vergonzosas dolorosas puntitos oscuros de la nariz negros y todas esas feísimas desagradables muy horribles granos pequeñas rojas mini e invisibles feas dolorosas diminutas indeseables molestas dolorosas e inflamadas eternas asquerosas e insistentes micro imperfecciones rojas, bultitos barritos granitos alergias puntos de suciedad abultada horrible granitos negros rojos en tan solo unos contados ridículos milagrosos 15 cortísimos simples veloces pocos rápidos relajantes veloces minutos rápidos cómodos echada en tu cómoda cama mientras te relajas suave con calma descansando oyendo música de relax sin ensuciarte las manos las uñas limpias sin crema sin jabón o llorar sufriendo apretándote con brutal fuerza agresiva dura asesina torpe rasguñándote arañándote y pelándote sangrándote tus hermosas finas perfectas narices dolorosas hasta que salgan rojas horribles de pellizcos las costras lágrimas feas en el gran viejo sucio oxidado opaco húmedo manchado asqueroso y oscuro tenebroso ruidoso feo pequeño apretado horrible viejo feísimo ruidoso frío espejo triste abandonado mohoso asqueroso cochino apestoso manchado sucio del baño frío de agua.\n- Trabaja inteligente como topadora excavadora para entrar empujar desobstruir por fin lavar limpiar destapar purgar relajar purificar sanar exprimir soltar ablandar suavizar desatascar arrancar de cuajo todo tapón asqueroso gigante incrustado hundido hondo, tapando tus pobres, enfermos inmensos rojos lastimados ahogados irritados negros viejos gruesos dilatados y tan agrandados huecos cráteres feos poros abiertos sucios inflamados y dilatados gigantes, y esto maravillosamente ayuda, favorece permite de una forma brutal gigante notable, mágica inmediata asombrosa maravillosa la veloz súper rápida altísima increíble fácil efectiva mejor, mayor gran inmensa y súper rápida absorción fluida, profunda penetración extrema total pura inmensa y muy súper efectiva y rápida hidratante extrema absorción interna capilar y epidérmica asombrosa penetración efectiva de penetración de las finas gruesas grasosas mágicas caras hermosas brillantes y bellísimas frescas de absolutamente de todas y cada una de tus ricas muy caras amadas costosas famosas adoradas importadas invaluables muy finas valiosas perfumadas exclusivas ricas y lujosas cremas hidratantes pesadas líquidas aguas sueros sérums aguas lociones bloqueadores geles finos mágicos tónicos ácidos lociones mascarillas, jabones faciales nutritivos milagrosos de oro, cremas bases bloqueadores pomadas líquidos cremas hidratantes mágicas sanadoras frías reparadoras relajantes botánicas sanadoras que tanto dinero sangre plata meses te cuestan comprar sudando ahorrar llorando a montones caras carísimas en las carísimas inalcanzables caras exclusivas lejanas de lujo blancas grandes gigantes famosas bellísimas bonitas boticas perfumerías grandes exclusivas y grandes preciosas finas iluminadas, limpias ordenadas tiendas departamentales finas brillantes de cosméticos extranjeras francesas lujosas elegantes súper y lejanísimas gigantescos enormes monstruosos centros caros enormes centros estresantes gigantes repletos bulliciosos saturados interminables fríos enormes cerrados enormes gigantes laberínticos comerciales caros del otro mundo feo frío, aburrido largo inmenso ruidoso enorme aburrido oscuro mundo comercial grande pesado saturado aburrido que pisas cada semana.\n- Verás maravillada horrorizada y pasmada de puro placer y susto mágico en vivo en 4K y directo sin trucos ni mentiras unos brutales asquerosamente increíbles increíbles inmensos, notables asombrosos mágicos gigantes resultados clínicos limpios exitosos milagrosos fantásticos contundentes limpios reales físicos medibles impactantes 100% muy pero muy ampliamente 1000% altamente y súper extra muy sumamente de verdad ampliamente clínica y altamente completamente física real médica, profunda, real certera, visible y 100% real tangible, tocable material visible gigante enormemente asquerosamente súper satisfactorios gigantes visibles de éxito impactante hermosos purificadores asombrosos perfectos espectaculares, mágicos rápidos al toque exitosísimos y visiblemente limpios de todo, inmediata, y sin espera, mágicamente veloz e inmediatamente limpia real 100% blanca libre asquerosamente e innegablemente visibles notables asombrosos en el mismo mismísimo mágico instante veloz asombroso segundo rápido cortísimo asombroso mágico, de tirar despacio firme suave arrancar quitar desprender lento jalando despacito arrancar jalar alar dolor quitar despegar retirar de un solo doloroso pero suave y rico mágico e increíble tirón sanador el asqueroso negro mojado grasiento apestoso horrible liso parche liso húmedo sucio pegajoso blanco sucio de la bendita limpia blanca piel, mostrándote toda la suciedad muerta negra horrible asquerosa pegada como púas puntas picos raíces como si fueran de púas peludas negras clavos espinas erizos árboles pelo negro enanitos negros costras duras pelillos pelos feos hilos púas puntas blancas sebo negro clavado espinas de gusanos raíces gruesas blancas feas grasosas sucias y puntos duros como pelos negros raíces negras pelos sacados como pelos como clavos como pelos, pelitos de punta, cerdas púas agujas clavos costras finos cerditas asquerosos pelillos pelusas vellos diminutos puntos poros tapones piedras suciedad espinillas cráteres asquerosos que había asquerosamente enterrados escondidos profundos como pelo en la punta oscura del poro como si fuesen alfileres espinas púas arrancados como pelos espinas negras que vivían y estaban antes dentro, viviendo estancados metidos pudriéndose asquerosos apretados duros clavados adentro pudriéndose negros escondidos oscuros podridos profundos muy adentro hundidos enterrados por meses estancados infectados llenos pudriéndose adentro guardados metidos atrapados encarnados sepultados sucios estancados apestando llenos de bacterias estancadas ahí asquerosos dentro bien encarnados súper pero re súper estancados metidos a la fuerza encajados súper hundidos apretados estancados guardados podridos pudriéndose escondidos asquerosos años podridos profundos adentro en tu bella tierna hermosa suave nariz linda hermosa tierna.', img: '' },
-            { id: 24, name: 'Secadora portátil de viaje', price: 25.00, category: 'Cuidado Personal', isCombo: false, desc: 'No dejes que tu cabello pierda su estilo cuando estás lejos de casa. Un secador de cabello de diseño ultracompacto que esconde un motor de sorprendente potencia térmica.', features: '- Mango totalmente plegable para reducir su tamaño a la mitad.\n- Motor de alta eficiencia con 2 velocidades de ráfaga.\n- Rejilla frontal con protección y tecnología iónica.\n- Protección automática contra sobrecalentamiento interno.', benefits: '- Secado rápido y resultados con volumen donde quiera que vayas.\n- Ahorra muchísimo espacio en tu maleta de viaje o casillero.\n- Uso seguro y cómodo gracias a su peso ultraligero que no cansa.', img: '' },
-            { id: 25, name: 'Robot trapeador automático', price: 15.00, category: 'Hogar', isCombo: false, desc: 'El ayudante silencioso que automatiza la limpieza de tus pisos diarios. Un robot de navegación constante que barre el polvo ligero, pelos de mascota y pule tus pisos mientras tú descansas.', features: '- Sistema de ruedas omnidireccionales que cambia de rumbo al chocar.\n- Diseño ultraplano diseñado para deslizarse bajo sofás, camas y armarios.\n- Incluye mopas de microfibra electrostática lavables.\n- Batería interna recargable de alta autonomía.', benefits: '- Mantén tus pisos de cerámica o madera siempre limpios sin esfuerzo.\n- Atrapa eficazmente las pelusas ocultas y los pelos de tus mascotas.\n- Ahorra valiosas horas de trabajo doméstico a la semana.', img: '' },
-            { id: 26, name: 'Sombrero Ventilador Solar', price: 13.00, category: 'Accesorios', isCombo: false, desc: 'La máxima innovación para combatir el intenso calor del sol ecuatoriano. Un sombrero de ala ancha que incorpora un mini ventilador ecológico que refresca tu rostro.', features: '- Mini ventilador frontal integrado en la visera.\n- Panel solar superior que alimenta el ventilador directamente (sin pilas).\n- Ala ancha que bloquea eficazmente los dañinos rayos UV.\n- Tela de secado rápido, transpirable y ligera.', benefits: '- Siente una brisa fresca en tu cara mientras caminas, pescas o trabajas bajo el sol.\n- Protégete de la insolación, manchas en la piel y golpes de calor.\n- 100% autónomo y ecológico: el ventilador gira gracias al sol.', img: '' },
-            { id: 27, name: 'Power Bank 20000mAh Futurem', price: 30.00, category: 'Tecnología', isCombo: false, desc: 'El tanque de energía definitivo. Una batería portátil de capacidad colosal diseñada para usuarios hardcore que pasan días alejados de un enchufe o que necesitan cargar múltiples equipos.', features: '- Capacidad masiva de 20,000mAh reales (Celdas de polímero de litio).\n- Múltiples puertos de salida y entrada (USB-A y USB-C) de carga rápida.\n- Pantalla digital LCD que muestra el porcentaje exacto.\n- Textura exterior anti-huellas y resistente a impactos.', benefits: '- Carga tu celular de 4 a 6 veces por completo con una sola recarga.\n- Capaz de dar energía a tablets, consolas portátiles y audífonos.\n- Tu salvavidas en excursiones, viajes o apagones prolongados.', img: '' },
-            { id: 28, name: 'Billeteras MagSafe para iPhone', price: 10.00, category: 'Accesorios', isCombo: false, desc: 'Minimalismo y elegancia adherida a tu teléfono. Una cartera magnética de cuero sintético premium que se fija a la parte posterior de tu iPhone, permitiéndote llevar lo esencial sin bultos.', features: '- Imanes MagSafe de alta potencia para un agarre firme y seguro.\n- Confección en ecocuero con costuras reforzadas.\n- Capacidad exacta para 2 a 3 tarjetas (cédula, tarjeta de crédito, licencia).\n- Escudo interno que protege las bandas magnéticas de tus tarjetas.', benefits: '- Deja la billetera gorda en casa; lleva solo tus tarjetas importantes pegadas al celular.\n- Mayor comodidad en tus bolsillos y un estilo sumamente moderno.\n- Fácil acceso con el pulgar para sacar tus tarjetas al momento de pagar.', img: '' },
-            { id: 31, name: 'Tensiómetro de brazo digital', price: 22.00, category: 'Cuidado Personal', isCombo: false, desc: 'Prevención y control médico en la comodidad de tu casa. Monitor de presión arterial de brazo de grado preciso, indispensable para el cuidado de adultos mayores y personas con estrés o hipertensión.', features: '- Pantalla LCD de gran tamaño y alto contraste para fácil lectura.\n- Brazalete ergonómico universal (se adapta a brazos delgados y gruesos).\n- Memoria de almacenamiento para guardar el historial de las últimas lecturas.\n- Detección inteligente de arritmias o latidos irregulares.', benefits: '- Monitorea la salud cardiovascular de tus seres queridos sin ir a la clínica.\n- Resultados clínicos, precisos y confiables en cuestión de segundos.\n- Su funcionamiento intuitivo lo hace perfecto para que lo usen personas mayores.', img: '' },
-            { id: 32, name: 'Parlante especial para almohadas', price: 22.00, category: 'Tecnología', isCombo: false, desc: 'El secreto para noches de sueño profundo y relajante. Un innovador altavoz de conducción extraplano diseñado específicamente para deslizarse debajo de tu almohada y emitir sonido que solo tú puedes escuchar.', features: '- Diseño ultra delgado (slim) que no se siente ni incomoda al acostarse sobre él.\n- Conectividad Bluetooth sin cables que te aten al celular.\n- Temporizador de apagado automático integrado.\n- Batería de larga duración para toda la noche.', benefits: '- Duerme plácidamente escuchando ruidos blancos, ASMR, podcasts o música suave.\n- Privacidad auditiva total: no molestarás a tu pareja ni a las personas a tu lado.\n- Evita el dolor en las orejas que causan los audífonos normales al dormir de lado.', img: '' },
-            { id: 33, name: 'Tratamiento químico Anti-salitre', price: 15.00, category: 'Hogar', isCombo: false, desc: 'La cura definitiva para las paredes enfermas. Tratamiento impermeabilizante especializado que bloquea la humedad ascendente, erradicando el molesto salitre y la pintura descascarada en tu hogar.', features: '- Fórmula química penetrante que sella los capilares del cemento y ladrillo.\n- Alto rendimiento por litro para cubrir amplias áreas afectadas.\n- Efecto fungicida que mata las esporas de moho existentes.\n- Aplicación sencilla con brocha o rodillo estándar.', benefits: '- Protege la inversión de tu casa evitando daños estructurales profundos.\n- Prepara tus paredes perfectamente para que la nueva pintura dure por años.\n- Mejora la salud respiratoria de tu familia eliminando el polvo blanco y los hongos.', img: '' },
-            { id: 34, name: 'Tarjeta antirrobo protectora RFID', price: 7.00, category: 'Accesorios', isCombo: false, desc: 'El escudo invisible absoluto, invencible y definitivo de seguridad militar que cuida para siempre de forma extrema, blindada y para el dinero ganado con tu propio y muy duro trabajo. Es un seguro de vida: una poderosa e ingeniosa tarjeta plástica de seguridad biométrica y digital del mismo idéntico y pequeñísimo delgado tamaño que tienen todas tus normales y vulnerables tarjetas de débito o de crédito bancarias, diseñada internamente con microchips avanzados por ingenieros cibernéticos para emitir, rebotar y bloquear activa, inmediata e impenetrable las peligrosísimas y mortales ondas de señal de los escáneres, teléfonos, antenas, radares y máquinas ocultas portátiles que tienen siempre en los bolsillos o en mochilas camufladas de los estafadores digitales que están en la calle para clonar tus cosas.', features: '- Micro Chip súper avanzado electrónico inteligente súper delgado de silicio integrado en el medio oscuro interior de la base plástica, que despierta y enciende al instante y genera activamente y sin parar un brutal e impenetrable escudo electromagnético (E-Field Anti-Robo) de 360 grados esféricos y de muchos centímetros de radio a la redonda de puro rebote de seguridad en tu billetera de hombre o de mujer, bloqueando ladrones.\n- Cuenta con la última, moderna y mejor tecnología 100% de bloqueo militar RFID/NFC, cifrado y certificado con grado oficial bancario estricto (rango exacto de frecuencia 13.56 MHz, la frecuencia exacta maldita que usan los ladrones con sus celulares y máquinas chinas piratas inalámbricas y sus aplicaciones hacker para sacar tu plata robada desde tu propio banco).\n- Ostenta un diseño liso extraplano muy diminuto, liviano y delgado; ocupa en realidad literalmente el mismo idéntico y muy diminuto espacio exacto sin estorbar nada, absolutamente, al meterla al lado en el cuero de la misma misma rendija de una inofensiva y común tarjeta de la metro vía normal plástica de la calle, así que no hará un feo y pesado, vergonzoso horrible grueso bulto pesado gordo abultado inflado asqueroso y molestoso abultado muy incómodo gigante y molesto que dañe feo rompa arruine el liso y fino cuero original nuevo elegante y caro el cuero precioso de tu cartera o de las finas costosas o de tela baratas simples o hermosas exclusivas amadas costosas pequeñas minimalistas billeteras apretadas de tu saco diario.\n- Lo mejor del universo y para no creer: no requiere nunca la estresante e imposible compra molesta de cambio de mini baterías molestas de reloj, y no necesita molestos o cables molestosos porque mágicamente se auto alimenta a sí misma absorbiendo o robando la misma invisible energía del radio o máquina inalámbrica del escáner atacante asqueroso ladrón con solo acercarse para usar esa sucia energía en contra del mismo ladrón.', benefits: '- ¡Evita, aborta, ahuyenta, aleja, mata, rompe la señal, rebota de forma automática y pasiva la onda al instante, para que nunca jamás en todo tu tiempo de vida te roben plata o en la calle por arte de magia y que los sucios ladrones estafadores clonen tus adoradas, y tan sagradas que cuestan dinero, sudor e inmensas lágrimas, tuyas tuyas puras tarjetas sagradas valiosas únicas e inigualables de tu crédito con cupo grande o las tan escasas las pocas y queridas pero útiles vitales amadas únicas importantes bancarias tarjetas de débito llenas de ahorros que guardas adentro que siempre llevas sin que te des la más mínima ni ligera triste o lejana leve cuenta triste y enojada pálida sorprendida cuenta ni mínima de tu propia cuenta al pasar despistada o ir cerca o caminar muy cerca con prisas atrasada sola sola estresada cansada por la muy fea asquerosa contaminada ruidosa congestionada pesada y siempre asoleada o de gente mala y maleantes al pasar cerca de ti apretujados tocándote respirándote en el ruidoso asqueroso peligroso rojo lleno repleto de empujones lleno peligroso agobiante asfixiante bus público, metrovía o en la sucia y maloliente la misma gran aglomerada y peligrosa enorme calle llena y ancha pública y ancha de gente mala oscura ciudad mala todos y cada uno cada rato sin sol ni luna todos los días lentos del mundo.\n- Protege y resguarda salva asegura salva blinda bloquea como un campo de fuerza salva guarda toda asegura, abarca defiende resguarda absolutamente salva íntegra entera de punta a punta toda completa todo tu sueldo mensual 100% tu cara bonita y gran pesada billetera gruesa y delgada y todos todos todos sus vulnerables y desprotegidos importantes secretos vulnerables y peligrosos e íntimos todos sus datos de todas tus compras guardados seguros importantes bolsillos cueros plásticos tarjeteros enteros llenos adentro con tan solo una simple milagrosa fantástica sencilla mágica sola, con una súper única, única potente económica pequeña flaquita económica barata tarjetita y súper sola pequeñísima solitaria blanca delgada blanca pequeña liviana y mágica chiquita pero potente gran genial heroica inteligente tarjetita bloqueadora pequeña y económica súper barata a buen precio sin necesidad alguna loca desesperada necesidad de forrar ni de tonta y gastar tiempo poner de andar y usar como loca paranoica rara usar meter papel pesado barato molestoso feo arrugado asqueroso y cortante o brillante usar sucio molesto ruidoso ruidoso forrar tontamente forrar poner de forma exagerada todo con metal y papel feísimo usar o meter el horrible papel aluminio feísimo casero ruidoso aluminio plateado molesto gastado aluminio de horno roto papel arrugado roto ruidoso barato asqueroso y feo metálico feísimo aluminio feo por la casa roto aluminio en cada tarjeta y bolsillo individual roto para que no te roben en el sucio horrible y viejo cajero feo lento y asqueroso caliente cajero barato feísimo asustador en tu cajero de banco.\n- Te otorgará al fin mucha enorme rica pura, infinita real y gran una grandísima enorme súper súper paz celestial descanso espiritual, paz gigante infinita absoluta enorme mental profunda dulce gigante dulce plena gran inmensa y paz eterna gran y pura serenidad confianza plena real de tranquilidad y enorme de muchísima plena seguridad interior inigualable gigante absoluta total, pura mental espiritual interna gigantesca que vale un millón de oro puro a tu mente estresada del robo y paz al moverte, viajar salir, comprar caminar correr relajada en paz total por todos los lugares feos públicos abiertos llenos asfixiantes concurridos o todas las terribles peligrosas peligrosas inmensas oscuras ruidosas grandes apretadas pesadas grandes, en gigantes aglomeraciones masivas ruidosas apretadas llenas pesadas de fiestas sudor ferias enormes calles conciertos inmensos de fútbol eventos, playas fiestas de barrio mercados aglomeraciones de personas mercados de ladrones calles de ferias cines mercados sucios llenos peligrosos públicos cines en las playas centros de fiestas de grandes supermercados grandes.', img: '' },
-            { id: 991, name: 'Combo Seguridad Total', price: 20.00, category: 'Combos', isCombo: true, desc: 'Protección integral, inteligente y blindada de extremo a extremo pensada tácticamente tanto para el interior de tu valioso y amado hogar seguro familiar de ladrones como también para proteger al máximo tus finanzas personales frágiles digitales e íntimas ganadas con puro duro de tu trabajo y deudas; el combo une el ingenio del Foco con una súper cámara espía inalámbrica 360 gigante HD más poderosa y tu billetera acorazada todo tu dinero y sueldo guardado de plástico con la mágica brillante protectora inteligente RFID en un solo gran inteligente y muy asombroso increíblemente barato paquete ultra poderoso final barato asombroso combo táctico completo que lo da todo.', features: '- ¡El ojo que todo lo ve!: Tu increíble asombroso maravilloso mágico Foco Cámara panorámico y espía Inalámbrico 360 grados panorámico súper HD 1080P nocturna con micrófono y parlante incorporado escondido para escuchar todo a través tuyo de las paredes como espía.\n- ¡El escudo bancario impenetrable final del soldado digital!: La mágica pequeña fina y moderna inteligente delgada fina Tarjeta protectora invisible militar táctica de Bloqueadora con Chip Inteligente Protectora digital RFID grado banquero 13.56MHz antirobos y anti estafas clonadoras en el bus urbano la calle.', benefits: '- Definitivamente mantén, ahora y por siempre sin duda firme y para siempre sin excusas a tu casa, cuarto amado o de tus perros seguro tu cuarto, la sala y el dormitorio y el tan sagrado e importante esfuerzo tuyo el importante tuyo el tan grande el de tu sueldo valioso esfuerzo tu dinero sueldo sueldo todo y dinero bien siempre a seguro asombrosamente cuidado monitoreado y 100% muy pero a salvo a la redonda y libre y a salvo lejos de las asquerosas y dañinas manos del mundo ruidoso cruel el cualquier tipo el intento ladrón peligro o de cualquier robo posible robo en la calle peligro, ya sea físico, virtual tecnológico robo intrusión ladrón engaño digital virtual en las peligrosas calles o en la mismísima propia la propia muy y tan cuidada frágil segura casa hogar dulce dulce de la casa donde descansas.\n- Un espectacular y verdaderamente loco brutal increíble fenomenal y brutal y excelente brutal de infarto real grandioso loco muy, asombroso grandísimo enorme gigante loco inmenso inigualable muy brutal insólito espectacular inmenso grandísimo loco e increíble excelente rebaja de rebaja o súper ahorro gigante increíble dinero guardando dinero enorme muy pero un inmenso inmenso enorme y excelente grandioso fenomenal muy y espectacular ahorro mágico de tu plata cuidando lo comprando inteligente pagando los pagando comprando a mitad barato comprando obteniendo adquiriendo este paquete combo adquiriendo ambos adquiriendo así los adquiriendo con inteligencia los comprando juntitos como comprando como combo estos los comprando así juntitos juntando los dos dos maravillosos increíbles únicos aparatos en conjunto en un inigualable un solo paquete en tu paquete.', img: '' }
+            { id: 1, name: 'Foco Bombilla Solar 100W (FA-8015)', price: 12.00, category: 'Hogar', isCombo: false, desc: 'Iluminación ecológica ultra potente para transformar tus noches. Diseñada para cubrir grandes espacios exteriores, brindando seguridad y claridad total sin sumar un centavo a tu planilla de luz eléctrica.', features: '- Panel solar monocristalino integrado de alta absorción diurna.\n- Certificación IP65: resistente a lluvias intensas y polvo.\n- Potencia lumínica equivalente a 100W reales.\n- Batería interna de litio recargable de larga duración (hasta 12 horas).\n- Encendido y apagado 100% automático al anochecer.', benefits: '- Ahorro del 100% en consumo eléctrico nocturno.\n- Soporta el clima exterior sin cortocircuitos.\n- Incrementa la seguridad de patios, garajes y entradas.\n- Instalación rápida en minutos sin cables ni electricistas.', img: '' },
+            { id: 2, name: 'Foco Bombilla Solar 80W (FA-8025)', price: 10.00, category: 'Hogar', isCombo: false, desc: 'La solución inteligente y compacta para patios, pasillos o terrazas. Absorbe la energía del sol durante el día y se enciende automáticamente al caer la noche para iluminar tu camino.', features: '- 80W de potencia optimizada para áreas medianas.\n- Sensor de oscuridad automático (fotocélula inteligente).\n- Carcasa robusta de ABS anti-impactos con filtro UV.\n- Base giratoria para direccionar el haz de luz.', benefits: '- Iluminación confiable y gratuita todas las noches.\n- Funcionamiento autónomo sin necesidad de interruptores.\n- Reduce tu consumo energético en el hogar.', img: '' },
+            { id: 3, name: 'Lámpara Solar Recargable con Control', price: 8.00, category: 'Hogar', isCombo: false, desc: 'Tu compañera imprescindible para cortes de energía o aventuras al aire libre. Lámpara portátil, ligera y versátil que puedes operar cómodamente a distancia.', features: '- Control remoto inalámbrico incluido.\n- Múltiples niveles de intensidad lumínica y modo SOS parpadeante.\n- Gancho metálico superior reforzado para colgar.\n- Doble sistema de carga: panel solar integrado y puerto USB.', benefits: '- Ideal para campamentos, fincas, viajes o emergencias en casa.\n- Enciéndela y apágala desde la cama sin levantarte.\n- Respaldo seguro durante apagones eléctricos.', img: '' },
+            { id: 4, name: 'Foco Cámara 360° HD Inalámbrico', price: 15.00, category: 'Tecnología', isCombo: false, desc: 'Vigilancia total y discreta. Cámara de seguridad panorámica camuflada en un foco común que permite visualizar tu casa o negocio en tiempo real desde tu celular.', features: '- Lente panorámico de 360 grados con resolución HD.\n- Audio bidireccional (escucha y habla desde la aplicación).\n- Conectividad WiFi estable y alertas de movimiento al celular.\n- Instalación directa en cualquier boquilla estándar E27.\n- Ranura para tarjeta MicroSD para grabación continua.', benefits: '- Discreción total frente a visitas o intrusos.\n- Monitoreo remoto en vivo 24/7 desde cualquier lugar.\n- Permite comunicarte con tu familia o mascotas a distancia.\n- Evita costosas instalaciones de cableado.', img: '' },
+            { id: 5, name: 'Power Bank YM-698 10000mAh FUTUREM', price: 15.00, category: 'Tecnología', isCombo: false, desc: 'Reserva de energía de alta velocidad en la palma de tu mano. Mantén tu celular, audífonos y reloj inteligente cargados todo el día con este banco de batería compacto.', features: '- Capacidad de 10,000mAh de polímero de litio.\n- Doble salida USB para cargar dos dispositivos a la vez.\n- Indicador LED numérico exacto de porcentaje de carga.\n- Protección inteligente contra sobrecargas y cortocircuitos.', benefits: '- Brinda de 2 a 3 cargas completas para la mayoría de celulares.\n- Tamaño de bolsillo ideal para viajes, universidad y trabajo.\n- Cuida la vida útil de la batería de tus equipos.', img: '' },
+            { id: 6, name: 'Power Bank Magnético MagSafe 15000mAh', price: 20.00, category: 'Tecnología', isCombo: false, desc: 'Carga inalámbrica magnética de alto rendimiento. Se adhiere firmemente a la parte trasera de tu iPhone para iniciar la carga al instante sin cables estorbosos.', features: '- Fijación magnética MagSafe de alta adherencia.\n- Capacidad de 15,000mAh para jornadas extendidas.\n- Superficie antideslizante con acabado mate.\n- Permite carga simultánea inalámbrica y por cable Tipo-C.', benefits: '- Olvídate de cables enredados o rotos.\n- Usa tu celular cómodamente mientras se carga adherido.\n- Energía asegurada durante vuelos o viajes largos.', img: '' },
+            { id: 7, name: 'Power Bank Portátil con Linterna COB', price: 12.00, category: 'Tecnología', isCombo: false, desc: 'Energía portátil y luz potente en un solo dispositivo. Batería externa ligera equipada con panel LED frontal, ideal para el auto o mochilas de emergencia.', features: '- Linterna de panel COB ultra brillante de amplio alcance.\n- Salida universal USB compatible con todos los cables.\n- Carcasa resistente a impactos ligeros.\n- Diseño ergonómico de fácil agarre.', benefits: '- Útil durante apagones nocturnos o revisiones del vehículo.\n- Proporciona carga de respaldo para mantenerte comunicado.\n- Dos herramientas prácticas ocupando el espacio de una.', img: '' },
+            { id: 8, name: 'Cargador iPhone 16 Pro Max 35W (USB-C a C)', price: 10.00, category: 'Tecnología', isCombo: false, desc: 'Adaptador de corriente de alta velocidad diseñado para modelos recientes, capaz de llevar la batería del 0 al 50% en pocos minutos.', features: '- Potencia de salida de 35W con carga rápida.\n- Incluye cable reforzado USB-C a USB-C.\n- Regulador interno de voltaje contra picos eléctricos.\n- Diseño compacto con disipación térmica.', benefits: '- Reduce drásticamente el tiempo de espera junto al enchufe.\n- Protege la salud de la batería evitando sobrecalentamientos.\n- Portátil para llevar en el bolso a la oficina o universidad.', img: '' },
+            { id: 9, name: 'Cubo Cargador iPhone 14 Pro Max', price: 10.00, category: 'Tecnología', isCombo: false, desc: 'Cubo de pared de alta eficiencia con tecnología Power Delivery (PD). Maximiza la velocidad de carga manteniendo el equipo a temperatura óptima.', features: '- Puerto de conexión Tipo-C PD de carga rápida.\n- Chip inteligente de regulación térmica.\n- Pines metálicos reforzados.\n- Carcasa en material retardante al fuego.', benefits: '- Carga estable y segura sin recalentamientos.\n- Protege los circuitos internos de tu teléfono.\n- Compatible con cables Tipo-C a Lightning o Tipo-C.', img: '' },
+            { id: 10, name: 'Auricular AirPods 3 Pro (Pantalla Táctil)', price: 25.00, category: 'Tecnología', isCombo: false, desc: 'Audífonos inalámbricos con estuche interactivo que incorpora pantalla táctil LCD a color para controlar tu música y ajustes sin tocar el teléfono.', features: '- Estuche de carga con pantalla LCD táctil a color.\n- Audio envolvente y controles táctiles en cada auricular.\n- Ecualizador personalizable desde la pantalla del estuche.\n- Micrófonos duales para llamadas claras.', benefits: '- Cambia canciones, ajusta el volumen y revisa la batería desde el estuche.\n- Sonido nítido con bajos profundos.\n- Llamadas claras en exteriores o transporte.', img: '' },
+            { id: 11, name: 'AirPods 2da Gen con ANC (Cancelación de Ruido)', price: 20.00, category: 'Tecnología', isCombo: false, desc: 'Aíslate del ruido exterior y concéntrate en tu música o trabajo. Audífonos con Cancelación Activa de Ruido (ANC) y ajuste cómodo.', features: '- Cancelación Activa de Ruido (ANC) y Modo Transparencia.\n- Conectividad Bluetooth 5.3 estable y de baja latencia.\n- Batería de 4 a 5 horas continuas por carga.\n- Sensor de detección de oído.', benefits: '- Reduce el ruido del tráfico, oficinas o transporte público.\n- Almohadillas suaves que no fatigan tras horas de uso.\n- Emparejamiento rápido al abrir el estuche.', img: '' },
+            { id: 12, name: 'Auriculares Bluetooth S5', price: 15.00, category: 'Tecnología', isCombo: false, desc: 'Audífonos deportivos ultraligeros e inalámbricos, ideales para gimnasio, trote o uso diario activo.', features: '- Conexión Bluetooth 5.1 estable hasta 10 metros.\n- Controles táctiles intuitivos para música y llamadas.\n- Diseño In-Ear ergonómico.\n- Resistencia al sudor y salpicaduras ligeras.', benefits: '- Se mantienen firmes en el oído durante el ejercicio.\n- Aíslan el ruido exterior de forma pasiva.\n- Estuche compacto fácil de llevar en cualquier bolsillo.', img: '' },
+            { id: 13, name: 'Audífono Bluetooth Transformers TF-T02', price: 22.00, category: 'Tecnología', isCombo: false, desc: 'Audífonos TWS edición mecha futurista diseñados para gamers y amantes del diseño único, con baja latencia y sonido potente.', features: '- Modo Gamer de baja latencia para respuesta inmediata.\n- Carcasa metálica temática Transformers con iluminación LED.\n- Micrófono sensible para chat de voz claro.\n- Controladores dinámicos de 13mm para graves potentes.', benefits: '- Escucha pasos y efectos en tiempo real mientras juegas.\n- Diseño coleccionable que destaca por su estética.\n- Sincronización perfecta para películas y series.', img: '' },
+            { id: 14, name: 'Auriculares Inalámbricos A20', price: 22.00, category: 'Tecnología', isCombo: false, desc: 'Potencia acústica con realce de graves y autonomía extendida para acompañarte durante toda la semana.', features: '- Tecnología de realce de graves (Pure Bass).\n- Autonomía total de hasta 20 horas con el estuche de carga.\n- Emparejamiento automático al sacarlos de la caja.\n- Diseño ergonómico de perfil discreto.', benefits: '- Sonido contundente para música urbana, electrónica o rock.\n- Días de uso sin preocuparte por recargar.\n- Compatible con asistentes de voz Siri y Google.', img: '' },
+            { id: 15, name: 'Auriculares Bluetooth Supraaurales AP', price: 17.00, category: 'Tecnología', isCombo: false, desc: 'Confort envolvente en formato de diadema acolchada, ideales para largas jornadas de trabajo, estudio o entretenimiento.', features: '- Diadema ajustable con almohadillas viscoelásticas suaves.\n- Botones físicos integrados para volumen y pistas.\n- Batería recargable de larga duración.\n- Entrada auxiliar 3.5mm para uso con cable opcional.', benefits: '- No ejercen presión molesta tras varias horas de uso.\n- Buen aislamiento acústico frente al ruido ambiental.\n- Ideales para videollamadas, clases virtuales o gaming.', img: '' },
+            { id: 16, name: 'Audífonos Sony Bluetooth 5.0 Diadema', price: 35.00, category: 'Tecnología', isCombo: false, desc: 'Claridad acústica equilibrada con agudos nítidos y bajos profundos en una estructura plegable, ligera y resistente.', features: '- Conexión inalámbrica Bluetooth 5.0 de largo alcance.\n- Diseño plegable y copas giratorias para fácil transporte.\n- Micrófono omnidireccional integrado.\n- Acabado mate resistente al uso diario.', benefits: '- Se guardan fácilmente ocupando poco espacio en la mochila.\n- Sonido fiel y envolvente para disfrutar cada detalle.\n- Libertad inalámbrica estable en casa u oficina.', img: '' },
+            { id: 17, name: 'Reloj Inteligente Serie Apple Watch', price: 30.00, category: 'Tecnología', isCombo: false, desc: 'Tu centro de notificaciones, llamadas y actividad física en la muñeca. Compatible con teléfonos Android e iOS.', features: '- Pantalla táctil HD de borde a borde.\n- Notificaciones de WhatsApp, redes sociales y llamadas Bluetooth.\n- Monitor de ritmo cardíaco, oxígeno en sangre y podómetro.\n- Correas de silicona intercambiables y carátulas personalizables.', benefits: '- Revisa mensajes sin sacar tu teléfono en la calle.\n- Controla tus pasos, calorías y actividad diaria.\n- Responde llamadas rápidamente mientras conduces o trabajas.', img: '' },
+            { id: 18, name: 'Reloj Inteligente Smart Watch Futurem', price: 35.00, category: 'Tecnología', isCombo: false, desc: 'Combinación de elegancia ejecutiva y resistencia deportiva. Un reloj versátil para la oficina y el entrenamiento.', features: '- Bisel metálico resistente con corona rotatoria funcional.\n- Múltiples modos deportivos y registro de rendimiento.\n- Batería de larga duración (hasta 7 días según uso).\n- Altavoz y micrófono integrados de alta claridad.', benefits: '- Luce profesional con ropa formal o casual.\n- Resistente al sudor y salpicaduras diarias.\n- Lleva historial de actividad desde su aplicación móvil.', img: '' },
+            { id: 19, name: 'Corrector de Postura Cervical', price: 7.00, category: 'Cuidado Personal', isCombo: false, desc: 'Dispositivo inteligente con sensor de inclinación que te ayuda a mantener la espalda recta y prevenir dolores cervicales.', features: '- Sensor inteligente de ángulo integrado.\n- Alerta por vibración silenciosa al encorvarse más de 25°.\n- Correa elástica ajustable en forma de 8, discreta bajo la ropa.\n- Batería interna recargable vía USB.', benefits: '- Mejora tu postura y presencia corporal.\n- Ayuda a aliviar tensiones en cuello, hombros y espalda.\n- Crea hábito postural saludable en pocas semanas.', img: '' },
+            { id: 20, name: 'Botas de Lluvia 904 (Talla L)', price: 17.00, category: 'Accesorios', isCombo: false, desc: 'Cobertores impermeables de alta resistencia para proteger tu calzado de la lluvia, el lodo y los charcos.', features: '- Fabricadas en material PVC grueso, flexible y 100% impermeable.\n- Suela antideslizante con labrado reforzado.\n- Cierre frontal con solapa interna antifiltraciones.\n- Plegables, lavables y fáciles de guardar.', benefits: '- Mantienen tus pies completamente secos en días lluviosos.\n- Evitan daños y manchas en tus zapatos favoritos.\n- Ideales para motociclistas, ciclistas y peatones.', img: '' },
+            { id: 21, name: 'Casco para gorra', price: 20.00, category: 'Accesorios', isCombo: false, desc: 'Protección craneal discreta con apariencia de gorra urbana. Combina seguridad contra golpes leves con estilo casual.', features: '- Carcasa interna rígida de ABS resistente a impactos.\n- Exterior textil estilo gorra deportiva.\n- Banda interna absorbente de sudor y orificios de ventilación.\n- Correa ajustable para el mentón.', benefits: '- Protege tu cabeza en bicicleta, scooter o trabajos ligeros.\n- Estética moderna sin el volumen de un casco tradicional.\n- Brinda sombra y protección solar diaria.', img: '' },
+            { id: 22, name: 'Cubo de carga universal reforzado', price: 20.00, category: 'Tecnología', isCombo: false, desc: 'Adaptador de corriente robusto y estable, compatible con múltiples dispositivos y protegido contra variaciones eléctricas.', features: '- Distribución inteligente de energía adaptativa.\n- Protección contra sobretensión, cortocircuito y sobrecalentamiento.\n- Carcasa resistente a impactos y caídas.\n- Diseño compacto que no bloquea tomas adyacentes.', benefits: '- Carga teléfonos, tablets y accesorios con seguridad.\n- Protege tus equipos frente a fluctuaciones de voltaje.\n- Un solo cargador confiable para hogar y viajes.', img: '' },
+            { id: 23, name: 'Parches para la nariz purificadores', price: 7.00, category: 'Cuidado Personal', isCombo: false, desc: 'Tiras de limpieza facial profunda diseñadas para remover puntos negros, impurezas y exceso de grasa en la nariz.', features: '- Enriquecidas con extractos purificadores suaves.\n- Adhesivo dermatológico de alta fijación al humedecer.\n- Corte anatómico adaptado al contorno nasal.\n- Presentación en paquete con múltiples unidades.', benefits: '- Deja la piel más limpia y suave en 15 minutos.\n- Ayuda a desobstruir poros dilatados.\n- Resultados visibles de forma inmediata.', img: '' },
+            { id: 24, name: 'Secadora portátil de viaje', price: 25.00, category: 'Cuidado Personal', isCombo: false, desc: 'Secador de cabello compacto con mango plegable y buen flujo térmico, ideal para llevar en la maleta o al gimnasio.', features: '- Mango plegable que reduce el espacio ocupado.\n- Selector de velocidades y temperatura.\n- Rejilla protectora trasera.\n- Protección automática contra sobrecalentamiento.', benefits: '- Secado rápido fuera de casa.\n- Ocupa mínimo espacio en bolsos y equipaje.\n- Ligera y cómoda de manipular.', img: '' },
+            { id: 25, name: 'Robot trapeador automático', price: 15.00, category: 'Hogar', isCombo: false, desc: 'Asistente de limpieza automatizado que recorre tus pisos recogiendo polvo ligero, pelusas y pelos de mascotas.', features: '- Sistema de navegación con giro automático ante obstáculos.\n- Perfil ultradelgado para limpiar debajo de camas y muebles.\n- Incluye paños de microfibra lavables y reutilizables.\n- Batería recargable integrada.', benefits: '- Mantiene los pisos limpios con mínimo esfuerzo.\n- Ideal para hogares con mascotas.\n- Ahorra tiempo en la limpieza cotidiana.', img: '' },
+            { id: 26, name: 'Sombrero Ventilador Solar', price: 13.00, category: 'Accesorios', isCombo: false, desc: 'Sombrero de ala ancha con mini ventilador integrado alimentado por energía solar para refrescarte bajo el sol.', features: '- Ventilador frontal integrado en la visera.\n- Panel solar superior que funciona directamente con la luz del sol.\n- Ala ancha con protección contra rayos UV.\n- Tela ligera y transpirable.', benefits: '- Brisa fresca constante mientras caminas o trabajas al aire libre.\n- Protege rostro y cuello de la insolación.\n- No requiere pilas desechables.', img: '' },
+            { id: 27, name: 'Power Bank 20000mAh Futurem', price: 30.00, category: 'Tecnología', isCombo: false, desc: 'Batería portátil de gran capacidad para usuarios intensivos, viajes largos o cortes prolongados de energía.', features: '- Capacidad de 20,000mAh con celdas de polímero de litio.\n- Múltiples puertos USB-A y USB-C.\n- Pantalla digital LCD con porcentaje exacto de carga.\n- Carcasa resistente anti-huellas.', benefits: '- Carga tu celular entre 4 y 6 veces por ciclo completo.\n- Alimenta teléfonos, tablets y accesorios simultáneamente.\n- Respaldo indispensable para excursiones y emergencias.', img: '' },
+            { id: 28, name: 'Billeteras MagSafe para iPhone', price: 10.00, category: 'Accesorios', isCombo: false, desc: 'Tarjetero magnético elegante en ecocuero que se adhiere a la parte trasera de tu iPhone para llevar tus tarjetas esenciales.', features: '- Imanes MagSafe de fijación firme.\n- Acabado en cuero sintético con costuras reforzadas.\n- Capacidad para 2 a 3 tarjetas.\n- Protección interna para bandas magnéticas.', benefits: '- Lleva tus tarjetas indispensables sin cargar billetera abultada.\n- Acceso rápido mediante ranura inferior.\n- Estilo minimalista y moderno.', img: '' },
+            { id: 31, name: 'Tensiómetro de brazo digital', price: 22.00, category: 'Cuidado Personal', isCombo: false, desc: 'Monitor digital de presión arterial para brazo con lectura clara y brazalete ajustable para control en casa.', features: '- Pantalla LCD amplia de alto contraste.\n- Brazalete ergonómico ajustable.\n- Memoria interna para últimas mediciones.\n- Indicador de pulso y latidos irregulares.', benefits: '- Control preventivo cómodo para toda la familia.\n- Resultados rápidos con un solo botón.\n- Fácil de usar para adultos mayores.', img: '' },
+            { id: 32, name: 'Parlante especial para almohadas', price: 22.00, category: 'Tecnología', isCombo: false, desc: 'Altavoz ultradelgado diseñado para colocarse bajo la almohada y disfrutar música o audios relajantes sin molestar a nadie.', features: '- Diseño extraplano que no incomoda al acostarse.\n- Conexión Bluetooth inalámbrica.\n- Temporizador de apagado automático.\n- Batería recargable de larga duración.', benefits: '- Escucha música, podcasts o sonidos relajantes al dormir.\n- Privacidad auditiva sin molestar a tu pareja.\n- Evita la molestia en los oídos de los audífonos tradicionales.', img: '' },
+            { id: 33, name: 'Tratamiento químico Anti-salitre', price: 15.00, category: 'Hogar', isCombo: false, desc: 'Sellador impermeabilizante penetrante diseñado para bloquear la humedad ascendente y combatir el salitre en paredes.', features: '- Fórmula penetrante que sella poros de cemento y ladrillo.\n- Acción preventiva contra hongos y moho.\n- Fácil aplicación con brocha o rodillo.\n- Alto rendimiento por superficie.', benefits: '- Evita el descascaramiento de pintura por humedad.\n- Prepara la pared para acabados duraderos.\n- Mejora la apariencia y salubridad de ambientes interiores.', img: '' },
+            { id: 34, name: 'Tarjeta antirrobo protectora RFID', price: 7.00, category: 'Accesorios', isCombo: false, desc: 'Tarjeta bloqueadora de señales RFID/NFC que protege tus tarjetas de crédito y débito contra lecturas no autorizadas.', features: '- Chip generador de campo electromagnético protector 360°.\n- Bloqueo en frecuencia bancaria 13.56 MHz (RFID/NFC).\n- Tamaño estándar ultradelgado idéntico a una tarjeta bancaria.\n- No requiere baterías ni recargas.', benefits: '- Previene la clonación o cobros inalámbricos indebidos en lugares concurridos.\n- Protege toda tu billetera con una sola tarjeta.\n- Tranquilidad diaria en transporte público y comercios.', img: '' },
+            { id: 991, name: 'Combo Seguridad Total', price: 20.00, category: 'Combos', isCombo: true, desc: 'Protección integral para tu hogar y tus finanzas en un solo paquete: Foco Cámara 360° HD + Tarjeta Protectora RFID.', features: '- Foco Cámara Inalámbrico 360° HD con visión nocturna y audio.\n- Tarjeta Bloqueadora RFID grado bancario para tu billetera.', benefits: '- Vigila tu hogar desde el celular y protege tus tarjetas en la calle.\n- Ahorro especial al llevar ambos productos en combo.', img: '' }
         ];
 
         let products = [...initialProducts];
 
-        // INVENTARIO LOCAL PERSISTENTE (Soluciona problemas de conexión para las Ferias Diarias)
+        // INVENTARIO LOCAL PERSISTENTE
         let localInventory = JSON.parse(localStorage.getItem('aurum_inventory_v1')) || {};
         let localMovements = JSON.parse(localStorage.getItem('aurum_movements_v1')) || [];
 
         window.updatePublicProducts = (data) => {
-            if(data.length > 0) { products = data; window.renderCategoryFilters(); window.renderCombosSection(); window.renderProductsGrid(); }
+            if(data && data.length > 0) {
+                products = data.map(p => ({ ...p, id: Number(p.id) || p.id }));
+                window.renderCategoryFilters();
+                window.renderCombosSection();
+                window.renderProductsGrid();
+                if(!document.getElementById('adminDashboardModal').classList.contains('hidden')) {
+                    window.renderAdminCatalogList();
+                    window.renderAdminInventory();
+                }
+            }
         };
 
         window.syncInventoryFromFirebase = (fbInv) => {
             localInventory = {...localInventory, ...fbInv};
             localStorage.setItem('aurum_inventory_v1', JSON.stringify(localInventory));
-            window.renderAdminInventory(localInventory); window.renderReports(localInventory, localMovements);
+            if(!document.getElementById('adminDashboardModal').classList.contains('hidden')) {
+                window.renderAdminInventory();
+                window.renderReports();
+            }
         };
 
         window.syncMovementsFromFirebase = (fbMoves) => {
             localMovements = fbMoves;
             localStorage.setItem('aurum_movements_v1', JSON.stringify(localMovements));
-            window.renderMovementsTable(localMovements); window.renderReports(localInventory, localMovements);
+            if(!document.getElementById('adminDashboardModal').classList.contains('hidden')) {
+                window.renderMovementsTable(localMovements);
+                window.renderReports();
+            }
         };
 
         window.triggerToast = (text) => {
@@ -624,7 +693,7 @@
             container.appendChild(t); setTimeout(() => t.remove(), 3500);
         };
 
-        function getImg(name) { return `https://ui-avatars.com/api/?name=${encodeURIComponent(name)}&background=111&color=D4AF37&size=600&font-size=0.3`; }
+        function getImg(name) { return `https://ui-avatars.com/api/?name=${encodeURIComponent(name || 'A')}&background=111&color=D4AF37&size=600&font-size=0.3`; }
 
         window.renderCategoryFilters = () => {
             document.getElementById('categoryFilterContainer').innerHTML = CATEGORIES.map(cat => 
@@ -633,23 +702,22 @@
         };
 
         window.setCategoryFilter = (c) => { activeCategory = c; window.renderCategoryFilters(); window.renderProductsGrid(); if (c === 'Combos') document.getElementById('combos-section').scrollIntoView({ behavior: 'smooth' }); };
-        window.handleSearch = (v) => { searchQuery = (v || '').trim().toLowerCase(); window.renderProductsGrid(); };
+        window.handleSearch = (v) => { searchQuery = (v || '').trim().toLowerCase(); document.getElementById('clearSearchBtn')?.classList.toggle('hidden', searchQuery.length === 0); window.renderProductsGrid(); };
         window.clearSearchInput = () => { document.getElementById('searchInput').value=''; document.getElementById('mobileSearchInput').value=''; window.handleSearch(''); };
         window.resetFilters = () => { window.clearSearchInput(); activeCategory = 'Todos'; window.renderCategoryFilters(); window.renderProductsGrid(); };
         
         window.renderCombosSection = () => {
             const container = document.getElementById('combosContainer');
             let combos = products.filter(p => p.isCombo);
-            
             if (combos.length === 0) {
-                const c1 = products.find(p => p.id === 991);
+                const c1 = products.find(p => String(p.id) === '991');
                 if(c1) combos = [c1];
             }
 
             container.innerHTML = combos.map(combo => `
                 <div class="bg-gradient-to-b from-[#181818] to-[#0D0D0D] rounded-3xl p-6 border border-gold/30 hover:border-gold transition-all duration-400 group flex flex-col justify-between shadow-xl hover:shadow-[0_0_30px_rgba(212,175,55,0.25)]">
                     <div class="flex gap-4 items-start mb-4">
-                        <div class="w-24 h-24 rounded-2xl bg-black overflow-hidden shrink-0 border border-white/10 relative shadow-inner cursor-pointer" onclick="window.openProductDetailModal(${combo.id})">
+                        <div class="w-24 h-24 rounded-2xl bg-black overflow-hidden shrink-0 border border-white/10 relative shadow-inner cursor-pointer" onclick="window.openProductDetailModal('${combo.id}')">
                             <img src="${combo.img || getImg(combo.name)}" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
                             <span class="absolute top-1 left-1 gold-btn-gradient text-black text-[8px] font-black px-2 py-0.5 rounded-md uppercase shadow">PROMO</span>
                         </div>
@@ -660,10 +728,10 @@
                         </div>
                     </div>
                     <div class="flex items-center justify-between pt-4 border-t border-white/10">
-                        <span class="text-2xl font-serif text-gold-light font-bold">$${combo.price.toFixed(2)}</span>
+                        <span class="text-2xl font-serif text-gold-light font-bold">$${Number(combo.price || 0).toFixed(2)}</span>
                         <div class="flex gap-2">
-                            <button onclick="window.openProductDetailModal(${combo.id})" class="px-3.5 py-2 bg-white/10 hover:bg-white text-white hover:text-black rounded-xl text-xs font-bold transition-all">Ver</button>
-                            <button onclick="window.addProductToCart(${combo.id}, 1)" class="px-4 py-2 gold-btn-gradient text-black font-bold rounded-xl text-xs transition-all flex items-center gap-1.5 shadow-md"><i class="fas fa-cart-plus"></i> Añadir</button>
+                            <button onclick="window.openProductDetailModal('${combo.id}')" class="px-3.5 py-2 bg-white/10 hover:bg-white text-white hover:text-black rounded-xl text-xs font-bold transition-all">Ver</button>
+                            <button onclick="window.addProductToCart('${combo.id}', 1)" class="px-4 py-2 gold-btn-gradient text-black font-bold rounded-xl text-xs transition-all flex items-center gap-1.5 shadow-md"><i class="fas fa-cart-plus"></i> Añadir</button>
                         </div>
                     </div>
                 </div>
@@ -684,7 +752,7 @@
             noRes.classList.add('hidden');
             grid.innerHTML = f.map(p => `
                 <div class="bg-gradient-to-b from-[#141414] to-[#0A0A0A] rounded-3xl overflow-hidden gold-border-glow flex flex-col group">
-                    <div class="relative w-full aspect-square bg-[#080808] overflow-hidden cursor-pointer" onclick="window.openProductDetailModal(${p.id})">
+                    <div class="relative w-full aspect-square bg-[#080808] overflow-hidden cursor-pointer" onclick="window.openProductDetailModal('${p.id}')">
                         <img src="${p.img || getImg(p.name)}" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
                         <span class="absolute top-3 left-3 bg-black/85 border border-gold/30 text-gold-light text-[9px] font-bold uppercase tracking-wider px-3 py-1 rounded-full shadow-md">${p.category}</span>
                     </div>
@@ -692,10 +760,10 @@
                         <h4 class="font-serif text-sm text-white font-bold leading-snug line-clamp-2">${p.name}</h4>
                         <p class="text-[11px] text-gray-400 line-clamp-2 mt-2 font-light flex-1">${p.desc}</p>
                         <div class="pt-3 mt-auto">
-                            <span class="text-xl font-serif text-gold-light font-bold block mb-3">$${p.price.toFixed(2)}</span>
+                            <span class="text-xl font-serif text-gold-light font-bold block mb-3">$${Number(p.price || 0).toFixed(2)}</span>
                             <div class="flex gap-2">
-                                <button onclick="window.openProductDetailModal(${p.id})" class="flex-1 bg-white/10 hover:bg-white text-white hover:text-black font-bold py-2.5 rounded-xl transition-all text-xs uppercase tracking-wider">Ver</button>
-                                <button onclick="window.addProductToCart(${p.id}, 1)" class="w-11 gold-btn-gradient text-black flex items-center justify-center rounded-xl hover:scale-105"><i class="fas fa-cart-plus text-sm"></i></button>
+                                <button onclick="window.openProductDetailModal('${p.id}')" class="flex-1 bg-white/10 hover:bg-white text-white hover:text-black font-bold py-2.5 rounded-xl transition-all text-xs uppercase tracking-wider">Ver</button>
+                                <button onclick="window.addProductToCart('${p.id}', 1)" class="w-11 gold-btn-gradient text-black flex items-center justify-center rounded-xl hover:scale-105"><i class="fas fa-cart-plus text-sm"></i></button>
                             </div>
                         </div>
                     </div>
@@ -705,10 +773,10 @@
 
         let currId = null; let currQty = 1;
         window.openProductDetailModal = (id) => {
-            const p = products.find(x => x.id === id); if(!p) return;
-            currId = id; currQty = 1;
+            const p = products.find(x => String(x.id) === String(id)); if(!p) return;
+            currId = p.id; currQty = 1;
             document.getElementById('modalProductTitle').innerText = p.name || '';
-            document.getElementById('modalProductPrice').innerText = `$${(p.price||0).toFixed(2)}`;
+            document.getElementById('modalProductPrice').innerText = `$${Number(p.price||0).toFixed(2)}`;
             document.getElementById('modalProductCatBadge').innerText = p.category || '';
             document.getElementById('modalProductDesc').innerText = p.desc || '';
             document.getElementById('modalProductFeatures').innerText = p.features || 'Detalles en descripción.';
@@ -723,14 +791,14 @@
         window.adjustModalQty = (d) => { currQty += d; if(currQty<1)currQty=1; if(currQty>15)currQty=15; document.getElementById('modalProductQty').innerText=currQty; };
         window.addModalProductToCart = () => { window.addProductToCart(currId, currQty); window.closeProductDetailModal(); };
         window.buyModalProductDirectWA = () => {
-            const p = products.find(x => x.id === currId); if(!p) return;
-            const t = (p.price * currQty).toFixed(2);
+            const p = products.find(x => String(x.id) === String(currId)); if(!p) return;
+            const t = (Number(p.price||0) * currQty).toFixed(2);
             window.open(`https://wa.me/${WHATSAPP_PHONE}?text=${encodeURIComponent(`¡Hola! Deseo pedir ${currQty}x ${p.name} por $${t}. ¿Me confirman disponibilidad?`)}`, '_blank');
         };
 
         window.addProductToCart = (id, qty) => {
-            const p = products.find(x => x.id === id); if(!p) return;
-            const e = cart.find(x => x.id === id); if(e) e.qty += qty; else cart.push({id, qty});
+            const p = products.find(x => String(x.id) === String(id)); if(!p) return;
+            const e = cart.find(x => String(x.id) === String(id)); if(e) e.qty += qty; else cart.push({id: p.id, qty});
             window.triggerToast(`Agregaste ${p.name}`); window.updateCartCounter();
         };
         window.updateCartCounter = () => {
@@ -747,15 +815,15 @@
             if(cart.length===0) { cont.innerHTML='<div class="text-center mt-20 text-gray-500"><i class="fas fa-shopping-bag text-5xl mb-4 text-white/10"></i><p>Carrito vacío</p></div>'; totalEl.innerText='$0.00'; return; }
             let total = 0;
             cont.innerHTML = cart.map(item => {
-                const p = products.find(x=>x.id===item.id); if(!p)return''; const sub = (p.price||0)*item.qty; total+=sub;
-                return `<div class="bg-[#181818] p-3 rounded-xl flex gap-3"><img src="${p.img||getImg(p.name)}" class="w-12 h-12 object-cover rounded bg-black shrink-0"><div class="flex-1 min-w-0"><h4 class="text-xs text-white font-bold truncate">${p.name}</h4><div class="flex justify-between items-center mt-2"><span class="text-xs text-gold-light">$${sub.toFixed(2)}</span><button onclick="window.removeCartItem(${p.id})" class="text-red-400 text-[10px]"><i class="fas fa-trash"></i></button></div></div></div>`;
+                const p = products.find(x=>String(x.id)===String(item.id)); if(!p)return''; const sub = Number(p.price||0)*item.qty; total+=sub;
+                return `<div class="bg-[#181818] p-3 rounded-xl flex gap-3"><img src="${p.img||getImg(p.name)}" class="w-12 h-12 object-cover rounded bg-black shrink-0"><div class="flex-1 min-w-0"><h4 class="text-xs text-white font-bold truncate">${p.name}</h4><div class="flex justify-between items-center mt-2"><span class="text-xs text-gold-light">$${sub.toFixed(2)}</span><button onclick="window.removeCartItem('${p.id}')" class="text-red-400 text-[10px]"><i class="fas fa-trash"></i></button></div></div></div>`;
             }).join('');
             totalEl.innerText = `$${total.toFixed(2)}`;
         };
-        window.removeCartItem = (id) => { cart = cart.filter(x=>x.id!==id); window.updateCartCounter(); window.renderCartItems(); };
+        window.removeCartItem = (id) => { cart = cart.filter(x=>String(x.id)!==String(id)); window.updateCartCounter(); window.renderCartItems(); };
         window.checkoutViaWhatsApp = () => {
             if(cart.length===0)return; let m = "¡Hola! Mi pedido en AURUM:\n\n"; let gt = 0;
-            cart.forEach(c => { const p=products.find(x=>x.id===c.id); if(p){ m+=`- ${c.qty}x ${p.name} ($${((p.price||0)*c.qty).toFixed(2)})\n`; gt+=(p.price||0)*c.qty; } });
+            cart.forEach(c => { const p=products.find(x=>String(x.id)===String(c.id)); if(p){ m+=`- ${c.qty}x ${p.name} ($${(Number(p.price||0)*c.qty).toFixed(2)})\n`; gt+=Number(p.price||0)*c.qty; } });
             m+=`\nTotal a Pagar: $${gt.toFixed(2)}`; window.open(`https://wa.me/${WHATSAPP_PHONE}?text=${encodeURIComponent(m)}`, '_blank');
         };
 
@@ -768,7 +836,13 @@
         };
         window.closeInfoModal = () => { document.getElementById('infoModal').classList.add('hidden'); document.getElementById('infoModal').classList.remove('flex'); };
         
-        window.openAdminLoginModal = () => { document.getElementById('adminPinInput').value = ''; document.getElementById('adminAuthError').classList.add('hidden'); document.getElementById('adminLoginModal').classList.remove('hidden'); document.getElementById('adminLoginModal').classList.add('flex'); };
+        window.openAdminLoginModal = () => { 
+            document.getElementById('adminPinInput').value = ''; 
+            document.getElementById('adminAuthError').classList.add('hidden'); 
+            document.getElementById('adminLoginModal').classList.remove('hidden'); 
+            document.getElementById('adminLoginModal').classList.add('flex');
+            setTimeout(() => document.getElementById('adminPinInput').focus(), 100);
+        };
         window.closeAdminLoginModal = () => { document.getElementById('adminLoginModal').classList.add('hidden'); document.getElementById('adminLoginModal').classList.remove('flex'); };
         
         window.loginAdmin = () => {
@@ -778,7 +852,10 @@
                 document.getElementById('adminDashboardModal').classList.remove('hidden');
                 document.getElementById('adminDashboardModal').classList.add('flex');
                 window.triggerToast("Bienvenido al Panel Administrador");
-                window.renderAdminInventory(localInventory); window.renderReports(localInventory, localMovements); window.renderMovementsTable(localMovements);
+                window.renderAdminCatalogList();
+                window.renderAdminInventory();
+                window.renderReports();
+                window.renderMovementsTable(localMovements);
                 if (window.fbLoadPrivateData) window.fbLoadPrivateData();
             } else {
                 document.getElementById('adminAuthError').classList.remove('hidden');
@@ -792,6 +869,26 @@
             window.triggerToast("Sesión cerrada");
         };
         
+        window.renderAdminCatalogList = () => {
+            const q = (document.getElementById('adminCatalogSearch')?.value || '').trim().toLowerCase();
+            const list = products.filter(p => (p.name || '').toLowerCase().includes(q) || (p.category || '').toLowerCase().includes(q));
+            document.getElementById('adminProductsList').innerHTML = list.map(p => `
+                <div class="bg-[#141414] p-4 rounded-xl border border-white/10 flex justify-between items-center gap-3 shadow-md hover:border-gold-light/40 transition-colors">
+                    <div class="flex items-center gap-3 min-w-0 flex-1">
+                        <img src="${p.img || getImg(p.name)}" class="w-11 h-11 rounded-lg object-cover shrink-0 bg-black">
+                        <div class="min-w-0 flex-1">
+                            <h5 class="text-xs font-bold text-white leading-tight truncate">${p.name}</h5>
+                            <div class="flex items-center gap-2 mt-1">
+                                <span class="text-[11px] text-gold-light font-bold">$${Number(p.price||0).toFixed(2)}</span>
+                                <span class="text-[10px] text-gray-400">• ${p.category}</span>
+                                ${p.isCombo ? '<span class="text-[9px] bg-gold/20 text-gold-light px-1.5 py-0.5 rounded font-bold">COMBO</span>' : ''}
+                            </div>
+                        </div>
+                    </div>
+                    <button type="button" onclick="window.openProductEditForm('${p.id}')" class="px-4 py-2 bg-white/10 text-white rounded-xl text-xs font-bold hover:bg-gold-light hover:text-black transition shrink-0">Editar</button>
+                </div>`).join('');
+        };
+
         window.switchAdminTab = (tab) => {
             ['catalog', 'inventory', 'reports'].forEach(t => {
                 document.getElementById('view'+t.charAt(0).toUpperCase()+t.slice(1)).classList.add('hidden');
@@ -799,22 +896,14 @@
             });
             document.getElementById('view'+tab.charAt(0).toUpperCase()+tab.slice(1)).classList.remove('hidden');
             document.getElementById('tab'+tab.charAt(0).toUpperCase()+tab.slice(1)).classList.add('active');
-            
-            if(tab === 'catalog') {
-                document.getElementById('adminProductsList').innerHTML = products.map(p => `
-                    <div class="bg-[#141414] p-4 rounded-xl border border-white/10 flex justify-between items-center shadow-md">
-                        <div class="flex items-center gap-3 w-3/4">
-                            <img src="${p.img || getImg(p.name)}" class="w-10 h-10 rounded-md object-cover">
-                            <div class="truncate"><h5 class="text-xs font-bold text-white leading-tight truncate">${p.name}</h5><span class="text-[10px] text-gold-light font-bold">$${(p.price||0).toFixed(2)}</span></div>
-                        </div>
-                        <button onclick="window.openProductEditForm(${p.id})" class="px-4 py-1.5 bg-white/10 text-white rounded text-xs hover:bg-gold-light hover:text-black transition">Editar</button>
-                    </div>`).join('');
-            }
+            if(tab === 'catalog') window.renderAdminCatalogList();
+            if(tab === 'inventory') window.renderAdminInventory();
+            if(tab === 'reports') { window.renderReports(); window.renderMovementsTable(localMovements); }
         };
 
         window.handleAdminImgUpload = (e) => {
             const file = e.target.files[0]; if (!file) return;
-            const status = document.getElementById('editImgUploadStatus'); status.innerText = 'Cargando imagen...';
+            const status = document.getElementById('editImgUploadStatus'); status.innerText = 'Optimizando imagen...';
             const reader = new FileReader();
             reader.onload = (event) => {
                 const img = new Image();
@@ -822,7 +911,7 @@
                     const canvas = document.createElement('canvas'); const MAX = 600; let w = img.width; let h = img.height;
                     if (w > MAX || h > MAX) { if (w > h) { h = Math.round((h * MAX) / w); w = MAX; } else { w = Math.round((w * MAX) / h); h = MAX; } }
                     canvas.width = w; canvas.height = h; const ctx = canvas.getContext('2d'); ctx.drawImage(img, 0, 0, w, h);
-                    temporaryEditImg = canvas.toDataURL('image/jpeg', 0.7); 
+                    temporaryEditImg = canvas.toDataURL('image/jpeg', 0.8); 
                     document.getElementById('editFormImgPreview').src = temporaryEditImg; 
                     status.innerText = '✓ Foto Lista';
                 }; img.src = event.target.result;
@@ -830,29 +919,50 @@
         };
 
         window.openProductEditForm = (id) => {
-            const isNew = id === 'new'; temporaryEditImg = '';
+            const isNew = String(id) === 'new'; 
+            temporaryEditImg = '';
             document.getElementById('editFormHeaderTitle').innerText = isNew ? 'Crear Nuevo Producto' : 'Editar Producto';
-            document.getElementById('editFormId').value = isNew ? 'new' : id;
+            document.getElementById('editFormId').value = isNew ? 'new' : String(id);
             document.getElementById('btnAdminDeleteProd').classList.toggle('hidden', isNew);
             document.getElementById('editImgUploadStatus').innerText = '';
+            document.getElementById('editFormImgFile').value = '';
             
             if (isNew) {
-                document.getElementById('editFormName').value = ''; document.getElementById('editFormPrice').value = ''; 
-                document.getElementById('editFormCategory').value = 'Tecnología'; document.getElementById('editFormIsCombo').checked = false;
-                document.getElementById('editFormDesc').value = ''; document.getElementById('editFormFeatures').value = ''; document.getElementById('editFormBenefits').value = '';
-                document.getElementById('editFormImgPreview').src = getImg('N');
+                document.getElementById('editFormName').value = ''; 
+                document.getElementById('editFormPrice').value = ''; 
+                document.getElementById('editFormCategory').value = 'Tecnología'; 
+                document.getElementById('editFormIsCombo').checked = false;
+                document.getElementById('editFormDesc').value = ''; 
+                document.getElementById('editFormFeatures').value = ''; 
+                document.getElementById('editFormBenefits').value = '';
+                document.getElementById('editFormImgPreview').src = getImg('Nuevo');
             } else {
-                const p = products.find(x => x.id === id);
-                document.getElementById('editFormName').value = p.name || ''; document.getElementById('editFormPrice').value = p.price || 0; 
-                document.getElementById('editFormCategory').value = p.category || 'Tecnología'; document.getElementById('editFormIsCombo').checked = p.isCombo || false;
-                document.getElementById('editFormDesc').value = p.desc || ''; document.getElementById('editFormFeatures').value = p.features || ''; document.getElementById('editFormBenefits').value = p.benefits || '';
+                const p = products.find(x => String(x.id) === String(id));
+                if (!p) {
+                    window.triggerToast('No se encontró el producto');
+                    return;
+                }
+                document.getElementById('editFormName').value = p.name || ''; 
+                document.getElementById('editFormPrice').value = p.price || 0; 
+                document.getElementById('editFormCategory').value = p.category || 'Tecnología'; 
+                document.getElementById('editFormIsCombo').checked = Boolean(p.isCombo);
+                document.getElementById('editFormDesc').value = p.desc || ''; 
+                document.getElementById('editFormFeatures').value = p.features || ''; 
+                document.getElementById('editFormBenefits').value = p.benefits || '';
                 document.getElementById('editFormImgPreview').src = p.img || getImg(p.name);
                 temporaryEditImg = p.img || '';
             }
-            document.getElementById('adminEditModal').classList.remove('hidden'); document.getElementById('adminEditModal').classList.add('flex');
+            const modal = document.getElementById('adminEditModal');
+            modal.classList.remove('hidden'); 
+            modal.classList.add('flex');
+            const scrollBody = modal.querySelector('.overflow-y-auto');
+            if(scrollBody) scrollBody.scrollTop = 0;
         };
 
-        window.closeProductEditForm = () => { document.getElementById('adminEditModal').classList.add('hidden'); document.getElementById('adminEditModal').classList.remove('flex'); };
+        window.closeProductEditForm = () => { 
+            document.getElementById('adminEditModal').classList.add('hidden'); 
+            document.getElementById('adminEditModal').classList.remove('flex'); 
+        };
 
         window.saveAdminProduct = async () => {
             const idVal = document.getElementById('editFormId').value; 
@@ -867,78 +977,109 @@
             if (!name) return alert('El nombre es obligatorio.');
             let savedProd = null;
             if (idVal === 'new') { 
-                const newId = products.length ? Math.max(...products.map(p => p.id)) + 1 : 1; 
+                const numericIds = products.map(p => Number(p.id)).filter(n => !isNaN(n) && n < 900);
+                const newId = numericIds.length ? Math.max(...numericIds) + 1 : 1; 
                 savedProd = { id: newId, name, price, category, isCombo, desc, features, benefits, img: temporaryEditImg }; 
                 products.push(savedProd); 
             } else { 
-                const id = parseInt(idVal); const idx = products.findIndex(p => p.id === id); 
+                const idx = products.findIndex(p => String(p.id) === String(idVal)); 
                 if (idx !== -1) { 
                     products[idx] = { ...products[idx], name, price, category, isCombo, desc, features, benefits, img: temporaryEditImg || products[idx].img }; 
                     savedProd = products[idx]; 
                 } 
             }
             if (savedProd && window.fbSaveProduct) {
-                try { await window.fbSaveProduct(savedProd); window.triggerToast('Guardado en la nube con éxito'); } 
-                catch(e) { window.triggerToast('Guardado local (Sin conexión a internet)'); }
+                try { await window.fbSaveProduct(savedProd); window.triggerToast('Guardado en la nube con éxito ✨'); } 
+                catch(e) { window.triggerToast('Guardado localmente'); }
             }
-            window.switchAdminTab('catalog'); window.closeProductEditForm(); window.renderCombosSection(); window.renderProductsGrid();
+            window.renderAdminCatalogList(); 
+            window.renderAdminInventory();
+            window.closeProductEditForm(); 
+            window.renderCombosSection(); 
+            window.renderProductsGrid();
         };
 
         window.deleteProductFromAdmin = async () => {
             const idVal = document.getElementById('editFormId').value; if (idVal === 'new') return;
-            if (!confirm('¿Seguro de eliminar este producto para siempre? Esta acción no se puede deshacer.')) return;
-            const id = parseInt(idVal); products = products.filter(p => p.id !== id);
+            if (!confirm('¿Seguro de eliminar este producto permanentemente?')) return;
+            products = products.filter(p => String(p.id) !== String(idVal));
             if (window.fbDeleteProduct) {
-                try { await window.fbDeleteProduct(id); window.triggerToast('Eliminado permanentemente'); } 
-                catch(e) { window.triggerToast('Eliminado local'); }
+                try { await window.fbDeleteProduct(idVal); window.triggerToast('Producto eliminado'); } 
+                catch(e) { window.triggerToast('Eliminado localmente'); }
             }
-            window.switchAdminTab('catalog'); window.closeProductEditForm(); window.renderCombosSection(); window.renderProductsGrid();
+            window.renderAdminCatalogList(); 
+            window.renderAdminInventory();
+            window.closeProductEditForm(); 
+            window.renderCombosSection(); 
+            window.renderProductsGrid();
         };
 
-        // GESTIÓN DE INVENTARIO DIARIO (100% GARANTIZADO LOCAL + SYNC FIREBASE BACKGROUND)
-        window.renderAdminInventory = (invData) => {
+        // GESTIÓN DE INVENTARIO DIARIO CON FECHAS Y FILTROS
+        function getTodayStr() {
+            const hoy = new Date();
+            const yyyy = hoy.getFullYear();
+            const mm = String(hoy.getMonth() + 1).padStart(2, '0');
+            const dd = String(hoy.getDate()).padStart(2, '0');
+            return `${yyyy}-${mm}-${dd}`;
+        }
+
+        window.renderAdminInventory = () => {
             const tbody = document.getElementById('inventoryTableBody');
-            tbody.innerHTML = products.map(p => {
-                const stock = invData[`stock_${p.id}`] ? invData[`stock_${p.id}`].qty : 0;
+            const q = (document.getElementById('adminInvSearch')?.value || '').trim().toLowerCase();
+            const filteredProds = products.filter(p => (p.name || '').toLowerCase().includes(q));
+
+            tbody.innerHTML = filteredProds.map(p => {
+                const record = localInventory[`stock_${p.id}`];
+                const stock = record ? record.qty : 0;
+                const lastDate = record && record.lastUpdated ? record.lastUpdated.split('T')[0] : 'Sin registro';
                 const color = stock <= 2 ? 'text-red-400' : 'text-green-400';
                 return `<tr>
-                    <td class="p-4 font-bold max-w-[200px] truncate">${p.name}</td>
+                    <td class="p-4 font-bold max-w-[220px] truncate">${p.name}</td>
                     <td class="p-4 text-center font-serif text-lg ${color}">${stock}</td>
-                    <td class="p-4 text-center text-gray-400">-</td>
+                    <td class="p-4 text-center text-gray-400 text-[11px]">${lastDate}</td>
                     <td class="p-4 text-right whitespace-nowrap">
-                        <button onclick="window.openInvMoveModal(${p.id}, 'in')" class="bg-white/10 hover:bg-green-500/20 text-green-400 px-3 py-1.5 rounded mr-1" title="Registrar Ingreso / Compra (+)"><i class="fas fa-plus"></i></button>
-                        <button onclick="window.openInvMoveModal(${p.id}, 'out')" class="bg-white/10 hover:bg-red-500/20 text-red-400 px-3 py-1.5 rounded mr-1" title="Registrar Salida / Venta (-)"><i class="fas fa-minus"></i></button>
-                        <button onclick="window.openInvMoveModal(${p.id}, 'set')" class="bg-white/10 hover:bg-blue-500/20 text-blue-400 px-3 py-1.5 rounded" title="Ajuste Exacto Diario / Conteo Físico (=)"><i class="fas fa-equals"></i></button>
+                        <button type="button" onclick="window.openInvMoveModal('${p.id}', 'in')" class="bg-white/10 hover:bg-green-500/20 text-green-400 px-3 py-1.5 rounded-lg mr-1" title="Registrar Ingreso (+)"><i class="fas fa-plus"></i></button>
+                        <button type="button" onclick="window.openInvMoveModal('${p.id}', 'out')" class="bg-white/10 hover:bg-red-500/20 text-red-400 px-3 py-1.5 rounded-lg mr-1" title="Registrar Salida / Venta (-)"><i class="fas fa-minus"></i></button>
+                        <button type="button" onclick="window.openInvMoveModal('${p.id}', 'set')" class="bg-white/10 hover:bg-blue-500/20 text-blue-400 px-3 py-1.5 rounded-lg" title="Conteo Diario Exacto (=)"><i class="fas fa-equals"></i></button>
                     </td>
                 </tr>`;
             }).join('');
         };
 
         window.openInvMoveModal = (id, type) => {
+            const prod = products.find(x => String(x.id) === String(id));
             let title = 'Registrar Movimiento';
             if(type === 'in') title = 'Registrar Ingreso (+)';
-            if(type === 'out') title = 'Registrar Salida (-)';
-            if(type === 'set') title = 'Ajuste Diario Exacto (=)';
+            if(type === 'out') title = 'Registrar Salida / Venta (-)';
+            if(type === 'set') title = 'Conteo Diario Exacto (=)';
             
             document.getElementById('invMoveTitle').innerText = title;
-            document.getElementById('invMoveProdId').value = id;
+            document.getElementById('invMoveProdId').value = String(id);
+            document.getElementById('invMoveProdName').innerText = prod ? prod.name : `Producto #${id}`;
             document.getElementById('invMoveType').value = type;
             document.getElementById('invMoveQty').value = '';
+            document.getElementById('invMoveDate').value = getTodayStr();
             
-            if(type === 'set') document.getElementById('invMoveReason').value = 'Conteo Diario Exacto';
-            else if(type === 'in') document.getElementById('invMoveReason').value = 'Compra/Ingreso';
-            else if(type === 'out') document.getElementById('invMoveReason').value = 'Venta';
+            if(type === 'set') document.getElementById('invMoveReason').value = 'Conteo Diario Exacto de Feria';
+            else if(type === 'in') document.getElementById('invMoveReason').value = 'Compra / Ingreso Proveedor';
+            else if(type === 'out') document.getElementById('invMoveReason').value = 'Venta Confirmada';
             
-            document.getElementById('inventoryMoveModal').classList.remove('hidden'); document.getElementById('inventoryMoveModal').classList.add('flex');
+            document.getElementById('inventoryMoveModal').classList.remove('hidden'); 
+            document.getElementById('inventoryMoveModal').classList.add('flex');
+            setTimeout(() => document.getElementById('invMoveQty').focus(), 100);
         };
         
-        window.closeInvMoveModal = () => { document.getElementById('inventoryMoveModal').classList.add('hidden'); document.getElementById('inventoryMoveModal').classList.remove('flex'); };
+        window.closeInvMoveModal = () => { 
+            document.getElementById('inventoryMoveModal').classList.add('hidden'); 
+            document.getElementById('inventoryMoveModal').classList.remove('flex'); 
+        };
 
         window.submitInventoryMove = async () => {
             const pid = document.getElementById('invMoveProdId').value;
             const type = document.getElementById('invMoveType').value;
-            const qty = parseInt(document.getElementById('invMoveQty').value);
+            const qty = parseInt(document.getElementById('invMoveQty').value, 10);
             const reason = document.getElementById('invMoveReason').value;
+            const customDateInput = document.getElementById('invMoveDate').value || getTodayStr();
             
             if(isNaN(qty) || qty < 0) return alert("Por favor, ingresa una cantidad numérica válida.");
             
@@ -949,60 +1090,109 @@
             else if(type === 'in') newQty = currentQty + qty;
             else if(type === 'out') newQty = currentQty - qty;
             
-            if (newQty < 0) return alert("No hay suficiente stock en sistema para registrar esta salida.");
+            if (newQty < 0) return alert(`Stock insuficiente (disponible: ${currentQty}). No se permiten existencias negativas.`);
             
-            localInventory[`stock_${pid}`] = { qty: newQty, cost: 0, lastUpdated: new Date().toISOString() };
-            
+            const dateToSave = `${customDateInput}T12:00:00`;
+
+            localInventory[`stock_${pid}`] = { qty: newQty, cost: 0, lastUpdated: dateToSave };
             const newMove = { 
                 id: Date.now().toString(), 
-                productId: parseInt(pid), 
-                type, qty, reason, 
-                date: new Date().toISOString(), 
+                productId: isNaN(Number(pid)) ? pid : Number(pid), 
+                type, 
+                qty, 
+                prevQty: currentQty,
+                newQty: newQty,
+                reason, 
+                date: dateToSave, 
                 by: "Admin Feria" 
             };
             
             localMovements.unshift(newMove);
-            if(localMovements.length > 100) localMovements.pop(); 
+            if(localMovements.length > 300) localMovements.pop(); 
             
             localStorage.setItem('aurum_inventory_v1', JSON.stringify(localInventory));
             localStorage.setItem('aurum_movements_v1', JSON.stringify(localMovements));
             
-            window.renderAdminInventory(localInventory);
-            window.renderMovementsTable(localMovements);
-            window.renderReports(localInventory, localMovements);
+            window.renderAdminInventory();
+            window.applyMovementsFilter();
+            window.renderReports();
             window.closeInvMoveModal();
-            window.triggerToast("Stock actualizado (Guardado en dispositivo)");
+            window.triggerToast(`Stock actualizado: ${newQty} unidades (${customDateInput})`);
 
             if (window.fbSyncInventory) {
                 try { await window.fbSyncInventory(pid, newMove, localInventory[`stock_${pid}`]); } 
-                catch (e) { console.warn("Modo Local Activo: Inventario guardado en la memoria del dispositivo."); }
+                catch (e) { console.warn("Guardado local únicamente."); }
             }
         };
 
         window.renderMovementsTable = (moves) => {
-            document.getElementById('movementsTableBody').innerHTML = moves.map(m => {
-                const p = products.find(x => x.id === m.productId);
-                let iconStr = m.type === 'in' ? 'IN (+)' : (m.type === 'out' ? 'OUT (-)' : 'SET (=)');
+            const tbody = document.getElementById('movementsTableBody');
+            if (!moves || moves.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="5" class="p-6 text-center text-gray-500">No hay movimientos registrados para el filtro seleccionado.</td></tr>`;
+                return;
+            }
+            tbody.innerHTML = moves.map(m => {
+                const p = products.find(x => String(x.id) === String(m.productId));
+                let iconStr = m.type === 'in' ? 'INGRESO (+)' : (m.type === 'out' ? 'SALIDA (-)' : 'CONTEO (=)');
                 let colorClass = m.type === 'in' ? 'text-green-400' : (m.type === 'out' ? 'text-red-400' : 'text-blue-400');
+                const cleanDate = (m.date || '').split('T')[0];
+                
                 return `<tr>
-                    <td class="p-3 whitespace-nowrap">${new Date(m.date).toLocaleDateString()}</td>
-                    <td class="p-3 ${colorClass} font-bold">${iconStr}</td>
-                    <td class="p-3 truncate max-w-[150px]">${p ? p.name : 'Producto ID ' + m.productId}</td>
-                    <td class="p-3 font-bold">${m.qty}</td>
-                    <td class="p-3 text-gray-400 text-[10px]">${m.reason}</td>
+                    <td class="p-3 whitespace-nowrap font-mono text-[11px]">${cleanDate}</td>
+                    <td class="p-3 ${colorClass} font-bold whitespace-nowrap">${iconStr}</td>
+                    <td class="p-3 truncate max-w-[180px]">${p ? p.name : 'Producto #' + m.productId}</td>
+                    <td class="p-3 text-center font-bold">${m.qty}</td>
+                    <td class="p-3 text-gray-400 text-[11px]">${m.reason}</td>
                 </tr>`;
             }).join('');
         };
 
-        window.renderReports = (inv, moves) => {
+        window.renderReports = () => {
             document.getElementById('repTotalProds').innerText = products.length;
             let lowCount = 0;
-            products.forEach(p => { if(!inv[`stock_${p.id}`] || inv[`stock_${p.id}`].qty <= 2) lowCount++; });
+            let totalUnits = 0;
+            products.forEach(p => { 
+                const q = localInventory[`stock_${p.id}`] ? Number(localInventory[`stock_${p.id}`].qty || 0) : 0;
+                totalUnits += q;
+                if(q <= 2) lowCount++; 
+            });
+            document.getElementById('repTotalUnits').innerText = totalUnits;
             document.getElementById('repLowStock').innerText = lowCount;
         };
 
+        // FILTRADO DE FECHAS EN MOVIMIENTOS
+        window.filterMovementsToday = () => {
+            const today = getTodayStr();
+            document.getElementById('filterDateStart').value = today;
+            document.getElementById('filterDateEnd').value = today;
+            window.applyMovementsFilter();
+        };
+
+        window.applyMovementsFilter = () => {
+            const startVal = document.getElementById('filterDateStart').value;
+            const endVal = document.getElementById('filterDateEnd').value;
+            let filtered = [...localMovements];
+            
+            if (startVal) {
+                filtered = filtered.filter(m => (m.date || '').split('T')[0] >= startVal);
+            }
+            if (endVal) {
+                filtered = filtered.filter(m => (m.date || '').split('T')[0] <= endVal);
+            }
+            window.renderMovementsTable(filtered);
+        };
+
+        window.clearMovementsFilter = () => {
+            document.getElementById('filterDateStart').value = '';
+            document.getElementById('filterDateEnd').value = '';
+            window.renderMovementsTable(localMovements);
+        };
+
         window.addEventListener('DOMContentLoaded', () => {
-            window.renderCategoryFilters(); window.renderCombosSection(); window.renderProductsGrid(); window.switchAdminTab('catalog');
+            window.renderCategoryFilters(); 
+            window.renderCombosSection(); 
+            window.renderProductsGrid(); 
+            window.switchAdminTab('catalog');
         });
     </script>
 </body>
