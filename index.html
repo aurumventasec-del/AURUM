@@ -3,6 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <!-- Configuración para PWA / App Móvil -->
+    <meta name="theme-color" content="#050505">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <link rel="manifest" href="manifest.json">
+    <link rel="icon" type="image/svg+xml" href="icon.svg">
+    <link rel="apple-touch-icon" href="icon.svg">
+
     <title>AURUM | Calidad que vale oro — Tienda Online Exclusiva</title>
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -850,7 +858,6 @@
                 }
             }
 
-            // Iniciamos el listener de catálogo después de asegurar la conexión para que nunca se desconecte
             ensureAuth().then(() => {
                 onSnapshot(collection(db, catalogPath), (snapshot) => {
                     const prods = snapshot.docs.map(d => d.data());
@@ -858,14 +865,12 @@
                 }, (err) => console.warn("Error leyendo catálogo:", err.message));
             });
 
-            // Guardar o editar producto en la nube
             window.fbSaveProduct = async (product) => {
                 await ensureAuth();
                 const payload = { ...product, id: String(product.id), deleted: false, updatedAt: Date.now() };
                 await setDoc(doc(db, catalogPath, `prod_${product.id}`), payload);
             };
 
-            // Eliminar producto en todos los dispositivos (Guarda marca 'deleted: true' en la nube para que no reviva desde initialProducts)
             window.fbDeleteProduct = async (id) => {
                 await ensureAuth();
                 await setDoc(doc(db, catalogPath, `prod_${id}`), {
@@ -911,7 +916,6 @@
 
     <!-- MOTOR DE ANIMACIÓN DE HOJAS DORADAS + LÓGICA DE TIENDA Y GESTOR -->
     <script>
-        // 1. ANIMACIÓN CANVAS DE HOJAS DORADAS SUAVES
         (function initGoldLeavesCanvas() {
             const canvas = document.getElementById('goldLeavesCanvas');
             if (!canvas) return;
@@ -973,7 +977,6 @@
             requestAnimationFrame(draw);
         })();
 
-        // 2. UTILIDADES DE FECHA Y TIMEOUT
         function getTodayStr() {
             const now = new Date();
             const offsetMs = now.getTimezoneOffset() * 60000;
@@ -987,7 +990,6 @@
             ]);
         }
 
-        // Copiado Universal Infalible
         async function universalCopyText(text) {
             if (navigator.clipboard && window.isSecureContext) {
                 try {
@@ -1063,7 +1065,7 @@
             { id: 11, name: 'AirPods 2da Gen con ANC (Cancelación de Ruido)', price: 20.00, category: 'Tecnología', isCombo: false, desc: 'Aíslate del ruido exterior y concéntrate en tu música, estudio o trabajo. Audífonos inalámbricos con Cancelación Activa de Ruido (ANC) y ajuste anatómico.', features: '- Cancelación Activa de Ruido (ANC) y Modo Transparencia.\n- Conectividad Bluetooth 5.3 estable y de baja latencia.\n- Batería de 4 a 5 horas continuas por carga más estuche.\n- Sensor inteligente de detección de oído automático.\n- Almohadillas de silicona suave intercambiables.', benefits: '- Reduce el ruido del tráfico, oficinas o transporte público.\n- Almohadillas ergonómicas que no fatigan tras horas de uso.\n- Emparejamiento instantáneo al abrir la tapa del estuche.\n- Audio de altísima fidelidad para música, podcasts y videos.\n- Modo transparencia para conversar sin quitarte los audífonos.', img: '' },
             { id: 12, name: 'Auriculares Bluetooth S5', price: 15.00, category: 'Tecnología', isCombo: false, desc: 'Audífonos deportivos ultraligeros e inalámbricos, ideales para gimnasio, trote o uso diario activo con excelente sujeción.', features: '- Conexión Bluetooth 5.1 estable hasta 10 metros de distancia.\n- Controles táctiles intuitivos para música y llamadas.\n- Diseño In-Ear ergonómico que sella cómodamente el canal auditivo.\n- Resistencia IPX4 al sudor y salpicaduras ligeras.\n- Estuche cargador tipo cápsula ultracompacto.', benefits: '- Se mantienen firmes en el oído durante el ejercicio intenso.\n- Aíslan el ruido exterior de forma pasiva para mayor concentración.\n- Estuche fácil de llevar en cualquier bolsillo pequeño.\n- Resisten largas rutinas deportivas sin dañarse por el sudor.\n- Libertad total de movimiento sin cables que estorben.', img: '' },
             { id: 13, name: 'Audífono Bluetooth Transformers TF-T02', price: 22.00, category: 'Tecnología', isCombo: false, desc: 'Audífonos TWS edición mecha futurista diseñados para gamers y amantes del diseño único, con baja latencia y sonido contundente.', features: '- Modo Gamer de ultra baja latencia para respuesta inmediata.\n- Carcasa metálica temática Transformers con iluminación LED.\n- Micrófono sensible con reducción de ruido para chat de voz.\n- Controladores dinámicos de 13mm para graves potentes.\n- Bisagra magnética de aleación duradera y resistente.', benefits: '- Escucha pasos y efectos en tiempo real mientras juegas en el celular.\n- Diseño coleccionable exclusivo que destaca por su estética.\n- Sincronización perfecta de audio y video para películas y series.\n- Comunicación clara con tu equipo en partidas competitivas.\n- Construcción sólida que protege los audífonos contra caídas.', img: '' },
-            { id: 14, name: 'Auriculares Inalámbricos A20', price: 22.00, category: 'Tecnología', isCombo: false, desc: 'Potencia acústica con realce de graves y autonomía extendida para acompañarte durante toda la semana sin interrupciones.', features: '- Tecnología de realce de graves profundos (Pure Bass).\n- Autonomía total de hasta 20 horas con el estuche de carga.\n- Emparejamiento automático rápido al sacarlos de la caja.\n- Diseño ergonómico de perfil discreto y ligero.\n- Compatibilidad con asistentes de voz Siri y Google Assistant.', benefits: '- Sonido contundente para música urbana, electrónica o rock.\n- Días enteros de uso cotidiano sin preocuparte por recargar.\n- No sobresalen ni lastiman el oído al recostarse.\n- Control práctico de llamadas y canciones con un toque.\n- Conexión estable compatible con Android, iPhone y laptops.', img: '' },
+            { id: 14, name: 'Auriculares Inalámbricos A20', price: 22.00, category: 'Tecnología', isCombo: false, desc: 'Potencia acústica con realce de graves y autonomía extendida para acompañarte durante toda la semana sin interrupciones.', features: '- Tecnología de realce de graves profundos (Pure Bass).\n- Autonomía total de hasta 20 horas con el estuche de carga.\n- Emparejamiento rápido automático al sacarlos de la caja.\n- Diseño ergonómico de perfil discreto y ligero.\n- Compatibilidad con asistentes de voz Siri y Google Assistant.', benefits: '- Sonido contundente para música urbana, electrónica o rock.\n- Días enteros de uso cotidiano sin preocuparte por recargar.\n- No sobresalen ni lastiman el oído al recostarse.\n- Control práctico de llamadas y canciones con un toque.\n- Conexión estable compatible con Android, iPhone y laptops.', img: '' },
             { id: 15, name: 'Auriculares Bluetooth Supraaurales AP', price: 17.00, category: 'Tecnología', isCombo: false, desc: 'Confort envolvente en formato de diadema acolchada, ideales para largas jornadas de trabajo, estudio, edición o entretenimiento.', features: '- Diadema ajustable con almohadillas viscoelásticas suaves.\n- Botones físicos integrados para control de volumen y pistas.\n- Batería recargable de larga duración y alta capacidad.\n- Entrada auxiliar 3.5mm para uso opcional con cable.\n- Micrófono HD incorporado para llamadas y reuniones.', benefits: '- No ejercen presión molesta en las orejas tras varias horas.\n- Excelente aislamiento acústico frente al ruido ambiental.\n- Ideales para videollamadas, clases virtuales de universidad o gaming.\n- Continúa escuchando incluso sin batería conectando el cable auxiliar.\n- Diseño elegante que luce bien en oficina o en la calle.', img: '' },
             { id: 16, name: 'Audífonos Sony Bluetooth 5.0 Diadema', price: 35.00, category: 'Tecnología', isCombo: false, desc: 'Claridad acústica equilibrada con agudos nítidos y bajos profundos en una estructura plegable, ligera y resistente.', features: '- Conexión inalámbrica Bluetooth 5.0 de largo alcance.\n- Diseño plegable con copas giratorias para fácil transporte.\n- Micrófono omnidireccional integrado de voz nítida.\n- Acabado mate elegante resistente a rayones de uso diario.\n- Función de realce de bajos para mayor inmersión musical.', benefits: '- Se guardan fácilmente ocupando mínimo espacio en la mochila.\n- Sonido fiel y envolvente para disfrutar cada instrumento.\n- Libertad inalámbrica estable para moverte por casa u oficina.\n- Aislamiento auditivo superior para estudiar o trabajar concentrado.\n- Materiales acolchados frescos que evitan el calor excesivo.', img: '' },
             { id: 17, name: 'Reloj Inteligente Serie Apple Watch', price: 30.00, category: 'Tecnología', isCombo: false, desc: 'Tu centro de notificaciones, llamadas y actividad física en la muñeca. Pantalla fluida a todo color compatible con teléfonos Android e iOS.', features: '- Pantalla táctil HD de borde a borde con colores intensos.\n- Notificaciones de WhatsApp, redes sociales y llamadas Bluetooth.\n- Monitor de ritmo cardíaco, oxígeno en sangre y podómetro.\n- Correas de silicona intercambiables de ajuste cómodo.\n- Múltiples carátulas personalizables y menús fluidos.', benefits: '- Revisa mensajes importantes sin sacar tu teléfono en la calle.\n- Controla tus pasos, calorías quemadas y actividad diaria.\n- Responde llamadas directamente desde la muñeca al conducir.\n- Cambia el estilo de carátula para ocasiones formales o deportivas.\n- Incluye funciones útiles como calculadora, alarma y control de música.', img: '' },
@@ -1101,7 +1103,6 @@
             localStorage.setItem('aurum_deleted_ids_v1', JSON.stringify(deletedProductIds));
         }
 
-        // Ilustración Vectorial Dorada Suave cuando el producto no tiene foto subida
         function getImg(name, category) {
             const title = (name || 'AURUM').substring(0, 26);
             const cat = (category || 'EXCLUSIVO').toUpperCase();
@@ -1129,7 +1130,6 @@
             return `data:image/svg+xml;utf8,${encodeURIComponent(svg)}`;
         }
 
-        // FUSIÓN EN TIEMPO REAL CORREGIDA: La nube manda y sincroniza eliminaciones y ediciones en todos los dispositivos
         window.mergeFirebaseCatalog = (fbDocs) => {
             if (!fbDocs || !Array.isArray(fbDocs)) return;
             
@@ -1146,7 +1146,6 @@
             deletedProductIds = Array.from(cloudDeletedSet);
 
             const map = new Map();
-            // 1. Cargamos los productos base que no hayan sido eliminados
             initialProducts.forEach(p => {
                 const pid = String(p.id);
                 if (!cloudDeletedSet.has(pid)) {
@@ -1154,7 +1153,6 @@
                 }
             });
 
-            // 2. Mantenemos productos locales si son más recientes que la nube
             products.forEach(p => {
                 const pid = String(p.id);
                 if (!cloudDeletedSet.has(pid)) {
@@ -1162,7 +1160,6 @@
                 }
             });
 
-            // 3. Aplicamos todos los cambios de Firebase (Ediciones, Nuevos y Eliminados)
             fbDocs.forEach(p => {
                 if (!p || p.id === undefined) return;
                 const pid = String(p.id);
@@ -1215,7 +1212,6 @@
             setTimeout(() => t.remove(), 3400);
         };
 
-        // 3. FILTROS Y RENDERIZADO DEL CATÁLOGO
         window.renderCategoryFilters = () => {
             document.getElementById('categoryFilterContainer').innerHTML = CATEGORIES.map(cat => 
                 `<button onclick="window.setCategoryFilter('${cat}')" class="px-4 py-2 rounded-full text-xs font-semibold uppercase tracking-wider whitespace-nowrap transition-all border ${activeCategory === cat ? 'gold-btn-gradient text-black border-transparent shadow-[0_0_16px_rgba(197,160,89,0.3)] font-extrabold' : 'text-gray-300 border-white/15 hover:border-gold/50 bg-black/50'}">${cat}</button>`
@@ -1334,7 +1330,6 @@
                         <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-50"></div>
                         <span class="absolute top-3 left-3 bg-black/85 backdrop-blur-md border border-gold/30 text-gold-light text-[9px] font-bold uppercase tracking-wider px-2.5 py-1 rounded-full shadow-md">${p.category}</span>
                         
-                        <!-- Botón Rápido para Compartir -->
                         <div class="absolute top-2.5 right-2.5 z-10">
                             <button onclick="window.openShareModal('${p.id}', event)" class="w-8 h-8 rounded-full bg-black/80 backdrop-blur-md border border-gold/30 flex items-center justify-center text-gold-light hover:bg-gold-light hover:text-black transition-transform hover:scale-110" title="Compartir producto">
                                 <i class="fas fa-share-nodes text-[11px]"></i>
@@ -1359,7 +1354,6 @@
             }).join('');
         };
 
-        // 4. MODAL DE DETALLE Y SISTEMA DE COMPARTIR 100% FUNCIONAL
         let currId = null;
         let currQty = 1;
         let currentShareProdId = null;
@@ -1477,7 +1471,6 @@
             window.open(`https://wa.me/${WHATSAPP_PHONE}?text=${encodeURIComponent(msg)}`, '_blank');
         };
 
-        // 5. CARRITO DE COMPRAS PERSISTENTE
         function saveCartToStorage() {
             localStorage.setItem('aurum_cart_v1', JSON.stringify(cart));
         }
@@ -1640,7 +1633,6 @@
             document.getElementById('infoModal').classList.remove('flex');
         };
         
-        // 6. GESTOR PRIVADO ADMINISTRADOR
         window.openAdminLoginModal = () => { 
             document.getElementById('adminPinInput').value = ''; 
             document.getElementById('adminAuthError').classList.add('hidden'); 
@@ -2154,7 +2146,6 @@
             window.triggerToast('Historial de movimientos descargado');
         };
 
-        // Inicialización + Soporte para abrir un producto compartido por URL (?producto=ID)
         window.addEventListener('DOMContentLoaded', () => {
             window.renderCategoryFilters(); 
             window.renderCombosSection(); 
@@ -2168,6 +2159,17 @@
                 setTimeout(() => window.openProductDetailModal(sharedProdId), 600);
             }
         });
+    </script>
+
+    <!-- Activador del Service Worker para App Móvil (PWA) -->
+    <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('./sw.js')
+                    .then(() => console.log('AURUM App PWA registrada correctamente'))
+                    .catch(err => console.warn('SW error:', err));
+            });
+        }
     </script>
 </body>
 </html>
